@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     //  Layout Member Variable
     //********************************************************************************
 
-    @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;
+    @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;        // 타이틀 바
 
     @BindView(R.id.pager_main)      ViewPager pager_main;
     @BindView(R.id.btn_add)         TextView btn_add;
