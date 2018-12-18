@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FontTextView">
+        <!--폰트-->
+        <attr name="fonttype" format="integer"/>
+        <!--under line-->
+        <attr name="underline" format="boolean"/>
+        <!--Clickable-->
+        <attr name="clickable" format="boolean"/>
+    </declare-styleable>
+
+</resources>

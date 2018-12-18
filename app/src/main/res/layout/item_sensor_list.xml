@@ -40,7 +40,8 @@
         android:layout_marginRight="@dimen/px60"
         android:background="@drawable/selector_btn_modify"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="@dimen/px51"

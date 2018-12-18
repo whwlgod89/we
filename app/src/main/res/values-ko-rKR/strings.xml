@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">헤이통</string>
+
+    <!-- Strings in Splash Activity -->
+    <string name="BLE_not_supported">BLE가 지원되지 않습니다.</string>
+    <string name="location_service">위치 허용</string>
+    <string name="location_required">센서찾기를 하시려면 위치관련 서비스 접근을 허용하셔야 합니다.</string>
+    <string name="external_storage">저장소 접근 허용</string>
+    <string name="storage_required">사용자 알람을 사용하려면 외장 저장소 접근을 허용하셔야 합니다.</string>
+
+
+    <string name="error_bluetooth_not_enabled">블루투스 활성화가 필요합니다.\n블루투스를 켜고 다시 시작해 주세요.</string>
+    <string name="error_grant_permission">권한 승인 후 이용이 가능합니다.</string>
+
+    <!-- Widgets in Main Activity -->
+    <string name="title_main">헤이통</string>
+    <string name="title_sensor_full">개수 제한</string>
+    <string name="msg_sensor_full">최대 5개까지만 추가할 수 있습니다.</string>
+
+    <!-- Widgets in Search Activity -->
+    <string name="title_search">지갑 추가</string>
+    <string name="label_data">데이터:</string>
+    <string name="label_device_address">단말기 주소:</string>
+    <string name="label_state">상태:</string>
+    <string name="no_data">데이터 없음</string>
+    <string name="connected">연결 상태</string>
+    <string name="disconnected">끊긴 상태</string>
+    <string name="title_devices">BLE 단말 찾기</string>
+    <string name="error_bluetooth_not_supported">블루투스가 지원되지 않습니다.</string>
+
+
+    <string name="unknown_device">미확인 단말기</string>
+    <string name="unknown_characteristic">미확인 특성</string>
+    <string name="unknown_service">미확인 서비스</string>
+
+    <!-- Menu items -->
+    <string name="menu_connect">연결하기</string>
+    <string name="menu_disconnect">연결끊기</string>
+    <string name="menu_scan">찾기</string>
+    <string name="menu_stop">멈추기</string>
+
+    <string name="register_sensor">지갑 등록</string>
+
+    <!-- Widgets in Sensor Activity -->
+    <string name="title_sensor">나의 지갑</string>
+    <string name="sensor_info">지갑 정보</string>
+    <string name="cmd_search_sensor">찾기</string>
+    <string name="cmd_modify_sensor">저장</string>
+    <string name="cmd_remove_sensor">삭제</string>
+    <string name="remove_title">지갑 삭제</string>
+    <string name="remove_message">지갑을 삭제하시겠습니까?</string>
+
+    <!-- Widgets in Register Activity -->
+    <string name="title_register">지갑 등록</string>
+    <string name="title_modify">지갑 수정</string>
+    <string name="sensor_id">지갑 ID:</string>
+    <string name="sensor_name">지갑 이름:</string>
+    <string name="my_wallet">나의 지갑</string>
+    <string name="phone_no">전화 번호:</string>
+    <string name="action_mode">동작 모드:</string>
+    <string name="action_loss">분실 방지</string>
+    <string name="action_theft">도난 방지</string>
+    <string name="register">등록</string>
+    <string name="modify">수정</string>
+    <string name="edit_wallet">적용</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="msg_check_name">지갑 이름을 입력하세요</string>
+    <string name="msg_check_phone">전화 번호를 입력하세요</string>
+    <string name="title_confirm_register">등록</string>
+    <string name="msg_confirm_register">지갑을 추가합니까?</string>
+    <string name="title_confirm_modify">수정</string>
+    <string name="msg_confirm_modify">지갑을 수정합니까?</string>
+    <string name="lb_connect_state">연결 상태:</string>
+    <string name="connect_state_on">연결됨</string>
+    <string name="connect_state_off">끊어짐</string>
+    <string name="cmd_connect">연결</string>
+    <string name="cmd_disconnect">끊기</string>
+    <string name="cmd_find">찾기</string>
+    <string name="cmd_stop">중지</string>
+    <string name="hint_sensor_id">센서 주소</string>
+    <string name="hint_sensor_name">센서 이름</string>
+    <string name="hint_phone_number">전화 번호</string>
+
+    <string name="title_activity_settings">설정</string>
+
+    <!-- Strings related to Settings -->
+    <string name="title_setting">설정</string>
+
+    <string name="pref_title_alarm_category">알림 설정</string>
+    <string name="pref_title_alarm_disconnected">연결 끊김 알림음</string>
+    <string name="pref_title_alarm_find_phone">전화 찾기 알림음</string>
+    <string name="pref_summary_ringtone_silent">묵음</string>
+    <string name="pref_title_alarm_vibrate">진동</string>
+    <string name="pref_summary_alarm_vibrate">알람이 울릴 때 진동을 함께 사용합니다.</string>
+    <string name="pref_title_alarm_duration">알림 시간</string>
+    <string-array name="pref_alarm_duration_titles">
+        <item>10 초</item>
+        <item>20 초</item>
+        <item>30 초</item>
+    </string-array>
+    <string-array name="pref_alarm_duration_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+
+    <string name="pref_title_app_control_category">App 제어</string>
+    <string name="pref_title_start_on_boot">App 자동 시작</string>
+    <string name="pref_summary_start_on_boot">핸드폰 부팅할 때 App을 자동으로 시작합니다.</string>
+    <string name="pref_title_app_control_restart">App 재시작</string>
+    <string name="pref_summary_app_control_restart">서비스를 포함하여 App을 다시 시작합니다.</string>
+    <string name="pref_confirm_app_control_restart">헤이통 App을 다시 시작하시겠습니까?</string>
+    <string name="pref_title_app_control_finish">App 종료</string>
+    <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.</string>
+    <string name="pref_confirm_app_control_finish">헤이통 App을 완전히 종료하시겠습니까?</string>
+
+    <string name="pref_title_show_guide_category">도움말</string>
+    <string name="pref_title_show_guide">사용 방법 안내</string>
+    <string name="pref_summary_show_guide">HeyTong 사용 안내 웹 페이지를 엽니다.</string>
+
+    <string name="title_activity_sensor_info">센서 정보</string>
+
+    <string name="add_title">지갑추가 </string>
+    <string name="add_name">지갑 이름</string>
+    <string name="add_sensor">센서 이름</string>
+    <string name="add_phone">전화 번호</string>
+    <string name="add_mode">동작 모드</string>
+    <string name="add_mode_lost">분실 방지</string>
+    <string name="add_mode_steal">도난 방지</string>
+    <string name="add_button">add sensor</string>
+
+    <string name="modify_button">수정하기</string>
+
+
+</resources>

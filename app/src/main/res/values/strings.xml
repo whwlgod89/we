@@ -1,21 +1,86 @@
 <resources>
     <string name="app_name">Wear</string>
 
+    <!-- Strings in Splash Activity -->
+    <string name="BLE_not_supported">BLE is not supported.</string>
+    <string name="location_service">Location</string>
+    <string name="location_required">You have to allow to access location service to find wallets.</string>
+    <string name="external_storage">External Storage</string>
+    <string name="storage_required">You have to allow to access external storage to use custom alarms.</string>
+
+    <string name="error_bluetooth_not_enabled">블루투스 활성화가 필요합니다.\n블루투스를 켜고 다시 시작해 주세요.</string>
+    <string name="error_grant_permission">권한 승인 후 이용이 가능합니다.</string>
+
+    <!-- Widgets in Main Activity -->
+    <string name="title_main">HeyTong</string>
+    <string name="title_sensor_full">Sensor Count</string>
+    <string name="msg_sensor_full">You can use max 5 sensors</string>
+
+    <!-- Widgets in Search Activity -->
+    <string name="title_search">Add Wallet</string>
+    <string name="label_data">Data:</string>
+    <string name="label_device_address">Device address:</string>
+    <string name="label_state">State:</string>
+    <string name="no_data">No data</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="title_devices">BLE Device Scan</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+
+    <!-- Menu items -->
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+
+    <string name="register_sensor">Register Sensor</string>
+
+    <!-- Widgets in Sensor Activity -->
+    <string name="title_sensor">My Wallet</string>
+    <string name="sensor_info">Sensor Info</string>
+    <string name="cmd_search_sensor">Search</string>
+    <string name="cmd_modify_sensor">Apply</string>
+    <string name="cmd_remove_sensor">Delete</string>
+    <string name="remove_title">Remove Wallet</string>
+    <string name="remove_message">Are you sure to delete?</string>
+
+    <!-- Widgets in Register Activity -->
+    <string name="title_register">Register Wallet</string>
+    <string name="title_modify">Modify Wallet</string>
+    <string name="sensor_id">Sensor ID:</string>
+    <string name="sensor_name">Sensor Name:</string>
+    <string name="my_wallet">My Wallet</string>
+    <string name="phone_no">Phone No:</string>
+    <string name="action_mode">Action Mode:</string>
+    <string name="action_loss">Prevent Loss</string>
+    <string name="action_theft">Prevent Theft</string>
+    <string name="register">Register</string>
+    <string name="modify">Modify</string>
+    <string name="edit_wallet">Apply</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="msg_check_name">Enter Wallet Name</string>
+    <string name="msg_check_phone">Enter Phone Number</string>
+    <string name="title_confirm_register">Register</string>
+    <string name="msg_confirm_register">Are you sure to add wallet?</string>
+    <string name="title_confirm_modify">Modify</string>
+    <string name="msg_confirm_modify">Are you sure to modify wallet?</string>
+    <string name="lb_connect_state">Connection:</string>
+    <string name="connect_state_on">Connected</string>
+    <string name="connect_state_off">Disconnected</string>
+    <string name="cmd_connect">Connect</string>
+    <string name="cmd_disconnect">Disconnect</string>
+    <string name="cmd_find">Find</string>
+    <string name="cmd_stop">Stop</string>
+    <string name="hint_sensor_id">Sensor Address</string>
+    <string name="hint_sensor_name">Sensor Name</string>
+    <string name="hint_phone_number">Phone Number</string>
 
-    <string name="add_title">지갑추가 </string>
-    <string name="add_name">지갑 이름</string>
-    <string name="add_sensor">센서 이름</string>
-    <string name="add_phone">전화 번호</string>
-    <string name="add_mode">동작 모드</string>
-    <string name="add_mode_lost">분실 방지</string>
-    <string name="add_mode_steal">도난 방지</string>
-    <string name="add_button">add sensor</string>
-
-    <string name="modify_button">수정하기</string>
-
-
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
     <string name="title_setting">Settings</string>
@@ -53,5 +118,21 @@
     <string name="pref_summary_show_guide">Open HeyTong Guide Web Page</string>
 
     <string name="title_activity_sensor_info">Sensor Information</string>
+
+
+
+    <string name="add_title">지갑추가 </string>
+    <string name="add_name">지갑 이름</string>
+    <string name="add_sensor">센서 이름</string>
+    <string name="add_phone">전화 번호</string>
+    <string name="add_mode">동작 모드</string>
+    <string name="add_mode_lost">분실 방지</string>
+    <string name="add_mode_steal">도난 방지</string>
+    <string name="add_button">add sensor</string>
+
+    <string name="modify_button">수정하기</string>
+
+
+
 
 </resources>
