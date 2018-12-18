@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/px20"
+        android:layout_toLeftOf="@+id/btn_modify"
+        android:padding="@dimen/px40"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HeyT=79:FB:27"
+            android:textSize="@dimen/px80" />
+
+        <TextView
+            android:id="@+id/txt_serial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px10"
+            android:text="DC:58:56:79:FB:27"
+            android:textSize="@dimen/px42" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_modify"
+        android:layout_width="@dimen/px280"
+        android:layout_height="@dimen/px100"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/px60"
+        android:background="@drawable/selector_btn_modify"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/px51"
+            android:layout_height="@dimen/px51"
+            android:background="@drawable/ic_plus" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/modify_button"
+            android:layout_marginLeft="@dimen/px10"
+            android:textSize="@dimen/px40" />
+
+    </LinearLayout>
+</RelativeLayout>

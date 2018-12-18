@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/intro_00_bg">
+        
+       <ImageView
+           android:id="@+id/bg_01"
+           android:layout_width="@dimen/px540"
+           android:layout_height="@dimen/px640"
+           android:layout_above="@+id/bg_03"
+           android:layout_alignParentRight="true"
+           android:background="@drawable/intro_01_bg"/>
+
+
+        <ImageView
+            android:id="@+id/bg_03"
+            android:layout_width="@dimen/px540"
+            android:layout_height="@dimen/px640"
+            android:layout_above="@+id/bg_05"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/intro_03_bg"/>
+
+
+        <ImageView
+            android:id="@+id/bg_05"
+            android:layout_width="@dimen/px540"
+            android:layout_height="@dimen/px640"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/intro_05_bg"/>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/bg_02"-->
+            <!--android:layout_width="@dimen/px540"-->
+            <!--android:layout_height="@dimen/px640"-->
+            <!--android:layout_toLeftOf="@+id/bg_05"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:background="@drawable/intro_02_bg"/>-->
+
+        <ImageView
+            android:id="@+id/bg_04"
+            android:layout_width="@dimen/px540"
+            android:layout_height="@dimen/px640"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/intro_04_bg"/>
+
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="@dimen/px645"
+            android:layout_height="@dimen/px346"
+            android:layout_centerInParent="true"
+            android:background="@drawable/anim_splash"/>
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

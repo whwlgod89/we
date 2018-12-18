@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <kr.co.theunify.wear.view.TitlebarView
+            android:id="@+id/v_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px200" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:background="#ececec"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_empty"
+                android:layout_width="@dimen/px400"
+                android:layout_height="wrap_content"
+                android:text="@string/add_name"
+                android:textSize="@dimen/px80" />
+
+            <ListView
+                android:id="@+id/list_sensor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ececec"
+                android:divider="#adadad"
+                android:dividerHeight="@dimen/px1" />
+
+        </LinearLayout>
+
+        <!--지갑 정보 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/px140"
+            android:layout_weight="8"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <!--지갑 이름-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px160"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/px400"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_name"
+                    android:textSize="@dimen/px80" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border_edit_r50"
+                    android:gravity="bottom"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/px40"
+                    android:paddingRight="@dimen/px40">
+
+                    <EditText
+                        android:id="@+id/edt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_sensor"
+                        android:inputType="text"
+                        android:textSize="@dimen/px60" />
+
+                    <!--<ImageView-->
+                    <!--android:id="@+id/line_name"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/px1"-->
+                    <!--android:background="#777777" />-->
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--전화 번호-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px160"
+                android:layout_marginTop="@dimen/px40"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/px400"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_phone"
+                    android:textSize="@dimen/px80" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border_edit_r50"
+                    android:gravity="bottom"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/px40"
+                    android:paddingRight="@dimen/px40">
+
+                    <EditText
+                        android:id="@+id/edt_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_phone"
+                        android:inputType="text"
+                        android:textSize="@dimen/px60" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--동작 모드-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px40"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/px400"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_mode"
+                    android:textSize="@dimen/px80" />
+
+                <RadioGroup
+                    android:id="@+id/rg_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radio_lost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:enabled="false"
+                        android:text="@string/add_mode_lost" />
+
+                    <RadioButton
+                        android:id="@+id/radio_steal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:enabled="false"
+                        android:text="@string/add_mode_steal" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btn_add"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px180"
+                android:layout_marginLeft="@dimen/px180"
+                android:layout_marginTop="@dimen/px60"
+                android:layout_marginRight="@dimen/px180"
+                android:layout_marginBottom="@dimen/px60"
+                android:background="@drawable/selector_btn_add_sensor"
+                android:gravity="center"
+                android:text="Tab + to add sensor"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/px60" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

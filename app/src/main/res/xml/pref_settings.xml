@@ -1,0 +1,64 @@
+﻿<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_alarm_category"
+        android:title="@string/pref_title_alarm_category">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_alarm_vibrate"
+            android:summary="@string/pref_summary_alarm_vibrate"
+            android:title="@string/pref_title_alarm_vibrate" />
+        <RingtonePreference
+            android:key="pref_key_alarm_disconnected"
+            android:title="@string/pref_title_alarm_disconnected"
+            android:ringtoneType="alarm"
+            android:showDefault="true"
+            android:showSilent="true"
+            android:defaultValue="content://settings/system/alarm_alert" />
+        <RingtonePreference
+            android:key="pref_key_alarm_find_phone"
+            android:title="@string/pref_title_alarm_find_phone"
+            android:ringtoneType="alarm"
+            android:showDefault="true"
+            android:showSilent="true"
+            android:defaultValue="content://settings/system/alarm_alert" />
+        <ListPreference
+            android:key="pref_key_alarm_duration"
+	        android:title="@string/pref_title_alarm_duration"
+            android:defaultValue="30"
+            android:entries="@array/pref_alarm_duration_titles"
+            android:entryValues="@array/pref_alarm_duration_values"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_app_control_category"
+        android:title="@string/pref_title_app_control_category">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_start_on_boot"
+            android:summary="@string/pref_summary_start_on_boot"
+            android:title="@string/pref_title_start_on_boot" />
+        <Preference
+            android:key="pref_key_app_control_restart"
+            android:summary="@string/pref_summary_app_control_restart"
+            android:title="@string/pref_title_app_control_restart" />
+        <Preference
+            android:key="pref_key_app_control_finish"
+            android:summary="@string/pref_summary_app_control_finish"
+            android:title="@string/pref_title_app_control_finish" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_show_guide_category"
+        android:title="@string/pref_title_show_guide_category">
+        <Preference
+            android:key="pref_key_show_guide"
+            android:summary="@string/pref_summary_show_guide"
+            android:title="@string/pref_title_show_guide">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://heytong.com/?page_id=425" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

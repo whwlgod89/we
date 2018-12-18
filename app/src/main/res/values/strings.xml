@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Wear</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="add_title">지갑추가 </string>
+    <string name="add_name">지갑 이름</string>
+    <string name="add_sensor">센서 이름</string>
+    <string name="add_phone">전화 번호</string>
+    <string name="add_mode">동작 모드</string>
+    <string name="add_mode_lost">분실 방지</string>
+    <string name="add_mode_steal">도난 방지</string>
+    <string name="add_button">add sensor</string>
+
+    <string name="modify_button">수정하기</string>
+
+
+
+    <!-- Strings related to Settings -->
+    <string name="title_setting">Settings</string>
+
+    <string name="pref_title_alarm_category">Alarm Setting</string>
+    <string name="pref_title_alarm_disconnected">Disconnected Alarm</string>
+    <string name="pref_title_alarm_find_phone">Find Phone Alarm</string>
+    <string name="pref_summary_ringtone_silent">Silent</string>
+    <string name="pref_title_alarm_vibrate">Vibrate</string>
+    <string name="pref_summary_alarm_vibrate">Use vibrate together on alarm.</string>
+    <string name="pref_title_alarm_duration">Duration</string>
+    <string-array name="pref_alarm_duration_titles">
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+        <item>30 seconds</item>
+    </string-array>
+    <string-array name="pref_alarm_duration_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+
+    <string name="pref_title_app_control_category">App Control</string>
+    <string name="pref_title_start_on_boot">Start HeyTong on Boot</string>
+    <string name="pref_summary_start_on_boot">Auto execute HeyTong App on phone boot.</string>
+    <string name="pref_title_app_control_restart">Restart App</string>
+    <string name="pref_summary_app_control_restart">Restart app including service.</string>
+    <string name="pref_confirm_app_control_restart">Are you sure to restart HeyTong?</string>
+    <string name="pref_title_app_control_finish">Finish App</string>
+    <string name="pref_summary_app_control_finish">Finish app completely including service.</string>
+    <string name="pref_confirm_app_control_finish">Are you sure to finish HeyTong?</string>
+
+    <string name="pref_title_show_guide_category">Help</string>
+    <string name="pref_title_show_guide">HeyTong Guide</string>
+    <string name="pref_summary_show_guide">Open HeyTong Guide Web Page</string>
+
+    <string name="title_activity_sensor_info">Sensor Information</string>
+
+</resources>
