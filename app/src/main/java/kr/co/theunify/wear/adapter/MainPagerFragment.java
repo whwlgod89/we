@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import kr.co.theunify.wear.R;
+import kr.co.theunify.wear.sensor.Sensor;
 
 /**
  * Created by nashine40 on 2018-03-27.
@@ -18,7 +19,7 @@ import kr.co.theunify.wear.R;
 public class MainPagerFragment extends Fragment {
     private static final String KEY_CONTENT = "TestFragment:Content";
     private int mPosition = 0;
-    private ArrayList<String> mList;		// 리스트
+    private ArrayList<Sensor> mList;		// 리스트
 
     public MainPagerFragment() {
     }
@@ -27,7 +28,7 @@ public class MainPagerFragment extends Fragment {
         return null;
     }
 
-    public static MainPagerFragment newInstance(int position, ArrayList<String> array) {
+    public static MainPagerFragment newInstance(int position, ArrayList<Sensor> array) {
         MainPagerFragment fragment = new MainPagerFragment();
         fragment.mPosition = position;
         fragment.mList = array;

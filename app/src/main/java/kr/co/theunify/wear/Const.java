@@ -40,6 +40,7 @@ public class Const {
     public static final String SENSOR_NAME = "SENSOR_NAME";
     public static final String PHONE_NUMBER = "PHONE_NUMBER";
     public static final String ACTION_MODE = "ACTION_MODE";
+    public static final String RSSI = "THEFT_RSSI";
 
     // 서비스 to App 전달 Intent 정의
     public static final String EXTRA_ACTION_TYPE = "ACTION_TYPE";

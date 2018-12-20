@@ -12,7 +12,7 @@
     <string name="error_grant_permission">권한 승인 후 이용이 가능합니다.</string>
 
     <!-- Widgets in Main Activity -->
-    <string name="title_main">HeyTong</string>
+    <string name="title_main">Wear</string>
     <string name="title_sensor_full">Sensor Count</string>
     <string name="msg_sensor_full">You can use max 5 sensors</string>
 
@@ -104,18 +104,18 @@
     </string-array>
 
     <string name="pref_title_app_control_category">App Control</string>
-    <string name="pref_title_start_on_boot">Start HeyTong on Boot</string>
-    <string name="pref_summary_start_on_boot">Auto execute HeyTong App on phone boot.</string>
+    <string name="pref_title_start_on_boot">Start Wear on Boot</string>
+    <string name="pref_summary_start_on_boot">Auto execute Wear App on phone boot.</string>
     <string name="pref_title_app_control_restart">Restart App</string>
     <string name="pref_summary_app_control_restart">Restart app including service.</string>
-    <string name="pref_confirm_app_control_restart">Are you sure to restart HeyTong?</string>
+    <string name="pref_confirm_app_control_restart">Are you sure to restart Wear?</string>
     <string name="pref_title_app_control_finish">Finish App</string>
     <string name="pref_summary_app_control_finish">Finish app completely including service.</string>
-    <string name="pref_confirm_app_control_finish">Are you sure to finish HeyTong?</string>
+    <string name="pref_confirm_app_control_finish">Are you sure to finish Wear?</string>
 
     <string name="pref_title_show_guide_category">Help</string>
-    <string name="pref_title_show_guide">HeyTong Guide</string>
-    <string name="pref_summary_show_guide">Open HeyTong Guide Web Page</string>
+    <string name="pref_title_show_guide">Wear Guide</string>
+    <string name="pref_summary_show_guide">Open Wear Guide Web Page</string>
 
     <string name="title_activity_sensor_info">Sensor Information</string>
 

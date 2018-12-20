@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">헤이통</string>
+    <string name="app_name">Wear</string>
 
     <!-- Strings in Splash Activity -->
     <string name="BLE_not_supported">BLE가 지원되지 않습니다.</string>
@@ -14,7 +14,7 @@
     <string name="error_grant_permission">권한 승인 후 이용이 가능합니다.</string>
 
     <!-- Widgets in Main Activity -->
-    <string name="title_main">헤이통</string>
+    <string name="title_main">Wear</string>
     <string name="title_sensor_full">개수 제한</string>
     <string name="msg_sensor_full">최대 5개까지만 추가할 수 있습니다.</string>
 
@@ -111,14 +111,14 @@
     <string name="pref_summary_start_on_boot">핸드폰 부팅할 때 App을 자동으로 시작합니다.</string>
     <string name="pref_title_app_control_restart">App 재시작</string>
     <string name="pref_summary_app_control_restart">서비스를 포함하여 App을 다시 시작합니다.</string>
-    <string name="pref_confirm_app_control_restart">헤이통 App을 다시 시작하시겠습니까?</string>
+    <string name="pref_confirm_app_control_restart">App을 다시 시작하시겠습니까?</string>
     <string name="pref_title_app_control_finish">App 종료</string>
     <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.</string>
-    <string name="pref_confirm_app_control_finish">헤이통 App을 완전히 종료하시겠습니까?</string>
+    <string name="pref_confirm_app_control_finish">App을 완전히 종료하시겠습니까?</string>
 
     <string name="pref_title_show_guide_category">도움말</string>
     <string name="pref_title_show_guide">사용 방법 안내</string>
-    <string name="pref_summary_show_guide">HeyTong 사용 안내 웹 페이지를 엽니다.</string>
+    <string name="pref_summary_show_guide">Wear 사용 안내 웹 페이지를 엽니다.</string>
 
     <string name="title_activity_sensor_info">센서 정보</string>
 

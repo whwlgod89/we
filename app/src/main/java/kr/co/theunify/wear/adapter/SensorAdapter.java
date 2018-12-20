@@ -1,12 +1,15 @@
 package kr.co.theunify.wear.adapter;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class SensorAdapter extends BaseAdapter {
 	//********************************************************************************
 
 	class viewHolder {
+		@BindView(R.id.layout_body)			RelativeLayout layout_body;
 		@BindView(R.id.txt_name)			TextView txt_name;
 		@BindView(R.id.txt_serial)			TextView txt_serial;
 
@@ -45,7 +49,9 @@ public class SensorAdapter extends BaseAdapter {
 	private LayoutInflater inflater = null;
 	private viewHolder viewHolder = null;
 
-	private List<Sensor> mList;		// 리스트
+	private List<BluetoothDevice> mList;		// 리스트
+
+	private int selectedPos = -1;
 
 	//********************************************************************************
 	//  Construction Functions
@@ -58,7 +64,7 @@ public class SensorAdapter extends BaseAdapter {
 
 	}
 
-	public SensorAdapter(Context context, List<Sensor> list) {
+	public SensorAdapter(Context context, List<BluetoothDevice> list) {
 		mContext = context;
 		inflater = (LayoutInflater) LayoutInflater.from(mContext);
 		this.inflater = LayoutInflater.from(mContext);
@@ -66,13 +72,43 @@ public class SensorAdapter extends BaseAdapter {
 
 	}
 
+	/**
+	 * 디바이스 추가하
+	 */
+	public void addDevice(BluetoothDevice device) {
+		if (mList == null) {
+			mList = new ArrayList<>();
+		}
+		for (BluetoothDevice already : mList) {
+			if (device.getAddress().equals(already.getAddress())) {
+				return;
+			}
+		}
+		this.mList.add(device);
+		notifyDataSetChanged();
+	}
+
 
 	/** 
 	* 리스트 셋팅 
 	*/ 
-	public void setList(List<Sensor> list) {
-		this.mList = list;
+	public void setSelected(int pos) {
+		selectedPos = pos;
 		notifyDataSetChanged();
+	}
+
+	public BluetoothDevice getSelected() {
+		if (selectedPos == -1) {
+			return null;
+		} else {
+			return getItem(selectedPos);
+		}
+	}
+
+	public void clear() {
+		if (mList != null) {
+			mList.clear();
+		}
 	}
 
 	//********************************************************************************
@@ -89,7 +125,7 @@ public class SensorAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int i) {
+	public BluetoothDevice getItem(int i) {
 		return mList.get(i);
 	}
 
@@ -108,7 +144,21 @@ public class SensorAdapter extends BaseAdapter {
 			viewHolder = (viewHolder) v.getTag();
 		}
 
+		BluetoothDevice device = mList.get(position);
 
+		String deviceName = device.getName();
+		if (deviceName != null && deviceName.length() > 0) {
+			viewHolder.txt_name.setText(deviceName);
+		} else {
+			viewHolder.txt_name.setText(R.string.unknown_device);
+		}
+		viewHolder.txt_serial.setText(device.getAddress());
+
+		if (selectedPos == position) {
+			viewHolder.layout_body.setBackgroundColor(Color.parseColor("#cccccc"));
+		} else {
+			viewHolder.layout_body.setBackgroundColor(Color.parseColor("#ececec"));
+		}
 
 		v.setTag(viewHolder);
 		return v;

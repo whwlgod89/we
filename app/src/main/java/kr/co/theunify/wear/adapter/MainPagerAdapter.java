@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.co.theunify.wear.R;
+import kr.co.theunify.wear.sensor.Sensor;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
@@ -43,12 +44,39 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 	private LayoutInflater inflater = null;
 	private viewHolder viewHolder = null;
 
-	private ArrayList<String> mList;		// 리스트
+	private ArrayList<Sensor> mList;		// 리스트
 
 
-	public MainPagerAdapter(FragmentManager fm, ArrayList<String> list){
+	public MainPagerAdapter(FragmentManager fm, ArrayList<Sensor> list){
 		super(fm);
 		mList = list;
+	}
+
+	public void setList(ArrayList<Sensor> list) {
+		mList = list;
+		notifyDataSetChanged();
+	}
+
+
+	public void addSensor(Sensor sensor) {
+		if (mList == null) {
+			mList = new ArrayList<>();
+		}
+		mList.add(sensor);
+		notifyDataSetChanged();
+	}
+
+	public void removeSensor(Sensor sensor) {
+		if (mList != null) {
+			for (Sensor already : mList) {
+				if (sensor.getSensorId().equals(already.getSensorId())) {
+					mList.remove(already);
+					break;
+				}
+
+			}
+		}
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -59,7 +87,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
-		return mList.size();
+		if (mList == null) {
+			return 0;
+		} else {
+			return mList.size();
+		}
 	}
 
 //	//********************************************************************************

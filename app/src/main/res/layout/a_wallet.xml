@@ -17,6 +17,7 @@
             android:layout_height="@dimen/px200" />
 
         <LinearLayout
+            android:id="@+id/layout_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="9"
@@ -44,7 +45,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/px140"
+            android:layout_marginLeft="@dimen/px120"
+            android:layout_marginTop="@dimen/px40"
+            android:layout_marginRight="@dimen/px120"
             android:layout_weight="8"
             android:focusable="true"
             android:orientation="vertical">
@@ -60,7 +63,7 @@
                     android:layout_width="@dimen/px400"
                     android:layout_height="wrap_content"
                     android:text="@string/add_name"
-                    android:textSize="@dimen/px80" />
+                    android:textSize="@dimen/px60" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -75,15 +78,10 @@
                         android:id="@+id/edt_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:hint="@string/add_sensor"
                         android:inputType="text"
                         android:textSize="@dimen/px60" />
-
-                    <!--<ImageView-->
-                    <!--android:id="@+id/line_name"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="@dimen/px1"-->
-                    <!--android:background="#777777" />-->
 
                 </LinearLayout>
 
@@ -101,7 +99,7 @@
                     android:layout_width="@dimen/px400"
                     android:layout_height="wrap_content"
                     android:text="@string/add_phone"
-                    android:textSize="@dimen/px80" />
+                    android:textSize="@dimen/px60" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,8 +114,9 @@
                         android:id="@+id/edt_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:hint="@string/add_phone"
-                        android:inputType="text"
+                        android:inputType="phone"
                         android:textSize="@dimen/px60" />
 
                 </LinearLayout>
@@ -128,20 +127,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/px40"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="@dimen/px400"
                     android:layout_height="wrap_content"
                     android:text="@string/add_mode"
-                    android:textSize="@dimen/px80" />
+                    android:textSize="@dimen/px60" />
 
                 <RadioGroup
                     android:id="@+id/rg_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/radio_lost"
@@ -150,24 +150,87 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:enabled="false"
-                        android:text="@string/add_mode_lost" />
+                        android:text="@string/add_mode_lost"
+                        android:textSize="@dimen/px50" />
 
                     <RadioButton
                         android:id="@+id/radio_steal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/px20"
                         android:layout_weight="1"
                         android:checked="false"
                         android:enabled="false"
-                        android:text="@string/add_mode_steal" />
+                        android:text="@string/add_mode_steal"
+                        android:textSize="@dimen/px50" />
                 </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_rssi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/px400"
+                android:layout_marginTop="@dimen/px60"
+                android:layout_marginRight="@dimen/px100"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <SeekBar
+                    android:id="@+id/seekbar_dimming"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="2"
+                    android:maxHeight="@dimen/px45"
+                    android:minHeight="@dimen/px45"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/seek_progress"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/img_seek_thumb" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/px30"
+                    android:layout_marginRight="@dimen/px30"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="75dB"
+                        android:textColor="#aaaaaa"
+                        android:textSize="@dimen/px40" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="85dB"
+                        android:textColor="#aaaaaa"
+                        android:textSize="@dimen/px40" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="100dB"
+                        android:textColor="#aaaaaa"
+                        android:textSize="@dimen/px40" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/btn_add"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px180"
+                android:layout_height="@dimen/px140"
                 android:layout_marginLeft="@dimen/px180"
                 android:layout_marginTop="@dimen/px60"
                 android:layout_marginRight="@dimen/px180"

@@ -5,22 +5,22 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="@dimen/px888"
+        android:layout_width="@dimen/px1200"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_popup"
         android:orientation="vertical"
-        android:padding="@dimen/px20">
+        android:padding="@dimen/px40">
 
         <!-- good anser : #16be59 / Wrong answer : #f45757 / normal : 333841 -->
         <kr.co.theunify.wear.view.FontTextView
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/px80"
-            android:layout_marginTop="@dimen/px20"
+            android:layout_marginLeft="@dimen/px100"
+            android:layout_marginTop="@dimen/px30"
             android:text="Good!"
             android:textColor="#333841"
-            android:textSize="@dimen/px60"
+            android:textSize="@dimen/px80"
             android:textStyle="bold" />
 
         <!-- good anser : #16be59 / Wrong answer : #f45757 / normal : 333841 -->
@@ -28,53 +28,53 @@
             android:id="@+id/txt_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/px10"
+            android:layout_marginTop="@dimen/px20"
             android:gravity="center"
-            android:lineSpacingExtra="@dimen/px12"
-            android:minHeight="@dimen/px348"
+            android:lineSpacingExtra="@dimen/px20"
+            android:minHeight="@dimen/px500"
             android:paddingTop="@dimen/px120"
             android:paddingBottom="@dimen/px120"
             android:text="Good!"
             android:textColor="#333841"
-            android:textSize="@dimen/px48" />
+            android:textSize="@dimen/px60" />
 
         <LinearLayout
             android:id="@+id/layout_btn"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px140"
+            android:layout_height="@dimen/px180"
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="@dimen/px10">
+            android:padding="@dimen/px20">
 
             <kr.co.theunify.wear.view.FontTextView
                 android:id="@+id/txt_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/px12"
-                android:layout_marginRight="@dimen/px12"
+                android:layout_marginLeft="@dimen/px20"
+                android:layout_marginRight="@dimen/px20"
                 android:layout_weight="1"
                 android:background="@drawable/selector_popup_cancel"
                 android:clickable="true"
                 android:gravity="center"
                 android:text="취소"
                 android:textColor="@drawable/selector_popup_cancel_txt"
-                android:textSize="@dimen/px42"
+                android:textSize="@dimen/px60"
                 app:clickable="true" />
 
             <kr.co.theunify.wear.view.FontTextView
                 android:id="@+id/txt_ok"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/px12"
-                android:layout_marginRight="@dimen/px12"
+                android:layout_marginLeft="@dimen/px20"
+                android:layout_marginRight="@dimen/px20"
                 android:layout_weight="1"
                 android:background="@drawable/selector_popup_ok"
                 android:clickable="true"
                 android:gravity="center"
                 android:text="확인"
                 android:textColor="@drawable/selector_popup_ok_txt"
-                android:textSize="@dimen/px42"
+                android:textSize="@dimen/px60"
                 app:clickable="true" />
 
         </LinearLayout>

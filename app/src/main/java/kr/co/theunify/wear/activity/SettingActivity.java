@@ -21,7 +21,7 @@ import android.util.Log;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 
-public class SettingActivity extends Activity {
+public class SettingActivity extends BaseActivity {
     private static final String TAG = "[" + SettingActivity.class.getSimpleName() + "]";
 
     @Override

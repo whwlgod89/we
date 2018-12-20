@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    tools:context=".activity.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
             android:padding="@dimen/px20">
 
             <TextView
+                android:id="@+id/txt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/px20"
@@ -66,6 +67,7 @@
                         android:layout_weight="1" />
 
                     <ImageView
+                        android:id="@+id/img_battery"
                         android:layout_width="@dimen/px265"
                         android:layout_height="@dimen/px81"
                         android:layout_marginBottom="@dimen/px10"
@@ -86,6 +88,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txt_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1/6"
@@ -93,11 +96,12 @@
                     android:textSize="@dimen/px50" />
 
                 <LinearLayout
+                    android:id="@+id/layout_page"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px70"
                     android:background="#efefef"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="@dimen/px50"
@@ -105,10 +109,10 @@
                         android:background="@drawable/bg_pager_big" />
 
                     <ImageView
-                    android:layout_width="@dimen/px40"
-                    android:layout_height="@dimen/px40"
-                    android:layout_marginLeft="@dimen/px15"
-                    android:background="@drawable/bg_pager_small" />
+                        android:layout_width="@dimen/px40"
+                        android:layout_height="@dimen/px40"
+                        android:layout_marginLeft="@dimen/px15"
+                        android:background="@drawable/bg_pager_small" />
 
                     <ImageView
                         android:layout_width="@dimen/px40"
