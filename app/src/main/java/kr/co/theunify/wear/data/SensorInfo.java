@@ -126,6 +126,8 @@ public class SensorInfo {
         this.longitude = longitude;
     }
 
+    public void setLocation(double lati, double longi) { latitude = lati; longitude = longi; }
+
     public int getBattery() {
         return battery;
     }

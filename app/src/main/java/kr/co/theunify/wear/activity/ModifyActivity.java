@@ -156,26 +156,19 @@ public class ModifyActivity extends BaseActivity {
         }
 
         int mode = (rg_mode.getCheckedRadioButtonId() == R.id.radio_lost) ? Const.ACTION_MODE_LOSS : Const.ACTION_MODE_THEFT;
-        int rssi = 100;
+        int rssi = -100;
         if (mode == Const.ACTION_MODE_THEFT) {
             rssi = seekbar_dimming.getProgress();
             if (rssi == 0) {
-                rssi = 75;
+                rssi = -75;
             } else if (rssi == 1) {
-                rssi = 85;
+                rssi = -85;
             } else {
-                rssi = 100;
+                rssi = -100;
             }
         }
 
-        mSensor.getInfo().setName(name);
-        mSensor.getInfo().setPhone(phone);
-        mSensor.getInfo().setMode(mode);
-        mSensor.getInfo().setRssi(rssi);
-        mApp.updateSensor(mSensor);
-
-        setResult(RESULT_OK);
-        finish();
+        modifySensor(name, phone, mode, rssi);
 
     }
 
@@ -199,7 +192,17 @@ public class ModifyActivity extends BaseActivity {
             rg_mode.check(R.id.radio_lost);
         } else {
             rg_mode.check(R.id.radio_steal);
-            seekbar_dimming.setProgress(mSensor.getInfo().getRssi());
+            layout_rssi.setVisibility(View.VISIBLE);
+
+            int rssi = mSensor.getInfo().getRssi();
+            if (rssi == -75) {
+                seekbar_dimming.setProgress(0);
+            } else if (rssi == -85) {
+                seekbar_dimming.setProgress(1);
+            } else {
+                seekbar_dimming.setProgress(2);
+            }
+
         }
 
         edt_name.setEnabled(true);
@@ -214,5 +217,21 @@ public class ModifyActivity extends BaseActivity {
         v_titlebar.setBackVisible(View.VISIBLE);
     }
 
+    private void modifySensor(final String name, final String phone, final int mode, final int rssi) {
+        Utils.showPopupDlg(this, getString(R.string.title_confirm_modify), getString(R.string.msg_confirm_modify),
+                getResources().getString(R.string.ok), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mSensor.getInfo().setName(name);
+                        mSensor.getInfo().setPhone(phone);
+                        mSensor.getInfo().setMode(mode);
+                        mSensor.getInfo().setRssi(rssi);
+                        mApp.updateSensor(mSensor);
+
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                }, getResources().getString(R.string.cancel), null, null);
+    }
 
 }

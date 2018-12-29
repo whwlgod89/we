@@ -32,6 +32,7 @@ import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.WearApp;
 import kr.co.theunify.wear.activity.MainActivity;
 import kr.co.theunify.wear.sensor.Sensor;
+import kr.co.theunify.wear.utils.ULog;
 
 public class SensorService extends Service {
     private final static String TAG = "[" + SensorService.class.getSimpleName() + "]";
@@ -72,11 +73,10 @@ public class SensorService extends Service {
         super.onCreate();
 
         mApp = (WearApp)getApplication();
-        Log.d(TAG, "onCreateService. Service Started. App=" + ((mApp == null) ? "NULL" : mApp));
-        Log.d(TAG, "onCreateService SensorService=" + this);
+        ULog.i(TAG, "onCreateService. Service Started. App=" + ((mApp == null) ? "NULL" : mApp));
+        ULog.i(TAG, "onCreateService SensorService=" + this);
 
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
 
         //mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -115,8 +115,15 @@ public class SensorService extends Service {
         // 도난 방지 모드를 지원하기 위해 신호 세기를 계속 읽어야 한다.
         mReadRssiHandler.sendEmptyMessageDelayed(0, 1000);
 
-        Log.d(TAG, "Service Create restart  " + mServiceStarted);
+        ULog.i(TAG, "Service Create restart  " + mServiceStarted);
         mServiceStarted = true;
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        mBtAdapter.stopLeScan(mLeScanCallback);
+        return super.stopService(name);
+
     }
 
     private BluetoothManager mBtManager = null;
@@ -180,6 +187,10 @@ public class SensorService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
+        if (mBtAdapter != null) {
+            mBtAdapter.stopLeScan(mLeScanCallback);
+        }
+
         for(int i=0; i<mSensorList.size();i++ ) {
             Sensor sensor = mSensorList.get(i);
             Log.w(TAG, "onDestroy(): Sensor OFF ID= "+ sensor.getSensorId() + ", Index=" + i);
@@ -188,13 +199,13 @@ public class SensorService extends Service {
 
         unregisterReceiver(mReceiver);
         mServiceStarted = false;
-        Log.d(TAG, "Service Destroyed");
+        ULog.i(TAG, "Service Destroyed");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 실행 중에 앱이 서비스를 다시 호출하는 경우 실행된다.
-        Log.d(TAG, "Service onStartCommand...");
+        ULog.i(TAG, "Service onStartCommand...");
         return super.onStartCommand(intent, flags, startId);
 
 /*
@@ -308,7 +319,7 @@ public class SensorService extends Service {
         if (sensor != null) {
             //FIXME: we should wait for disconnected event...
             sensor.disconnect();
-            Log.d(TAG, "removeSensor(): Sensor disconnected and removed in the Service= " + sensor.getSensorId());
+            ULog.i(TAG, "removeSensor(): Sensor disconnected and removed in the Service= " + sensor.getSensorId());
         }
     }
 
@@ -316,7 +327,7 @@ public class SensorService extends Service {
 //        sensor.setSensorName(name);
 //        //serialize();
 //        mApp.updateSensor(sensor);
-//        Log.d(TAG, "Service name changed: " + sensor.getSensorName());
+//        ULog.i(TAG, "Service name changed: " + sensor.getSensorName());
 //    }
 
     public void connectSensor(Sensor sensor) {
@@ -331,7 +342,7 @@ public class SensorService extends Service {
         }
     }
     public void sensorInit(Sensor sensor) {
-        Log.d(TAG, "sensorInit(): ID=" + sensor.getSensorId() + ", ConnectState=" + sensor.getConnectState());
+        ULog.i(TAG, "sensorInit(): ID=" + sensor.getSensorId() + ", ConnectState=" + sensor.getConnectState());
         if(sensor != null)
             sensor.sensor_init();
     }
@@ -351,10 +362,10 @@ public class SensorService extends Service {
     }
 
     public void startAlarm2(boolean disconnected) {
-        Log.d(TAG,"startAlarm2()");
+        ULog.i(TAG,"startAlarm2()");
 
         if(mApp.isAlarmEnabled()) {
-            Log.d(TAG,"Alarm is already running!!!");
+            ULog.i(TAG,"Alarm is already running!!!");
             return;
         }
 
@@ -373,7 +384,7 @@ public class SensorService extends Service {
             strAlarm = settings.getString("pref_key_alarm_find_phone", "FAIL");     // "Silent");
         }
 
-        Log.d(TAG, "Alarm Sound=" + strAlarm);
+        ULog.i(TAG, "Alarm Sound=" + strAlarm);
 
         // 알람이 None이 아닌지 확인하여 진행한다.
         if(strAlarm == null || strAlarm.equals("")) {
@@ -390,7 +401,7 @@ public class SensorService extends Service {
             }
             mMp = MediaPlayer.create(this, mAlarmUri);
         }
-        Log.d(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
+        ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
 
         if(mAlarmSound || mAlarmVibrate) {
             if(mAlarmSound) {
@@ -403,7 +414,7 @@ public class SensorService extends Service {
     }
 
     public void stopAlarm2() {
-        Log.d(TAG,"stopAlarm2()");
+        ULog.i(TAG,"stopAlarm2()");
 
         mAlarmTimer.cancel();
         mApp.setAlarmState(false);
@@ -426,7 +437,7 @@ public class SensorService extends Service {
         boolean noneDetected = true;
 
         if(mApp.isAlarmEnabled()) {
-            Log.d(TAG,"Alarm is running already!!!");
+            ULog.i(TAG,"Alarm is running already!!!");
             return;
         }
 
@@ -479,29 +490,29 @@ public class SensorService extends Service {
         //String ring = settings.getString("KEY_RINGTONE_ALARM", "");
         //if(ring != null && !ring.isEmpty()) {
             //Uri ringToneUri = Uri.parse(ring);
-            //Log.d(TAG,"RING TONE IS ...." + RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-            Log.d(TAG,"RING TONE IS ...." + RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI);
+            //ULog.i(TAG,"RING TONE IS ...." + RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+        ULog.i(TAG,"RING TONE IS ...." + RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI);
             //if(RingtoneManager.EXTRA_RINGTONE_PICKED_URI == null) {
             if(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI == null) {
                 bSoundEn = false;
-                Log.d(TAG,"RING TONE IS NULL....");
+                ULog.i(TAG,"RING TONE IS NULL....");
             }else {
                 //if(ringToneUri != null && mRingtoneMgr != null) {
                 //    mMp = MediaPlayer.create(this,ringToneUri);
                 if(defaultRingtoneUri != null && mRingtoneMgr != null) {
                     mMp = MediaPlayer.create(this, defaultRingtoneUri);
                     if(mMp == null) {
-                        Log.d(TAG,"MEDIA PLAYER IS NULL....");
+                        ULog.i(TAG,"MEDIA PLAYER IS NULL....");
                         bSoundEn = false;
                     }else {
                     }
                 }else {
-                    Log.d(TAG,"RING TONE or RingtoneMgr IS NULL....");
+                    ULog.i(TAG,"RING TONE or RingtoneMgr IS NULL....");
                     bSoundEn = false;
                 }
             }
         //}else {
-        //    Log.d(TAG,"RING TONE PICKER IS NULL....");
+        //    ULog.i(TAG,"RING TONE PICKER IS NULL....");
         //    bSoundEn = false;
         //}
         AlarmSound(bSoundEn);
@@ -555,7 +566,7 @@ public class SensorService extends Service {
         public void onFinish() {
             if(++mAlarmPlayCount >= mAlarmLoopCount) {
                 // 종료
-                Log.d(TAG,"Alarm Timer Finished...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
+                ULog.i(TAG,"Alarm Timer Finished...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
 
                 mApp.setAlarmState(false);
 
@@ -570,7 +581,7 @@ public class SensorService extends Service {
                 }
             }
             else {
-                Log.d(TAG,"Restart Alarm Timer...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
+                ULog.i(TAG,"Restart Alarm Timer...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
                 this.start();
             }
         }
@@ -713,7 +724,7 @@ public class SensorService extends Service {
         public void handleMessage(Message msg) {
             for(Sensor sensor : mApp.getAllSensors()) {
                 if(sensor.isConnected() && sensor.getActionMode() == Const.ACTION_MODE_THEFT) {
-                    Log.d(TAG, "ReadRssiHandler: Sensor=" + sensor.getSensorName());
+                    ULog.i(TAG, "ReadRssiHandler: Sensor=" + sensor.getSensorName());
                     sensor.readRemoteRSSI();
                 }
             }

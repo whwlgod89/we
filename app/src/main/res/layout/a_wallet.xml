@@ -26,10 +26,12 @@
 
             <TextView
                 android:id="@+id/txt_empty"
-                android:layout_width="@dimen/px400"
-                android:layout_height="wrap_content"
-                android:text="@string/add_name"
-                android:textSize="@dimen/px80" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/no_detect_sensor"
+                android:lineSpacingExtra="@dimen/px20"
+                android:textSize="@dimen/px60" />
 
             <ListView
                 android:id="@+id/list_sensor"
@@ -50,6 +52,7 @@
             android:layout_marginRight="@dimen/px120"
             android:layout_weight="8"
             android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <!--지갑 이름-->
@@ -69,19 +72,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/border_edit_r50"
-                    android:gravity="bottom"
-                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingLeft="@dimen/px40"
-                    android:paddingRight="@dimen/px40">
+                    android:paddingRight="@dimen/px20">
 
+                    <!--이름 최대 길이 20자-->
                     <EditText
                         android:id="@+id/edt_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
                         android:enabled="false"
                         android:hint="@string/add_sensor"
                         android:inputType="text"
+                        android:maxLength="20"
                         android:textSize="@dimen/px60" />
+
+                    <ImageView
+                        android:id="@+id/del_name"
+                        android:layout_width="@dimen/px140"
+                        android:layout_height="@dimen/px140"
+                        android:background="@drawable/btn_delete"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -105,19 +118,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/border_edit_r50"
-                    android:gravity="bottom"
-                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingLeft="@dimen/px40"
-                    android:paddingRight="@dimen/px40">
+                    android:paddingRight="@dimen/px20">
 
+                    <!--전화번호 최대 길이 15 +82 10-3313-2956-->
                     <EditText
                         android:id="@+id/edt_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
                         android:enabled="false"
                         android:hint="@string/add_phone"
                         android:inputType="phone"
+                        android:maxLength="15"
                         android:textSize="@dimen/px60" />
+
+                    <ImageView
+                        android:id="@+id/del_phone"
+                        android:layout_width="@dimen/px140"
+                        android:layout_height="@dimen/px140"
+                        android:background="@drawable/btn_delete"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -230,14 +253,14 @@
             <TextView
                 android:id="@+id/btn_add"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px140"
+                android:layout_height="@dimen/px160"
                 android:layout_marginLeft="@dimen/px180"
                 android:layout_marginTop="@dimen/px60"
                 android:layout_marginRight="@dimen/px180"
                 android:layout_marginBottom="@dimen/px60"
                 android:background="@drawable/selector_btn_add_sensor"
                 android:gravity="center"
-                android:text="Tab + to add sensor"
+                android:text="Save"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/px60" />
 

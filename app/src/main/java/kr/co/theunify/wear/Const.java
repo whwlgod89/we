@@ -13,7 +13,6 @@ public class Const {
     public static final int MAX_SENSORS = 5;
     public static final int ACTION_MODE_LOSS = 0;
     public static final int ACTION_MODE_THEFT = 1;
-    public static final int ACTION_THEFT_ALARM_RSSI = -80;
 
     // Activity 호출 요청값
     public static final int REQUEST_CODE_OF_ENABLE_BT = 1;
@@ -63,4 +62,8 @@ public class Const {
     public final static String ACTION_SENSOR_FIND_PHONE_START = "ACTION_SENSOR_FIND_PHONE_START";
     public final static String ACTION_SENSOR_FIND_PHONE_STOP = "ACTION_SENSOR_FIND_PHONE_STOP";
     public final static String ACTION_SENSOR_WARN_THEFT = "ACTION_SENSOR_WARN_THEFT";
+
+    // Prefrence Define
+
+    public final static String PREF_SENSOR_ADDRESS = "PREF_SENSOR_ADDRESS_LIST";
 }

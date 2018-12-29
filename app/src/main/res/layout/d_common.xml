@@ -31,12 +31,12 @@
             android:layout_marginTop="@dimen/px20"
             android:gravity="center"
             android:lineSpacingExtra="@dimen/px20"
-            android:minHeight="@dimen/px500"
+            android:minHeight="@dimen/px400"
             android:paddingTop="@dimen/px120"
             android:paddingBottom="@dimen/px120"
             android:text="Good!"
             android:textColor="#333841"
-            android:textSize="@dimen/px60" />
+            android:textSize="@dimen/px70" />
 
         <LinearLayout
             android:id="@+id/layout_btn"

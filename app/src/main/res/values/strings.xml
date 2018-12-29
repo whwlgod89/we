@@ -69,6 +69,7 @@
     <string name="msg_confirm_register">Are you sure to add wallet?</string>
     <string name="title_confirm_modify">Modify</string>
     <string name="msg_confirm_modify">Are you sure to modify wallet?</string>
+    <string name="msg_sensor_modified">modified wallet.</string>
     <string name="lb_connect_state">Connection:</string>
     <string name="connect_state_on">Connected</string>
     <string name="connect_state_off">Disconnected</string>
@@ -79,6 +80,8 @@
     <string name="hint_sensor_id">Sensor Address</string>
     <string name="hint_sensor_name">Sensor Name</string>
     <string name="hint_phone_number">Phone Number</string>
+    <string name="start_detect_sensor">Detecting Sensor</string>
+    <string name="no_detect_sensor">Not Detect Sensor\nPlease, Retry Again</string>
 
     <string name="title_activity_settings">Settings</string>
 
@@ -113,6 +116,9 @@
     <string name="pref_summary_app_control_finish">Finish app completely including service.</string>
     <string name="pref_confirm_app_control_finish">Are you sure to finish Wear?</string>
 
+    <string name="pref_app_control_restart">App을 다시 시작합니다.</string>
+    <string name="pref_app_control_finish">App을 완전히 종료합니다.</string>
+
     <string name="pref_title_show_guide_category">Help</string>
     <string name="pref_title_show_guide">Wear Guide</string>
     <string name="pref_summary_show_guide">Open Wear Guide Web Page</string>
@@ -131,8 +137,6 @@
     <string name="add_button">add sensor</string>
 
     <string name="modify_button">수정하기</string>
-
-
 
 
 </resources>

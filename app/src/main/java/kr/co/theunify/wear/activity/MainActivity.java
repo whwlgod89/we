@@ -1,30 +1,41 @@
 package kr.co.theunify.wear.activity;
 
+import android.Manifest;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,12 +44,14 @@ import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.WearApp;
 import kr.co.theunify.wear.adapter.MainPagerAdapter;
+import kr.co.theunify.wear.dialog.CommonDialog;
 import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.service.SensorService;
+import kr.co.theunify.wear.utils.ULog;
 import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private String TAG = MainActivity.class.getSimpleName();
 
@@ -49,15 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;        // 타이틀 바
 
-    @BindView(R.id.txt_name)         TextView txt_name;
+    @BindView(R.id.layout_wallet)   LinearLayout layout_wallet;     // 지갑 레이아웃
+    @BindView(R.id.txt_name)        TextView txt_name;              // 지갑 이름
 
-    @BindView(R.id.pager_main)      ViewPager pager_main;
+    @BindView(R.id.pager_main)      ViewPager pager_main;           // 지갑 View pager
+    @BindView(R.id.img_battery)     ImageView img_battery;          // 배터리
+    @BindView(R.id.txt_page)        TextView txt_page;              // 페이지 번호
+    @BindView(R.id.layout_page)     LinearLayout layout_page;       // 페이지 Dot
 
-    @BindView(R.id.img_battery)     ImageView img_battery;
-    @BindView(R.id.txt_page)         TextView txt_page;
-    @BindView(R.id.layout_page)        LinearLayout layout_page;
-
-    @BindView(R.id.btn_add)         TextView btn_add;
+    @BindView(R.id.layout_empty)   LinearLayout layout_empty;     // 하나도 없을 시 레이아웃
+    @BindView(R.id.btn_add)         TextView btn_add;               // 추가 버튼
 
     //********************************************************************************
     //  Member Variable
@@ -68,10 +82,20 @@ public class MainActivity extends AppCompatActivity {
     private SensorService mService = null;
     private WearApp mApp = null;
 
-
+    private String mActionType = null;
     private boolean mServiceShutdown = false;    // 강제 종료 여부 (App 재시작, App 완전 종료)
 
+    private String mSenserNameForPermission = "";
+
     private MainPagerAdapter mainPagerAdapter;
+
+    private CommonDialog mDlgFindPhone;           // 센서에서 폰 찾기 다이얼로그
+    private boolean mDlgFindPhoneOn = false;     // 센서에서 폰 찾기 다이얼로그 표시 여부 (알람 종료 후 종료?)
+    private CommonDialog mDlgDisconnected;        // 센서 연결 끊김 다이얼로그
+    private boolean mDlgDisconnectedOn = false;  // 센서 연결 끊김 다이얼로그 표시 여부 (알람 종료 후 유지, 사용자 확인 종료)
+
+    private LocationManager mLocManager = null;     // 연결이 끊겼을 때 위치 확보.
+    private LocationListener mLocListener = null;
 
     //********************************************************************************
     //  LifeCycle Functions
@@ -89,12 +113,19 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
-        Log.d(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
+        ULog.w(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
         mApp.mAppLaunched = true;
-        Log.d(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
+        ULog.w(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
 
 
         service_init();
+        Intent intent = getIntent();
+        CheckIntent(intent);
+        if(mActionType != null) {
+            Bundle extras = intent.getExtras();
+            String sensorName = extras.getString(Const.EXTRA_ACTION_SENSOR_ID);
+            onCreateByIntent(sensorName);
+        }
     }
 
 
@@ -108,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
     public void onPause(){
         super.onPause();
     }
-
 
     @Override
     protected void onDestroy() {
@@ -125,12 +155,13 @@ public class MainActivity extends AppCompatActivity {
 
         // 위치 서비스도 해제 해줘야 할까?
 
-        if(mServiceShutdown) {
-            Intent bindIntent = new Intent(this, SensorService.class);
-            stopService(bindIntent);
-        }
+//        if(mServiceShutdown) {
+//            Intent bindIntent = new Intent(this, SensorService.class);
+//            unbindService(this);
+//            stopService(bindIntent);
+//        }
         LocalBroadcastManager.getInstance(this).unregisterReceiver(SensorStatusChangeReceiver);
-        Log.d(TAG, "Main Activity Stopped, with service=" + mServiceShutdown);
+        ULog.w(TAG, "Main Activity Stopped, with service=" + mServiceShutdown);
     }
 
 
@@ -144,8 +175,319 @@ public class MainActivity extends AppCompatActivity {
     //********************************************************************************
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.e(TAG, "onNewIntent..........");
+        CheckIntent(intent);
+        if(mActionType != null)  {
+            Bundle extras = intent.getExtras();
+            String sensorName = extras.getString(Const.EXTRA_ACTION_SENSOR_ID);
+            onCreateByIntent(sensorName);
+        }
+    }
+
+    private void CheckIntent(Intent intent) {
+        if (null != intent) {
+            Bundle extras = intent.getExtras();
+            if(extras != null) {
+                mActionType = extras.getString(Const.EXTRA_ACTION_TYPE);
+                Log.e(TAG, "Created by intent() .........." +  mActionType);
+
+                if(mActionType!= null) {
+                    //mPosition = extras.getInt(Const.EXTRA_ACTION_POSITION);
+
+                    // 전화기 찾기는 updateUI() 호출로 Broadcast Receiver를 통해 처리된다.
+                    //if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
+                    //    Log.e(TAG, "Start Alarm to Find Phone .........." +  mActionType);
+                    //    mApp.startAlarm2(false);
+                    //}
+                    //else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
+                    //    Log.e(TAG, "Stop Alarm to Find Phone .........." +  mActionType);
+                    //    mApp.stopAlarm2();
+                    //}
+                }
+            }else{
+                mActionType = null;
+                Log.e(TAG, "Created by user..........");
+            }
+        }
+    }
+
+    private void onCreateByIntent(final String sensorName)  {
+        boolean alarm_enable =false;
+        boolean bt_status =false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "onCreateByIntent().1: NO PERMISSION so Request Permission");
+                mSenserNameForPermission = sensorName;
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Const.REQUEST_CODE_OF_READ_EXTERNAL_STORAGE);
+                return;
+            }
+            else {
+                Log.d(TAG, "onCreateByIntent().2: HAS PERMISSION already GRANTED");
+            }
+        }
+        else {
+            Log.d(TAG, "onCreateByIntent().3: HAS Permission in MANIFEST");
+        }
+
+        Log.d(TAG, "onCreateByIntent(): Sensor=" + sensorName + ", ActionType=" + mActionType);
+
+
+        if(mActionType.equals(Const.ACTION_GATT_CONNECTED)) {
+            Log.d(TAG, "onCreateByIntent() - ACTION_GATT_CONNECTED");
+
+        }
+        else if(mActionType.equals(Const.ACTION_GATT_DISCONNECTED)) {
+            Log.d(TAG, "onCreateByIntent() - ACTION_GATT_DISCONNECTED");
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+//            PowerManager powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+//            if(!powerManager.isScreenOn()) {
+//                PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "WALLET");
+//                wakeLock.acquire();
+//                wakeLock.release();
+//            }
+
+            //setTurnScreenOn(true);
+            //setShowWhenLocked(true);
+//            mSensorAdapter.notifyDataSetChanged();
+
+            //final AlertDialog mDlgDisconnected = new AlertDialog.Builder(MainActivity.this).create();
+            //mDlgDisconnected.setTitle("연결 끊김");
+            mDlgDisconnected = Utils.showPopupDlg(this, "", "[" + sensorName + "] 센서와 연결이 끊어졌습니다.",
+                    getString(R.string.ok), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    },
+                    "", null, null);
+            mDlgDisconnected.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mDlgDisconnected.dismiss();
+                    mDlgDisconnectedOn = false;
+                    mApp.stopAlarm2();
+                }
+            });
+            mDlgDisconnectedOn = true;
+            mApp.startAlarm2(true);
+
+            //============================================================
+            // 연결이 끊어졌을 때의 위치를 확인한다.
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                boolean isGpsEnabled = mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                boolean isNetEnabled = mLocManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                Log.d(TAG, "onCreateByIntent(): LocationManager=" + mLocManager + ", GPS=" + isGpsEnabled + ", NET=" + isNetEnabled);
+
+                Date locTime = Calendar.getInstance().getTime();
+                Date curTime = Calendar.getInstance().getTime();
+
+                if(isGpsEnabled || isNetEnabled) {
+//                    if (isGpsEnabled) {
+//                        Location lastLoc = mLocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                        if(lastLoc != null) {
+//                            locTime.setTime(lastLoc.getTime());
+//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from GPS = "
+//                                    + lastLoc.getLatitude() + ", " + lastLoc.getLongitude() + ", L:" + locTime.toString() + ", C:" + curTime.toString());
+//                            mApp.getSensor(sensorName).setLocation(lastLoc.getLatitude(), lastLoc.getLongitude());
+//                            return;
+//                        }
+//                        else
+//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from GPS = NULL");
+//                    }
+//
+//                    if (isNetEnabled) {
+//                        Location lastLoc = mLocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//                        if(lastLoc != null) {
+//                            locTime.setTime(lastLoc.getTime());
+//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from NET = "
+//                                    + lastLoc.getLatitude() + ", " + lastLoc.getLongitude() + ", L:" + locTime.toString() + ", C:" + curTime.toString());
+//                            mApp.getSensor(sensorName).setLocation(lastLoc.getLatitude(), lastLoc.getLongitude());
+//                            return;
+//                        }
+//                        else
+//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from NET = NULL");
+//                    }
+                }
+                else {
+                    Log.d(TAG, "onCreateByIntent() - Location Providers are NOT Enabled");
+                    showAlertPopup("", "위치 제공자 비활성화", getResources().getString(R.string.ok), null, "");
+//                    final AlertDialog dlgAlert = new AlertDialog.Builder(MainActivity.this).create();
+//                    dlgAlert.setMessage("위치 제공자 비활성화");
+//                    dlgAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dlgAlert.dismiss();
+//                        }
+//                    });
+//                    dlgAlert.show();
+                    return;
+                }
+
+                // 위치 정보 제공은 활성화되어 있지만 Last Location 정보를 얻지 못해서 실시간 정보 읽기로 취득
+                mLocListener = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        Log.d(TAG, "onLocationChanged(): Lat=" + location.getLatitude() + ", Lon=" + location.getLongitude() + ", Provider=" + location.getProvider());
+                        mApp.getSensor(sensorName).getInfo().setLocation(location.getLatitude(), location.getLongitude());
+                        mLocManager.removeUpdates(mLocListener);
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                        Log.d(TAG, "Status of Provider [" + provider + "] changed to " + status);
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+                        Log.d(TAG, "Provider [" + provider + "] enabled");
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+                        Log.d(TAG, "Provider [" + provider + "] disabled");
+                    }
+                };
+
+                if (isGpsEnabled) {
+                    mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 1, mLocListener);
+                }
+                if (isNetEnabled) {
+                    mLocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 1, mLocListener);
+                }
+            }
+            else {
+                // 위치 정보에 대한 권한이 없으므로, 위치를 초기화하고 그냥 나간다.
+                Sensor sensor = mApp.getSensor(sensorName);
+                sensor.getInfo().setLocation(0, 0);
+
+                Log.d(TAG, "onCreateByIntent() - Location Permission is not Granted");
+                showAlertPopup("", "위치 정보 권한 없음", getResources().getString(R.string.ok), null, "");
+//                final AlertDialog dlgAlert = new AlertDialog.Builder(MainActivity.this).create();
+//                dlgAlert.setMessage("위치 정보 권한 없음");
+//                dlgAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dlgAlert.dismiss();
+//                    }
+//                });
+//                dlgAlert.show();
+            }
+            // 연결이 끊어졌을 때의 위치를 확인한다.
+            //============================================================
+        }
+        else if(mActionType.equals(Const.ACTION_DATA_AVAILABLE)) {
+            Log.d(TAG, "onCreateByIntent() - ACTION_DATA_AVAILABLE");
+        }
+        else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
+            Log.d(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_START");
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+//            PowerManager powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+//            if(!powerManager.isScreenOn()) {
+//                PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "WALLET");
+//                wakeLock.acquire();
+//                wakeLock.release();
+//            }
+
+            //setTurnScreenOn(true);
+            //setShowWhenLocked(true);
+
+            //final AlertDialog mDlgFindPhone = new AlertDialog.Builder(MainActivity.this).create();
+            //mDlgHFindPhone.setTitle("휴대폰 찾기");
+            mDlgFindPhone = Utils.showPopupDlg(this, "", "[" + sensorName + "] 센서에서\n휴대폰을 찾습니다.",
+                    getString(R.string.ok), null, "", null, null);
+//            mDlgFindPhone.setMessage();
+//            mDlgFindPhone.setButton(AlertDialog.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    mDlgFindPhone.dismiss();
+//                    mDlgFindPhoneOn = false;
+//                    mApp.stopAlarm2();
+//                }
+//            });
+            mDlgFindPhone.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mDlgFindPhoneOn = false;
+                    mApp.stopAlarm2();
+                }
+            });
+            mDlgFindPhoneOn = true;
+            mApp.startAlarm2(false);
+        }
+        else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_STOP)) {
+            Log.d(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_STOP");
+            if(mDlgFindPhoneOn) {
+                mDlgFindPhone.dismiss();
+                mDlgFindPhoneOn = false;
+                mApp.stopAlarm2();
+            }
+        }
+        else if(mActionType.equals(Const.ACTION_SENSOR_WARN_THEFT)) {
+            Log.d(TAG, "onCreateByIntent() - ACTION_SENSOR_WARN_THEFT");
+
+            if (mDlgDisconnected != null && mDlgDisconnected.isShowing()) {
+                return;
+            }
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+            mDlgDisconnected = Utils.showPopupDlg(this, "도난 경보", "[" + sensorName + "] 센서와\n연결이 약해졌습니다.",
+                    getString(R.string.ok), null, "", null, null);
+            mDlgDisconnected.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mDlgDisconnected.dismiss();
+                    mDlgDisconnectedOn = false;
+                    mApp.stopAlarm2();
+                }
+            });
+            mDlgDisconnectedOn = true;
+            mApp.startAlarm2(true);
+        }
+        else if(mActionType.equals(Const.ACTION_GATT_STATUS)) {
+            Handler h;//핸들러 선언
+            h= new Handler(); //딜래이를 주기 위해 핸들러 생성
+            h.postDelayed(needRestart, 100); // 딜레이 ( 런어블 객체는 mrun, 시간 2초)
+            return;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult(): requestCode=" + requestCode + ", grantResult[0]=" + grantResults[0]);
+        if(requestCode == Const.REQUEST_CODE_OF_READ_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "onRequestPermissionsResult(): GRANTED");
+                onCreateByIntent(mSenserNameForPermission);
+            }
+            else {
+                Log.d(TAG, "onRequestPermissionsResult(): DENIED");
+                return;
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult - Request=" + requestCode + ", Result=" + resultCode + ".............");
+        ULog.w(TAG, "onActivityResult - Request=" + requestCode + ", Result=" + resultCode + ".............");
 
         if(requestCode == Const.REQUEST_CODE_OF_ADD_SENSOR) {
             if (resultCode == Const.RESULT_CODE_OF_SENSOR_ADDED) {
@@ -156,23 +498,12 @@ public class MainActivity extends AppCompatActivity {
                 int actionMode = data.getIntExtra(Const.ACTION_MODE, Const.ACTION_MODE_LOSS);
                 int rssi = data.getIntExtra(Const.RSSI, 100);
 
-// 모든 센서 관리는 (추가 삭제 등)은 App을 통해서 일관되게 한다.
-//                String a = BluetoothDevice.EXTRA_DEVICE;
-//                BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(sensorId);
-//                if(device != null)
-//                {
-//                    Sensor sensor = mService.addSensor(device, sensorId, sensorName, phoneNumber, actionMode);
-//                    mApp.insertSensor(sensor);
-//                }
-//
-//                mSensorAdapter.setDataSet(mApp.getAllSensors());
-//                mSensorAdapter.notifyDataSetChanged();
                 mApp.addSensor(sensorId, sensorName, phoneNumber, actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
-                //mSensorAdapter.notifyDataSetChanged();                          // 리스트 화면 갱신
-                mainPagerAdapter.notifyDataSetChanged();                      // 리스트 화면 갱신
-//                if(mApp.getSensorCount() == Const.MAX_SENSORS) {
-//                    showAddSensor(false);       // Show/Hide Widgets for Add Sensor
-//                }
+
+                // 센서의 위치를 추가한 것으확인한다.
+                mApp.setCurSensor(mApp.getSensorCount()-1);
+
+                initView();
 
                 if(Const.DEBUG) {
                     int index = mApp.getAllSensors().size()-1;
@@ -182,36 +513,28 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, strRegister, Toast.LENGTH_SHORT).show();
                 }
             }
-            else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(MainActivity.this, "Registration Canceled~!", Toast.LENGTH_SHORT).show();
-            }
         }
         else if(requestCode == Const.REQUEST_CODE_OF_MODIFY_SENSOR) {
             // 센서 설정 변경 (이름, 폰번, 모드) - ModifySensor 모듈로부터 전달
             if(resultCode == RESULT_OK) {
-                Toast.makeText(MainActivity.this, "Sensor Modified~!", Toast.LENGTH_SHORT).show();
-                mainPagerAdapter.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this, getString(R.string.msg_sensor_modified), Toast.LENGTH_SHORT).show();
+                initView();
             }
         }
          if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
             // 재시작
             if(resultCode == Const.RESULT_CODE_OF_RESTART_APP) {
-                Toast.makeText(MainActivity.this, "Setting Result - RESTART", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getString(R.string.pref_app_control_restart), Toast.LENGTH_SHORT).show();
                 restartApp(2000);
-            }
-            // 종료
-            else if(resultCode == Const.RESULT_CODE_OF_FINISH_APP) {
-                Toast.makeText(MainActivity.this, "Setting Result - FINISH", Toast.LENGTH_SHORT).show();
+            } else if(resultCode == Const.RESULT_CODE_OF_FINISH_APP) {
+                // 종료
+                Toast.makeText(MainActivity.this, getString(R.string.pref_app_control_finish), Toast.LENGTH_SHORT).show();
                 finishApp();
-            }
-//            else if (resultCode == Activity.RESULT_CANCELED) {
-//                Toast.makeText(MainActivity.this, "Setting Result - NORMAL", Toast.LENGTH_SHORT).show();
-//            }
-            else {
+            } else {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
                 String strAlarm1 = settings.getString("pref_key_alarm_disconnected", "FAIL");
                 String strAlarm2 = settings.getString("pref_key_alarm_find_phone", "FAIL");
-                Log.d(TAG, "Conn=" + strAlarm1 + ", Find=" + strAlarm2);
+                ULog.w(TAG, "Conn=" + strAlarm1 + ", Find=" + strAlarm2);
             }
         }
     }
@@ -220,11 +543,6 @@ public class MainActivity extends AppCompatActivity {
     //  Override Event Functions
     //********************************************************************************
 
-
-//    @OnItemClick(R.id.pager_main)
-//    public void onPagerMainItemClick(int position){
-//
-//    }
 
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
@@ -249,16 +567,20 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.btn_find) {
             mApp.getCurSensor().findSensor();
         } else if (v.getId() == R.id.btn_location) {
-
+            // 지도 화면으로 이동한다. - 구글 지도
+            Intent i = new Intent();
+            i.setClass(this, MapActivity.class);
+            startActivity(i);
         } else if (v.getId() == R.id.btn_remove) {
+            // 삭제
             Utils.showPopupDlg(this, getString(R.string.remove_title), getString(R.string.remove_message),
                     getResources().getString(R.string.ok), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mainPagerAdapter.removeSensor(mApp.getCurSensor());
+                            // 센서 삭제
                             mApp.removeSensor();
-                            updatePage(0);
-
+                            // 화면 업데이트
+                            initView();
                         }
                     }, getResources().getString(R.string.cancel), null, null);
         } else if (v.getId() == R.id.btn_setting) {
@@ -281,31 +603,44 @@ public class MainActivity extends AppCompatActivity {
         initViewPager();
 
         if (mApp.getSensorCount()>0) {
-            updatePage(0);
+            layout_empty.setVisibility(View.GONE);
+            layout_wallet.setVisibility(View.VISIBLE);
+            updatePage(mApp.getCurPosition());
+        } else {
+            layout_empty.setVisibility(View.VISIBLE);
+            layout_wallet.setVisibility(View.GONE);
         }
+
+        updateAddSensor();
     }
 
+    /**
+     * 타이틀 생성
+     */
     private void initTitle() {
         v_titlebar.setLogoVisible(View.VISIBLE);
         v_titlebar.setSettingVisible(View.VISIBLE);
     }
 
 
+    /**
+     * 뷰 페이저 생성하기
+     */
     private void initViewPager() {
 
-        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), null);
+        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), mApp.getAllSensors());
         pager_main.setAdapter(mainPagerAdapter);
 
         pager_main.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                ULog.w(TAG, "onPageScrolled: position=" + position);
             }
 
             @Override
             public void onPageSelected(int position) {
+                ULog.w(TAG, "onPageSelected: position=" + position);
                 mApp.setCurSensor(position);
-                txt_name.setText(mApp.getCurSensor().getSensorName());
                 updatePage(position);
             }
 
@@ -316,24 +651,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void restartApp(int delay) {
-        //Intent intent = new Intent(this, MainActivity.class);
-        Intent intent = new Intent(this, SplashActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        AlarmManager manager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, pendingIntent);
-        mServiceShutdown = true;
-        finish();
-    }
-
-    private void finishApp() {
-        mServiceShutdown = true;
-        finish();
-    }
-
-
+    /**
+     * 페이지 번호와 Dot 업데이트
+     * @param position
+     */
     private void updatePage(int position) {
+        updateBattery();
+        // 이름 업데이트
+        txt_name.setText(mApp.getCurSensor().getSensorName());
+
+        // 페이지 텍스트 업데이트
         txt_page.setText((position+1) + " / " + mApp.getSensorCount());
+
+        // 페이지 Dot 업데이트
         layout_page.removeAllViews();
 
         for (int i = 0; i < mApp.getSensorCount(); i++) {
@@ -353,24 +683,93 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 센서 추가하기 버튼 보이기 숨기기
+     */
+    private void updateAddSensor() {
+        if(mApp.getSensorCount() == Const.MAX_SENSORS) {
+            btn_add.setVisibility(View.INVISIBLE);
+        } else {
+            btn_add.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateBattery() {
+        Sensor sensor = mApp.getCurSensor();
+        if (sensor != null) {
+            int level = sensor.getBatteryLevel();
+            ULog.w(TAG, "updateBattery:" + level);
+            if (level == 100) {
+                img_battery.setBackgroundResource(R.drawable.ic_b5);
+            } else if (level >= 75) {
+                img_battery.setBackgroundResource(R.drawable.ic_b4);
+            } else if (level >=50) {
+                img_battery.setBackgroundResource(R.drawable.ic_b3);
+            } else if (level >= 25) {
+                img_battery.setBackgroundResource(R.drawable.ic_b2);
+            } else {
+                img_battery.setBackgroundResource(R.drawable.ic_b1);
+            }
+        }
+    }
+
+    /**
+     * 앱 재시작 하기
+     * @param delay
+     */
+    private void restartApp(int delay) {
+        //Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SplashActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        AlarmManager manager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, pendingIntent);
+        mServiceShutdown = true;
+        finish();
+    }
+
+    /**
+     * 앱 종료하기
+     */
+    private void finishApp() {
+        mServiceShutdown = true;
+        if(mServiceShutdown) {
+            Intent bindIntent = new Intent(this, SensorService.class);
+            stopService(bindIntent);
+        }
+        finish();
+    }
+
 
     //********************************************************************************
     //  Service Functions
     //********************************************************************************
 
+    /**
+     * 센서 감지 서비스 생성
+     */
     private void service_init() {
+        // 서비스 바인드
         Intent bindIntent = new Intent(this, SensorService.class);
         startService(bindIntent);
         bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        // Broadcast 등록
         LocalBroadcastManager.getInstance(this).registerReceiver(SensorStatusChangeReceiver, makeGattUpdateIntentFilter());
     }
 
+    /**
+     * 서비스 연결 이벤트 수신
+     */
     private ServiceConnection mServiceConnection = new ServiceConnection() {
+        /**
+         * 서비스 연결 되었을 때 이벤트
+         * @param className
+         * @param rawBinder
+         */
         public void onServiceConnected(ComponentName className, IBinder rawBinder) {
             mService = ((SensorService.LocalBinder) rawBinder).getService();
-            Log.d(TAG, "onServiceConnected mService= " + ((mService == null) ? "NULL" : mService));
+            ULog.w(TAG, "onServiceConnected mService= " + ((mService == null) ? "NULL" : mService));
             if (!mService.initialize()) {
-                Log.e(TAG, "Unable to initialize Bluetooth");
+                ULog.e(TAG, "Unable to initialize Bluetooth");
                 finish();
             }
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -379,21 +778,29 @@ public class MainActivity extends AppCompatActivity {
                 //mService.startNotification();
             }
 
-            ArrayList<Sensor> sensorList = mService.getSensorList();
-            if(sensorList != null) {
-                Log.d(TAG, "Sensor List Length is " + sensorList.size());
-                //for(Sensor sensor : sensorList) {
-                //    //mSensorAdapter.addSensor(sensor);
-                //}
-                mainPagerAdapter.setList(sensorList);
-            }
+//            ArrayList<Sensor> sensorList = mService.getSensorList();
+//            if(sensorList != null) {
+//                ULog.w(TAG, "Sensor List Length is " + sensorList.size());
+//                //for(Sensor sensor : sensorList) {
+//                //    //mSensorAdapter.addSensor(sensor);
+//                //}
+//                mainPagerAdapter.setList(sensorList);
+//            }
         }
+
+        /**
+         * 서비스 연결 종료 되었을 때 이벤트
+         * @param classname
+         */
         public void onServiceDisconnected(ComponentName classname) {
-            Log.d(TAG, "Service disconnected");
+            ULog.w(TAG, "Service disconnected");
         }
     };
 
 
+    /**
+     * 센서 Broadcast Receiver
+     */
     private final BroadcastReceiver SensorStatusChangeReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
@@ -402,7 +809,7 @@ public class MainActivity extends AppCompatActivity {
             final String actionType = intent.getStringExtra(Const.EXTRA_ACTION_TYPE);
             //final int position = intent.getIntExtra(Const.EXTRA_ACTION_POSITION, 0);
             final String sensorId = intent.getStringExtra(Const.EXTRA_ACTION_SENSOR_ID);
-            Log.w(TAG, "MainActivity Broadcast Receiver: Action=" + action + ", Type=" + actionType + ", ID=" + sensorId);
+            ULog.w(TAG, "MainActivity Broadcast Receiver: Action=" + action + ", Type=" + actionType + ", ID=" + sensorId);
 
 //            if (action.equals(Const.ACTION_SENSOR_INITIALIZE) ||
 //                    action.equals(Const.ACTION_SENSOR_DETECTING)   ||
@@ -420,17 +827,16 @@ public class MainActivity extends AppCompatActivity {
 //                            //stopAlarm();
 //                            //hAnimation.postDelayed(sAnim, 100);
 //                        }
-//                        Log.w(TAG, "Broadcast receiver " + action);
+//                        ULog.w(TAG, "Broadcast receiver " + action);
 //                    }
 //                });
 //            }
             //BO: 배터리 수준 알림. 화면의 배터리 아이콘에 적용
-            if (action.equals(Const.ACTION_SENSOR_BATTERY))
-            {
+            if (action.equals(Const.ACTION_SENSOR_BATTERY)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Log.w(TAG, "Broadcast Receiver. Action=" + action);
-                        mainPagerAdapter.notifyDataSetChanged();
+                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
+                        updateBattery();
                     }
                 });
             }
@@ -438,7 +844,7 @@ public class MainActivity extends AppCompatActivity {
             else if (action.equals(Const.ACTION_GATT_CONNECTED)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Log.w(TAG, "Broadcast Receiver. Action=" + action);
+                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
                         mainPagerAdapter.notifyDataSetChanged();
                         // 연결 끊김 다이얼로그가 떠 있으면 닫기
 //                        if(mDlgDisconnectedOn) {
@@ -453,7 +859,7 @@ public class MainActivity extends AppCompatActivity {
 //            else if(action.equals(Const.ACTION_GATT_DISCONNECTED)) {
 //                runOnUiThread(new Runnable() {
 //                    public void run() {
-//                        Log.w(TAG, "Broadcast Receiver. Action=" + action);
+//                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
 //                        mSensorAdapter.notifyDataSetChanged();
 //                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 //                                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -468,7 +874,7 @@ public class MainActivity extends AppCompatActivity {
 //            {
 //                runOnUiThread(new Runnable() {
 //                    public void run() {
-//                        Log.w(TAG, "Broadcast Receiver. Action=" + action);
+//                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
 //                        mApp.startAlarm2(false);
 //                    }
 //                });
@@ -477,13 +883,13 @@ public class MainActivity extends AppCompatActivity {
 //            {
 //                runOnUiThread(new Runnable() {
 //                    public void run() {
-//                        Log.w(TAG, "Broadcast Receiver. Action=" + action);
+//                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
 //                        mApp.stopAlarm2();
 //                    }
 //                });
 //            }
             else {
-                Log.d(TAG, "Broadcast Receiver. Action NOT handled=" + action);
+                ULog.d(TAG, "Broadcast Receiver. Action NOT handled=" + action);
             }
         }
     };
@@ -501,4 +907,36 @@ public class MainActivity extends AppCompatActivity {
         return intentFilter;
     }
 
+    Runnable needRestart = new Runnable(){
+        @Override
+        public void run(){
+            //Intent bindIntent = new Intent(MainActivity.this, SensorService.class);
+            //stopService(bindIntent);
+            AlertDialog alertDialog = null;
+            AlertDialog.Builder alertDialogBuilder = null;
+            alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("앱 재시작",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    restartApp(1000*2);
+                                }
+                            }
+                    )
+                    .setNegativeButton("앱 종료",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                    finishApp();
+                                }
+                            }
+                    );
+            alertDialog = alertDialogBuilder.create();
+            alertDialog.setTitle("블루투스 상태변화");
+            alertDialog.setMessage("앱을 다시 실행하셔야 합니다.");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.show();
+        }
+    };
 }

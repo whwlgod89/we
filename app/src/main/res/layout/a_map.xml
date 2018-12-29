@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <kr.co.theunify.wear.view.TitlebarView
+            android:id="@+id/v_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px200" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.gigatera.gess.air.MapActivity" />
+
+            <!--로그인 버튼-->
+            <ImageView
+                android:id="@+id/btn_my_pos"
+                android:layout_width="@dimen/px120"
+                android:layout_height="@dimen/px120"
+                android:layout_marginLeft="@dimen/px32"
+                android:layout_marginTop="@dimen/px32"
+                android:background="@drawable/map_my_pos" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

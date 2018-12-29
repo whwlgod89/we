@@ -72,6 +72,7 @@
     <string name="msg_confirm_register">지갑을 추가합니까?</string>
     <string name="title_confirm_modify">수정</string>
     <string name="msg_confirm_modify">지갑을 수정합니까?</string>
+    <string name="msg_sensor_modified">수정하였습니다.</string>
     <string name="lb_connect_state">연결 상태:</string>
     <string name="connect_state_on">연결됨</string>
     <string name="connect_state_off">끊어짐</string>
@@ -82,6 +83,8 @@
     <string name="hint_sensor_id">센서 주소</string>
     <string name="hint_sensor_name">센서 이름</string>
     <string name="hint_phone_number">전화 번호</string>
+    <string name="start_detect_sensor">검색중입니다.</string>
+    <string name="no_detect_sensor">검색된 센서가 없습니다.\n검색버튼을 눌러 다시 검색해 주세요.</string>
 
     <string name="title_activity_settings">설정</string>
 
@@ -115,6 +118,9 @@
     <string name="pref_title_app_control_finish">App 종료</string>
     <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.</string>
     <string name="pref_confirm_app_control_finish">App을 완전히 종료하시겠습니까?</string>
+
+    <string name="pref_app_control_restart">App을 다시 시작합니다.</string>
+    <string name="pref_app_control_finish">App을 완전히 종료합니다.</string>
 
     <string name="pref_title_show_guide_category">도움말</string>
     <string name="pref_title_show_guide">사용 방법 안내</string>

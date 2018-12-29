@@ -135,6 +135,10 @@ public class TitlebarView extends LinearLayout {
 		img_search.setVisibility(visible);
 	}
 
+	public void setSearchImg(int res) {
+		img_search.setBackgroundResource(res);
+	}
+
 	public void setSettingVisible(int visible) {
 		img_setting.setVisibility(visible);
 	}

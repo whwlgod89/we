@@ -66,8 +66,7 @@ public class SplashActivity extends BaseActivity {
 
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, R.string.BLE_not_supported, Toast.LENGTH_SHORT).show();
@@ -78,7 +77,7 @@ public class SplashActivity extends BaseActivity {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, Const.REQUEST_CODE_OF_ENABLE_BT);
 
-            Log.d(TAG, "BT Adapter is not enabled. (onResume)");
+            ULog.w(TAG, "BT Adapter is not enabled. (onResume)");
             return;
         }
 
@@ -118,15 +117,15 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult()");
+        ULog.w(TAG, "onActivityResult()");
         switch (requestCode) {
             case Const.REQUEST_CODE_OF_ENABLE_BT:
                 if (resultCode == Activity.RESULT_OK) {
-                    Log.d(TAG, "BT Enable Result=OK");
+                    ULog.w(TAG, "BT Enable Result=OK");
                     processCheckPermissionAndAppReg();
                 }
                 else {
-                    Log.d(TAG, "BT Enable Result=NO");
+                    ULog.w(TAG, "BT Enable Result=NO");
                     showAlertPopup("", getResources().getString(R.string.error_bluetooth_not_enabled), getResources().getString(R.string.ok), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -195,8 +194,7 @@ public class SplashActivity extends BaseActivity {
                         grantResults[7] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[8] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[9] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[10] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[11] == PackageManager.PERMISSION_GRANTED ) {
+                        grantResults[10] == PackageManager.PERMISSION_GRANTED ) {
                     initView();
                 } else {
                     showAlertPopup("", getResources().getString(R.string.error_grant_permission), getResources().getString(R.string.ok), new View.OnClickListener() {
@@ -226,10 +224,12 @@ public class SplashActivity extends BaseActivity {
      */
     private void initView() {
 
+        // 애니메이션 시작하기
         AnimationDrawable drawable = (AnimationDrawable) img_logo.getBackground();
         drawable.start();
 
-        handleStart.sendEmptyMessageDelayed(0, 3500);
+        // 애니메이션이 1.2초 걸리므로 3회 반복
+        handleStart.sendEmptyMessageDelayed(0, 3600);
     }
 
     /**

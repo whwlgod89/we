@@ -12,10 +12,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -56,10 +59,19 @@ public class WalletActivity extends BaseActivity {
 
     @BindView(R.id.v_titlebar)              TitlebarView v_titlebar;
 
+    // 리스트
     @BindView(R.id.txt_empty)               TextView    txt_empty;
     @BindView(R.id.list_sensor)				ListView	list_sensor;
+
+    // 이름 입력
     @BindView(R.id.edt_name)				EditText	edt_name;
+    @BindView(R.id.del_name)                ImageView   del_name;
+
+    // 전화번호 입력
     @BindView(R.id.edt_phone)				EditText	edt_phone;
+    @BindView(R.id.del_phone)                ImageView   del_phone;
+
+    // 모드 선택 라디오
     @BindView(R.id.rg_mode)                 RadioGroup  rg_mode;
     @BindView(R.id.radio_lost)				RadioButton	radio_lost;
     @BindView(R.id.radio_steal)				RadioButton	radio_steal;
@@ -76,7 +88,7 @@ public class WalletActivity extends BaseActivity {
     private Context mContext;
 
     private SensorAdapter mAdapter;
-    private List<BluetoothDevice> mSensorList;		// 리스트
+//    private List<BluetoothDevice> mSensorList;		// 리스트
 
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning = false;          // 스캔 중인지?
@@ -171,14 +183,23 @@ public class WalletActivity extends BaseActivity {
     //  Override Event Functions
     //********************************************************************************
 
+    /**
+     * 뒤로 이동 버튼 클릭 시
+     */
     @OnClick(R.id.img_back)
     public void onClickImgBack() {
         onBackPressed();
     }
 
+    /**
+     * 타이틀 검색 버튼 클릭 시
+     */
     @OnClick(R.id.img_search)
     public void onClickImgSearch() {
-        Toast.makeText(mContext, "search", Toast.LENGTH_SHORT).show();
+        // 리스트 업데이트
+        initListView();
+        // 스캔하기
+        scanLeDevice(true);
     }
 
     @OnItemClick(R.id.list_sensor)
@@ -197,6 +218,17 @@ public class WalletActivity extends BaseActivity {
             Utils.showSoftKeyboard(mContext, edt_name);
         }
     }
+
+    @OnClick(R.id.del_name)
+    public void onClickDelName() {
+        edt_name.setText("");
+    }
+
+    @OnClick(R.id.del_phone)
+    public void onClickDelPhone() {
+        edt_phone.setText("");
+    }
+
 
     @OnClick(R.id.radio_lost)
     public void onClickRadioLost() {
@@ -228,26 +260,19 @@ public class WalletActivity extends BaseActivity {
         }
 
         int mode = (rg_mode.getCheckedRadioButtonId() == R.id.radio_lost) ? Const.ACTION_MODE_LOSS : Const.ACTION_MODE_THEFT;
-        int rssi = 100;
+        int rssi = -100;
         if (mode == Const.ACTION_MODE_THEFT) {
             rssi = seekbar_dimming.getProgress();
             if (rssi == 0) {
-                rssi = 75;
+                rssi = -75;
             } else if (rssi == 1) {
-                rssi = 85;
+                rssi = -85;
             } else {
-                rssi = 100;
+                rssi = -100;
             }
         }
 
-        Intent intent = new Intent();
-        intent.putExtra(Const.SENSOR_ID, device.getAddress());
-        intent.putExtra(Const.SENSOR_NAME, name);
-        intent.putExtra(Const.PHONE_NUMBER, phone);
-        intent.putExtra(Const.ACTION_MODE, mode);
-        intent.putExtra(Const.RSSI, rssi);
-        setResult(Const.RESULT_CODE_OF_SENSOR_ADDED, intent);
-        finish();
+        addSensor(device, name, phone, mode, rssi);
 
     }
 
@@ -268,9 +293,6 @@ public class WalletActivity extends BaseActivity {
         seekbar_dimming.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
-//                if (selectZoneData.getSchedule() == DIMMING_MODE_MANUAL) {
-//                    txt_dimming_cur_dim.setText(progress+"%");
-//                }
             }
 
             @Override
@@ -285,6 +307,23 @@ public class WalletActivity extends BaseActivity {
 
             }
         });
+
+//        edt_name.addTextChangedListener(new TextWatcher() {
+//            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+//            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                del_name.setVisibility(s.length()==0? View.GONE:View.VISIBLE);
+//            }
+//            @Override public void afterTextChanged(Editable s) { }
+//        });
+//
+//        edt_phone.addTextChangedListener(new TextWatcher() {
+//            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+//            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                del_phone.setVisibility(s.length()==0? View.GONE:View.VISIBLE);
+//            }
+//            @Override public void afterTextChanged(Editable s) { }
+//        });
+
     }
 
     private void initTitle() {
@@ -299,31 +338,53 @@ public class WalletActivity extends BaseActivity {
      * 리스트뷰 Adapter 세팅
      */
     private void initListView() {
-//        mSensorList = new ArrayList<>();
-//
-//        if (mSensorList == null || mSensorList.size()==0) {
-//            txt_empty.setVisibility(View.VISIBLE);
-//            list_sensor.setVisibility(View.GONE);
-//        } else {
-            txt_empty.setVisibility(View.GONE);
-            list_sensor.setVisibility(View.VISIBLE);
-            if (mAdapter == null) {
-                mAdapter = new SensorAdapter(mContext, mSensorList);
-                list_sensor.setAdapter(mAdapter);
-//            } else {
-//                mAdapter.setList(mSensorList);
-            }
-//        }
+        mAdapter = new SensorAdapter(mContext);
+        list_sensor.setAdapter(mAdapter);
+
+        txt_empty.setVisibility(View.VISIBLE);
+        txt_empty.setText(getString(R.string.start_detect_sensor));
+        list_sensor.setVisibility(View.GONE);
     }
 
+    /**
+     * 센서 추가하기 - 메시지 확인 후 추가
+     * @param device
+     * @param name
+     * @param phone
+     * @param mode
+     * @param rssi
+     */
+    private void addSensor(final BluetoothDevice device, final String name, final String phone, final int mode, final int rssi) {
+        Utils.showPopupDlg(this, getString(R.string.title_confirm_register), getString(R.string.msg_confirm_register),
+                getResources().getString(R.string.ok), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Const.SENSOR_ID, device.getAddress());
+                        intent.putExtra(Const.SENSOR_NAME, name);
+                        intent.putExtra(Const.PHONE_NUMBER, phone);
+                        intent.putExtra(Const.ACTION_MODE, mode);
+                        intent.putExtra(Const.RSSI, rssi);
+                        setResult(Const.RESULT_CODE_OF_SENSOR_ADDED, intent);
+                        finish();
+                    }
+                }, getResources().getString(R.string.cancel), null, null);
+    }
+
+    /**
+     * 센서 감지 스캔하기
+     * @param enable
+     */
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
+            v_titlebar.setSearchImg(R.drawable.top_search_dis);
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            v_titlebar.setSearchImg(R.drawable.top_search_nor);
         }
     }
 
@@ -333,9 +394,10 @@ public class WalletActivity extends BaseActivity {
     private Handler handleStart = new Handler(){
         @Override
         public void handleMessage(Message msg){
-            mScanning = false;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//            mCmdScan.setImageResource(R.drawable.search_sensor_start);
+            scanLeDevice(false);
+            if (mAdapter == null || mAdapter.getCount()==0) {
+                txt_empty.setText(getString(R.string.no_detect_sensor));
+            }
         }
     };
 
@@ -350,6 +412,10 @@ public class WalletActivity extends BaseActivity {
                         public void run() {
                             // HeyTong 단말기만 추가 대상으로 보여준다
                             String sensorName = device.getName();
+                            if(sensorName == null) {
+                                return;
+                            }
+
                             if(sensorName == null || (!sensorName.startsWith("HeyT") && !sensorName.startsWith("EHITAG"))) {
                                 Log.w(TAG, "This is not a HeyTong Sensor : " + sensorName);
                                 return;
@@ -357,6 +423,13 @@ public class WalletActivity extends BaseActivity {
 
                             Log.w(TAG, "Add Sensor : " + sensorName);
                             mAdapter.addDevice(device);
+
+                            // 하나라도 보이면 리스트가 보여야 한다.
+                            if (mAdapter.getCount() > 0) {
+                                txt_empty.setVisibility(View.GONE);
+                                list_sensor.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     });
                 }

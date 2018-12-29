@@ -73,7 +73,7 @@ public class SensorAdapter extends BaseAdapter {
 	}
 
 	/**
-	 * 디바이스 추가하
+	 * 디바이스 추가하기 - 중복된 것은 제거한다.
 	 */
 	public void addDevice(BluetoothDevice device) {
 		if (mList == null) {
@@ -88,6 +88,10 @@ public class SensorAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void removeAllDevice() {
+		mList = null;
+		notifyDataSetChanged();
+	}
 
 	/** 
 	* 리스트 셋팅 
