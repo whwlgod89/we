@@ -90,7 +90,7 @@ public class UPref {
 		}
 		
 		if (TextUtils.isEmpty(name)) {
-			ULog.d(TAG, "getStrPreferences() ==> preference name is not defined...!!");
+			ULog.i(TAG, "getStrPreferences() ==> preference name is not defined...!!");
 			return returnValue;
 		}
 		

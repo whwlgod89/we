@@ -8,15 +8,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.sensor.Sensor;
 
 /**
- * Created by nashine40 on 2018-03-27.
- * 앱 사용안내 프래그먼트
+ * Created by beksung
+ * 뷰 페이저 프래그먼트
  */
 
 public class MainPagerFragment extends Fragment {
+
+    private static String TAG = MainPagerFragment.class.getSimpleName();
+
+
     private static final String KEY_CONTENT = "TestFragment:Content";
     private int mPosition = 0;
     private ArrayList<Sensor> mList;		// 리스트
@@ -47,8 +52,24 @@ public class MainPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.item_main_pager, null);
 
+        Sensor sensor = mList.get(mPosition);
+
         ImageView iv_new = (ImageView) v.findViewById(R.id.iv_new);
+        iv_new.setVisibility(View.GONE);
+
         ImageView iv_wallet = (ImageView) v.findViewById(R.id.iv_wallet);
+
+        if (sensor.getConnectState() == Sensor.CONNECT_STATE.CONNECTED.ordinal()) {
+            int resource = R.drawable.purse_00;
+            switch (mPosition%3) {
+                case 0: resource = R.drawable.purse_00; break;
+                case 1: resource = R.drawable.purse_01; break;
+                case 2: resource = R.drawable.purse_02; break;
+            }
+            iv_wallet.setBackgroundResource(resource);
+        } else {
+            iv_wallet.setBackgroundResource(R.drawable.purse_03);
+        }
 
         return v;
     }

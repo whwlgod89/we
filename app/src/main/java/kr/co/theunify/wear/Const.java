@@ -3,7 +3,6 @@ package kr.co.theunify.wear;
 public class Const {
     // 개발용
     public static final boolean DEBUG = false;
-    public static final boolean RUN_EMULATOR = false;
 
     //
     public static boolean mRestartApp = false;
@@ -63,7 +62,8 @@ public class Const {
     public final static String ACTION_SENSOR_FIND_PHONE_STOP = "ACTION_SENSOR_FIND_PHONE_STOP";
     public final static String ACTION_SENSOR_WARN_THEFT = "ACTION_SENSOR_WARN_THEFT";
 
-    // Prefrence Define
-
-    public final static String PREF_SENSOR_ADDRESS = "PREF_SENSOR_ADDRESS_LIST";
+    // sensor theft level
+    public static final int THEFT_LEVEL_LOW = -50;//-75;
+    public static final int THEFT_LEVEL_MID = -85;
+    public static final int THEFT_LEVEL_HIGH = -100;
 }

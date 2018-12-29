@@ -34,7 +34,7 @@ public class WearApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ULog.w(TAG, "onCreateApp. Application Started. App=" + this  + " ...............");
+        ULog.i(TAG, "onCreateApp. Application Started. App=" + this  + " ...............");
 
         // DB 생성
         mDB = new SensorDatabase(getApplicationContext(), "HeyTong.db", null, 5);
@@ -46,16 +46,13 @@ public class WearApp extends Application {
 
         // 서비스 가져오기
         mService = getService();
-        ULog.w(TAG, "onCreateApp SensorService=" + ((mService == null) ? "NULL" : mService));
+        ULog.i(TAG, "onCreateApp SensorService=" + ((mService == null) ? "NULL" : mService));
 
-//        // 테스트 센서 추가
-//        Sensor sensor;
-//        sensor = new Sensor("HT-AAAA_01", "Mama's Wallet", "010-1111-1111", 0);
-//        mDB.insertSensor(sensor);
-//        sensor = new Sensor("HT-BBBB_02", "Papa's Wallet", "010-2222-2222", 0);
-//        mDB.insertSensor(sensor);
-//        sensor = new Sensor("HT-CCCC_03", "Tomi's Wallet", "010-3333-3333", 0);
-//        mDB.insertSensor(sensor);
+        // 테스트 센서 추가
+        addSensor("HT-AAAA_01", "Mama's Wallet", "010-1111-1111", 0, -100);
+        addSensor("HT-AAAA_02", "Papa's Wallet", "010-1111-1111", 0, -100);
+        addSensor("HT-AAAA_03", "Tomi's Wallet", "010-1111-1111", 0, -100);
+        addSensor("HT-AAAA_04", "Jack's Wallet", "010-1111-1111", 0, -100);
     }
 
     /**
@@ -71,7 +68,9 @@ public class WearApp extends Application {
         Sensor sensor = new Sensor(info);
         insertSensor(sensor);           // 등록된 센서 목록 관리 DB에 추가
         mAllSensors.add(sensor);        // 센서 목록 관리 메모리에 추가 (처음 실행시에 DB 에서 로드)
-        mService.addSensor(sensor);     //
+        if (mService != null) {
+            mService.addSensor(sensor);     //
+        }
     }
 
     /**
@@ -81,6 +80,10 @@ public class WearApp extends Application {
         mService.removeSensor(mCurSensor);
         mAllSensors.remove(mCurSensor);
         deleteSensor();
+        // 현재 센서 위치 지정
+        if (mAllSensors.size()>0){
+            setCurSensor(0);
+        }
     }
 
     /**
@@ -116,7 +119,7 @@ public class WearApp extends Application {
      * @return
      */
     public ArrayList<Sensor> getAllSensors() {
-        // ULog.w(TAG, "Get All Wallets in Memory = " + mAllSensors.size());
+        // ULog.i(TAG, "Get All Wallets in Memory = " + mAllSensors.size());
         return mAllSensors;
     }
 
@@ -126,7 +129,7 @@ public class WearApp extends Application {
      * @return
      */
     public Sensor getSensor(int index) {
-        ULog.w(TAG, "Get Sensor with List-Index = " + index);
+        ULog.i(TAG, "Get Sensor with List-Index = " + index);
         if(mAllSensors == null || index >= mAllSensors.size()) {
             return null;
         }
@@ -139,9 +142,20 @@ public class WearApp extends Application {
      * @return
      */
     public Sensor getSensor(String sensorName) {
-        ULog.w(TAG, "Get Sensor with Sensor-Name = " + sensorName);
+        ULog.i(TAG, "Get Sensor with Sensor-Name = " + sensorName);
         for(Sensor sensor : mAllSensors) {
             if(sensor.getSensorName().equals(sensorName)) {
+                return sensor;
+            }
+        }
+        return null;
+    }
+
+
+    public Sensor getSensorFromAddr(String addr) {
+        ULog.i(TAG, "Get Sensor with Sensor-Id = " + addr);
+        for(Sensor sensor : mAllSensors) {
+            if(sensor.getSensorId().equals(addr)) {
                 return sensor;
             }
         }
@@ -154,7 +168,7 @@ public class WearApp extends Application {
      */
     public ArrayList<Sensor> loadSensors() {
         mAllSensors = mDB.selectAllSensors();
-        ULog.w(TAG, "Get All Sensor in Database = " + mAllSensors.size());
+        ULog.i(TAG, "Get All Sensor in Database = " + mAllSensors.size());
         return mAllSensors;
     }
 
@@ -163,8 +177,7 @@ public class WearApp extends Application {
      * @param sensor
      */
     public void updateSensor(Sensor sensor) {
-        ULog.w(TAG, "Update Sensor in Database = " + sensor.toShortString());
-        //mCurSensor = sensor;
+        ULog.i(TAG, "Update Sensor in Database = " + sensor.toShortString());
         mDB.updateSensor(sensor.getInfo());
     }
 
@@ -173,7 +186,7 @@ public class WearApp extends Application {
      * @param sensorId
      */
     public void deleteSensor(String sensorId) {
-        ULog.w(TAG, "Remove Sensor in Database=" + sensorId);
+        ULog.i(TAG, "Remove Sensor in Database=" + sensorId);
         mAllSensors.remove(mCurSensor);
         mDB.deleteSensor(sensorId);
         mCurSensor = null;
@@ -184,7 +197,7 @@ public class WearApp extends Application {
      * @param sensor
      */
     private void insertSensor(Sensor sensor) {
-        ULog.w(TAG, "Insert Sensor into Database = " + sensor.getInfo().getName());
+        ULog.i(TAG, "Insert Sensor into Database = " + sensor.getInfo().getName());
         mCurSensor = sensor;
         mDB.insertSensor(sensor.getInfo());
     }
@@ -195,7 +208,7 @@ public class WearApp extends Application {
     private void deleteSensor() {
         assert(mCurSensor != null);
 
-        ULog.w(TAG, "Remove Sensor in Database=" + mCurSensor.getSensorName());
+        ULog.i(TAG, "Remove Sensor in Database=" + mCurSensor.getSensorName());
         mDB.deleteSensor(mCurSensor.getSensorId());
         mCurSensor = null;
     }
@@ -205,7 +218,7 @@ public class WearApp extends Application {
      * @return
      */
     public Sensor getCurSensor() {
-        ULog.w(TAG, "Get Current Wallet in Memory = " + mCurSensor.toLongString());
+        ULog.i(TAG, "Get Current Wallet in Memory = " + mCurSensor.toLongString());
         return mCurSensor;
     }
 
@@ -217,12 +230,12 @@ public class WearApp extends Application {
         if(0 <= position && position < mAllSensors.size()) {
             mCurPosition = position;
             mCurSensor = mAllSensors.get(position);
-            ULog.w(TAG, "Set Current Wallet in Memory = " + mCurSensor.toLongString());
+            ULog.i(TAG, "Set Current Wallet in Memory = " + mCurSensor.toLongString());
         }
         else {
             mCurPosition = -1;
             mCurSensor = null;
-            ULog.w(TAG, "Clear Current Wallet in Memory. Position=" + position);
+            ULog.i(TAG, "Clear Current Wallet in Memory. Position=" + position);
         }
     }
 

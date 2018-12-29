@@ -16,7 +16,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -24,7 +23,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -35,7 +33,6 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,9 +110,9 @@ public class MainActivity extends BaseActivity {
 
         initView();
 
-        ULog.w(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
+        ULog.i(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
         mApp.mAppLaunched = true;
-        ULog.w(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
+        ULog.i(TAG, "onCreate() - mAppLaunched=" + mApp.mAppLaunched);
 
 
         service_init();
@@ -161,7 +158,7 @@ public class MainActivity extends BaseActivity {
 //            stopService(bindIntent);
 //        }
         LocalBroadcastManager.getInstance(this).unregisterReceiver(SensorStatusChangeReceiver);
-        ULog.w(TAG, "Main Activity Stopped, with service=" + mServiceShutdown);
+        ULog.i(TAG, "Main Activity Stopped, with service=" + mServiceShutdown);
     }
 
 
@@ -177,7 +174,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.e(TAG, "onNewIntent..........");
         CheckIntent(intent);
         if(mActionType != null)  {
             Bundle extras = intent.getExtras();
@@ -192,20 +188,6 @@ public class MainActivity extends BaseActivity {
             if(extras != null) {
                 mActionType = extras.getString(Const.EXTRA_ACTION_TYPE);
                 Log.e(TAG, "Created by intent() .........." +  mActionType);
-
-                if(mActionType!= null) {
-                    //mPosition = extras.getInt(Const.EXTRA_ACTION_POSITION);
-
-                    // 전화기 찾기는 updateUI() 호출로 Broadcast Receiver를 통해 처리된다.
-                    //if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
-                    //    Log.e(TAG, "Start Alarm to Find Phone .........." +  mActionType);
-                    //    mApp.startAlarm2(false);
-                    //}
-                    //else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
-                    //    Log.e(TAG, "Stop Alarm to Find Phone .........." +  mActionType);
-                    //    mApp.stopAlarm2();
-                    //}
-                }
             }else{
                 mActionType = null;
                 Log.e(TAG, "Created by user..........");
@@ -214,33 +196,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onCreateByIntent(final String sensorName)  {
-        boolean alarm_enable =false;
-        boolean bt_status =false;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "onCreateByIntent().1: NO PERMISSION so Request Permission");
-                mSenserNameForPermission = sensorName;
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Const.REQUEST_CODE_OF_READ_EXTERNAL_STORAGE);
-                return;
-            }
-            else {
-                Log.d(TAG, "onCreateByIntent().2: HAS PERMISSION already GRANTED");
-            }
-        }
-        else {
-            Log.d(TAG, "onCreateByIntent().3: HAS Permission in MANIFEST");
-        }
-
-        Log.d(TAG, "onCreateByIntent(): Sensor=" + sensorName + ", ActionType=" + mActionType);
+        ULog.i(TAG, "onCreateByIntent(): Sensor=" + sensorName + ", ActionType=" + mActionType);
 
 
         if(mActionType.equals(Const.ACTION_GATT_CONNECTED)) {
-            Log.d(TAG, "onCreateByIntent() - ACTION_GATT_CONNECTED");
-
+            ULog.i(TAG, "onCreateByIntent() - ACTION_GATT_CONNECTED");
         }
         else if(mActionType.equals(Const.ACTION_GATT_DISCONNECTED)) {
-            Log.d(TAG, "onCreateByIntent() - ACTION_GATT_DISCONNECTED");
+            ULog.i(TAG, "onCreateByIntent() - ACTION_GATT_DISCONNECTED");
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                     | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -278,6 +242,7 @@ public class MainActivity extends BaseActivity {
             });
             mDlgDisconnectedOn = true;
             mApp.startAlarm2(true);
+            mainPagerAdapter.notifyDataSetChanged();
 
             //============================================================
             // 연결이 끊어졌을 때의 위치를 확인한다.
@@ -286,7 +251,7 @@ public class MainActivity extends BaseActivity {
                 mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 boolean isGpsEnabled = mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 boolean isNetEnabled = mLocManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                Log.d(TAG, "onCreateByIntent(): LocationManager=" + mLocManager + ", GPS=" + isGpsEnabled + ", NET=" + isNetEnabled);
+                ULog.i(TAG, "onCreateByIntent(): LocationManager=" + mLocManager + ", GPS=" + isGpsEnabled + ", NET=" + isNetEnabled);
 
                 Date locTime = Calendar.getInstance().getTime();
                 Date curTime = Calendar.getInstance().getTime();
@@ -296,30 +261,30 @@ public class MainActivity extends BaseActivity {
 //                        Location lastLoc = mLocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 //                        if(lastLoc != null) {
 //                            locTime.setTime(lastLoc.getTime());
-//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from GPS = "
+//                            ULog.i(TAG, "onCreateByIntent() - LAST Location Location from GPS = "
 //                                    + lastLoc.getLatitude() + ", " + lastLoc.getLongitude() + ", L:" + locTime.toString() + ", C:" + curTime.toString());
 //                            mApp.getSensor(sensorName).setLocation(lastLoc.getLatitude(), lastLoc.getLongitude());
 //                            return;
 //                        }
 //                        else
-//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from GPS = NULL");
+//                            ULog.i(TAG, "onCreateByIntent() - LAST Location Location from GPS = NULL");
 //                    }
 //
 //                    if (isNetEnabled) {
 //                        Location lastLoc = mLocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 //                        if(lastLoc != null) {
 //                            locTime.setTime(lastLoc.getTime());
-//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from NET = "
+//                            ULog.i(TAG, "onCreateByIntent() - LAST Location Location from NET = "
 //                                    + lastLoc.getLatitude() + ", " + lastLoc.getLongitude() + ", L:" + locTime.toString() + ", C:" + curTime.toString());
 //                            mApp.getSensor(sensorName).setLocation(lastLoc.getLatitude(), lastLoc.getLongitude());
 //                            return;
 //                        }
 //                        else
-//                            Log.d(TAG, "onCreateByIntent() - LAST Location Location from NET = NULL");
+//                            ULog.i(TAG, "onCreateByIntent() - LAST Location Location from NET = NULL");
 //                    }
                 }
                 else {
-                    Log.d(TAG, "onCreateByIntent() - Location Providers are NOT Enabled");
+                    ULog.i(TAG, "onCreateByIntent() - Location Providers are NOT Enabled");
                     showAlertPopup("", "위치 제공자 비활성화", getResources().getString(R.string.ok), null, "");
 //                    final AlertDialog dlgAlert = new AlertDialog.Builder(MainActivity.this).create();
 //                    dlgAlert.setMessage("위치 제공자 비활성화");
@@ -337,24 +302,25 @@ public class MainActivity extends BaseActivity {
                 mLocListener = new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        Log.d(TAG, "onLocationChanged(): Lat=" + location.getLatitude() + ", Lon=" + location.getLongitude() + ", Provider=" + location.getProvider());
+                        ULog.i(TAG, "onLocationChanged(): Lat=" + location.getLatitude() + ", Lon=" + location.getLongitude() + ", Provider=" + location.getProvider());
                         mApp.getSensor(sensorName).getInfo().setLocation(location.getLatitude(), location.getLongitude());
+                        mApp.updateSensor(mApp.getSensor(sensorName));
                         mLocManager.removeUpdates(mLocListener);
                     }
 
                     @Override
                     public void onStatusChanged(String provider, int status, Bundle extras) {
-                        Log.d(TAG, "Status of Provider [" + provider + "] changed to " + status);
+                        ULog.i(TAG, "Status of Provider [" + provider + "] changed to " + status);
                     }
 
                     @Override
                     public void onProviderEnabled(String provider) {
-                        Log.d(TAG, "Provider [" + provider + "] enabled");
+                        ULog.i(TAG, "Provider [" + provider + "] enabled");
                     }
 
                     @Override
                     public void onProviderDisabled(String provider) {
-                        Log.d(TAG, "Provider [" + provider + "] disabled");
+                        ULog.i(TAG, "Provider [" + provider + "] disabled");
                     }
                 };
 
@@ -370,7 +336,7 @@ public class MainActivity extends BaseActivity {
                 Sensor sensor = mApp.getSensor(sensorName);
                 sensor.getInfo().setLocation(0, 0);
 
-                Log.d(TAG, "onCreateByIntent() - Location Permission is not Granted");
+                ULog.i(TAG, "onCreateByIntent() - Location Permission is not Granted");
                 showAlertPopup("", "위치 정보 권한 없음", getResources().getString(R.string.ok), null, "");
 //                final AlertDialog dlgAlert = new AlertDialog.Builder(MainActivity.this).create();
 //                dlgAlert.setMessage("위치 정보 권한 없음");
@@ -386,10 +352,10 @@ public class MainActivity extends BaseActivity {
             //============================================================
         }
         else if(mActionType.equals(Const.ACTION_DATA_AVAILABLE)) {
-            Log.d(TAG, "onCreateByIntent() - ACTION_DATA_AVAILABLE");
+            ULog.i(TAG, "onCreateByIntent() - ACTION_DATA_AVAILABLE");
         }
         else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
-            Log.d(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_START");
+            ULog.i(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_START");
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                     | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -430,7 +396,7 @@ public class MainActivity extends BaseActivity {
             mApp.startAlarm2(false);
         }
         else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_STOP)) {
-            Log.d(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_STOP");
+            ULog.i(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_STOP");
             if(mDlgFindPhoneOn) {
                 mDlgFindPhone.dismiss();
                 mDlgFindPhoneOn = false;
@@ -438,7 +404,7 @@ public class MainActivity extends BaseActivity {
             }
         }
         else if(mActionType.equals(Const.ACTION_SENSOR_WARN_THEFT)) {
-            Log.d(TAG, "onCreateByIntent() - ACTION_SENSOR_WARN_THEFT");
+            ULog.i(TAG, "onCreateByIntent() - ACTION_SENSOR_WARN_THEFT");
 
             if (mDlgDisconnected != null && mDlgDisconnected.isShowing()) {
                 return;
@@ -461,6 +427,7 @@ public class MainActivity extends BaseActivity {
             });
             mDlgDisconnectedOn = true;
             mApp.startAlarm2(true);
+            mainPagerAdapter.notifyDataSetChanged();
         }
         else if(mActionType.equals(Const.ACTION_GATT_STATUS)) {
             Handler h;//핸들러 선언
@@ -472,14 +439,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult(): requestCode=" + requestCode + ", grantResult[0]=" + grantResults[0]);
+        ULog.i(TAG, "onRequestPermissionsResult(): requestCode=" + requestCode + ", grantResult[0]=" + grantResults[0]);
         if(requestCode == Const.REQUEST_CODE_OF_READ_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "onRequestPermissionsResult(): GRANTED");
+                ULog.i(TAG, "onRequestPermissionsResult(): GRANTED");
                 onCreateByIntent(mSenserNameForPermission);
             }
             else {
-                Log.d(TAG, "onRequestPermissionsResult(): DENIED");
+                ULog.i(TAG, "onRequestPermissionsResult(): DENIED");
                 return;
             }
         }
@@ -487,7 +454,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ULog.w(TAG, "onActivityResult - Request=" + requestCode + ", Result=" + resultCode + ".............");
+        ULog.i(TAG, "onActivityResult - Request=" + requestCode + ", Result=" + resultCode + ".............");
 
         if(requestCode == Const.REQUEST_CODE_OF_ADD_SENSOR) {
             if (resultCode == Const.RESULT_CODE_OF_SENSOR_ADDED) {
@@ -534,7 +501,7 @@ public class MainActivity extends BaseActivity {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
                 String strAlarm1 = settings.getString("pref_key_alarm_disconnected", "FAIL");
                 String strAlarm2 = settings.getString("pref_key_alarm_find_phone", "FAIL");
-                ULog.w(TAG, "Conn=" + strAlarm1 + ", Find=" + strAlarm2);
+                ULog.i(TAG, "Conn=" + strAlarm1 + ", Find=" + strAlarm2);
             }
         }
     }
@@ -634,12 +601,11 @@ public class MainActivity extends BaseActivity {
         pager_main.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                ULog.w(TAG, "onPageScrolled: position=" + position);
             }
 
             @Override
             public void onPageSelected(int position) {
-                ULog.w(TAG, "onPageSelected: position=" + position);
+                ULog.i(TAG, "onPageSelected: position=" + position);
                 mApp.setCurSensor(position);
                 updatePage(position);
             }
@@ -698,7 +664,7 @@ public class MainActivity extends BaseActivity {
         Sensor sensor = mApp.getCurSensor();
         if (sensor != null) {
             int level = sensor.getBatteryLevel();
-            ULog.w(TAG, "updateBattery:" + level);
+            ULog.i(TAG, "updateBattery:" + level);
             if (level == 100) {
                 img_battery.setBackgroundResource(R.drawable.ic_b5);
             } else if (level >= 75) {
@@ -767,7 +733,7 @@ public class MainActivity extends BaseActivity {
          */
         public void onServiceConnected(ComponentName className, IBinder rawBinder) {
             mService = ((SensorService.LocalBinder) rawBinder).getService();
-            ULog.w(TAG, "onServiceConnected mService= " + ((mService == null) ? "NULL" : mService));
+            ULog.i(TAG, "onServiceConnected mService= " + ((mService == null) ? "NULL" : mService));
             if (!mService.initialize()) {
                 ULog.e(TAG, "Unable to initialize Bluetooth");
                 finish();
@@ -780,7 +746,7 @@ public class MainActivity extends BaseActivity {
 
 //            ArrayList<Sensor> sensorList = mService.getSensorList();
 //            if(sensorList != null) {
-//                ULog.w(TAG, "Sensor List Length is " + sensorList.size());
+//                ULog.i(TAG, "Sensor List Length is " + sensorList.size());
 //                //for(Sensor sensor : sensorList) {
 //                //    //mSensorAdapter.addSensor(sensor);
 //                //}
@@ -793,7 +759,7 @@ public class MainActivity extends BaseActivity {
          * @param classname
          */
         public void onServiceDisconnected(ComponentName classname) {
-            ULog.w(TAG, "Service disconnected");
+            ULog.i(TAG, "Service disconnected");
         }
     };
 
@@ -809,7 +775,7 @@ public class MainActivity extends BaseActivity {
             final String actionType = intent.getStringExtra(Const.EXTRA_ACTION_TYPE);
             //final int position = intent.getIntExtra(Const.EXTRA_ACTION_POSITION, 0);
             final String sensorId = intent.getStringExtra(Const.EXTRA_ACTION_SENSOR_ID);
-            ULog.w(TAG, "MainActivity Broadcast Receiver: Action=" + action + ", Type=" + actionType + ", ID=" + sensorId);
+            ULog.i(TAG, "MainActivity Broadcast Receiver: Action=" + action + ", Type=" + actionType + ", ID=" + sensorId);
 
 //            if (action.equals(Const.ACTION_SENSOR_INITIALIZE) ||
 //                    action.equals(Const.ACTION_SENSOR_DETECTING)   ||
@@ -827,7 +793,7 @@ public class MainActivity extends BaseActivity {
 //                            //stopAlarm();
 //                            //hAnimation.postDelayed(sAnim, 100);
 //                        }
-//                        ULog.w(TAG, "Broadcast receiver " + action);
+//                        ULog.i(TAG, "Broadcast receiver " + action);
 //                    }
 //                });
 //            }
@@ -835,7 +801,7 @@ public class MainActivity extends BaseActivity {
             if (action.equals(Const.ACTION_SENSOR_BATTERY)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
+                       // ULog.i(TAG, "Broadcast Receiver. Action=" + action);
                         updateBattery();
                     }
                 });
@@ -844,14 +810,36 @@ public class MainActivity extends BaseActivity {
             else if (action.equals(Const.ACTION_GATT_CONNECTED)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
+                        // 센서의 위치가 있는 경우에는 초기화
+                        Sensor sensor = mApp.getSensorFromAddr(sensorId);
+                        if (sensor != null) {
+                            if (sensor.getLatitude() != 0 || sensor.getLongitude() != 0) {
+                                sensor.getInfo().setLocation(0, 0);
+                                mApp.updateSensor(sensor);
+                            }
+                        }
+                        //ULog.i(TAG, "Broadcast Receiver. Action=" + action);
                         mainPagerAdapter.notifyDataSetChanged();
                         // 연결 끊김 다이얼로그가 떠 있으면 닫기
-//                        if(mDlgDisconnectedOn) {
-//                            mDlgDisconnected.dismiss();
-//                            mDlgDisconnectedOn = false;
-//                            mApp.stopAlarm2();
-//                        }
+                        if(mDlgDisconnectedOn) {
+                            mDlgDisconnected.dismiss();
+                            mDlgDisconnectedOn = false;
+                            mApp.stopAlarm2();
+                        }
+                    }
+                });
+            }
+            else if (action.equals(Const.ACTION_SENSOR_DETECTING)) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        //ULog.i(TAG, "Broadcast Receiver. Action=" + action);
+                        mainPagerAdapter.notifyDataSetChanged();
+                        // 연결 끊김 다이얼로그가 떠 있으면 닫기
+                        if(mDlgDisconnectedOn) {
+                            mDlgDisconnected.dismiss();
+                            mDlgDisconnectedOn = false;
+                            mApp.stopAlarm2();
+                        }
                     }
                 });
             }
@@ -859,7 +847,7 @@ public class MainActivity extends BaseActivity {
 //            else if(action.equals(Const.ACTION_GATT_DISCONNECTED)) {
 //                runOnUiThread(new Runnable() {
 //                    public void run() {
-//                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
+//                        ULog.i(TAG, "Broadcast Receiver. Action=" + action);
 //                        mSensorAdapter.notifyDataSetChanged();
 //                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 //                                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -874,7 +862,7 @@ public class MainActivity extends BaseActivity {
 //            {
 //                runOnUiThread(new Runnable() {
 //                    public void run() {
-//                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
+//                        ULog.i(TAG, "Broadcast Receiver. Action=" + action);
 //                        mApp.startAlarm2(false);
 //                    }
 //                });
@@ -883,13 +871,13 @@ public class MainActivity extends BaseActivity {
 //            {
 //                runOnUiThread(new Runnable() {
 //                    public void run() {
-//                        ULog.w(TAG, "Broadcast Receiver. Action=" + action);
+//                        ULog.i(TAG, "Broadcast Receiver. Action=" + action);
 //                        mApp.stopAlarm2();
 //                    }
 //                });
 //            }
             else {
-                ULog.d(TAG, "Broadcast Receiver. Action NOT handled=" + action);
+                ULog.i(TAG, "Broadcast Receiver. Action NOT handled=" + action);
             }
         }
     };
@@ -904,6 +892,7 @@ public class MainActivity extends BaseActivity {
         intentFilter.addAction(Const.ACTION_GATT_FAILED);
         intentFilter.addAction(Const.ACTION_GATT_CONNECTING);
         intentFilter.addAction(Const.ACTION_SENSOR_BATTERY);
+        intentFilter.addAction(Const.ACTION_SENSOR_DETECTING);
         return intentFilter;
     }
 

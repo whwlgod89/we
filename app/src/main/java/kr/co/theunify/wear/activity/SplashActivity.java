@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -77,7 +76,7 @@ public class SplashActivity extends BaseActivity {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, Const.REQUEST_CODE_OF_ENABLE_BT);
 
-            ULog.w(TAG, "BT Adapter is not enabled. (onResume)");
+            ULog.i(TAG, "BT Adapter is not enabled. (onResume)");
             return;
         }
 
@@ -117,15 +116,15 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ULog.w(TAG, "onActivityResult()");
+        ULog.i(TAG, "onActivityResult()");
         switch (requestCode) {
             case Const.REQUEST_CODE_OF_ENABLE_BT:
                 if (resultCode == Activity.RESULT_OK) {
-                    ULog.w(TAG, "BT Enable Result=OK");
+                    ULog.i(TAG, "BT Enable Result=OK");
                     processCheckPermissionAndAppReg();
                 }
                 else {
-                    ULog.w(TAG, "BT Enable Result=NO");
+                    ULog.i(TAG, "BT Enable Result=NO");
                     showAlertPopup("", getResources().getString(R.string.error_bluetooth_not_enabled), getResources().getString(R.string.ok), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

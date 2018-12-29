@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -17,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -25,13 +23,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +52,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     private String TAG = MapActivity.class.getSimpleName();
 
     private final int MAP_DEFAULT_ZOOM = 16;
+    private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1022;
 
     //********************************************************************************
     //  Layout Member Variable
@@ -68,21 +72,11 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     private boolean mLocationPermissionGranted = false;
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
-    private Address returnAddress;
-    private CameraPosition mCameraPosition;
 
-    private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1022;
-
-    private static final String CAMERA_POSITION = "camera_position";
-    private static final String LOCATION = "location";
 
     private GoogleMap mMap;
 
-    // 드랍다운 팝업
-    private PopupWindow mPopupWindow;
-
     LocationManager locationManager ;
-    boolean GpsStatus ;
 
     private WearApp mApp = null;
     private Sensor mSensor;
@@ -102,6 +96,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
 
         mSensor = mApp.getCurSensor();
 
+        buildGoogleApiClient();
+
         initView();
 
         if (GPSStatus() == false) {
@@ -120,7 +116,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     @Override
     public void onResume(){
         super.onResume();
-        buildGoogleApiClient();
+
         mGoogleApiClient.connect();
     }
 
@@ -128,7 +124,9 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     @Override
     public void onPause(){
         super.onPause();
-
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
+        }
     }
 
 
@@ -236,17 +234,19 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
-            if (mMap != null) {
+            drawMap();
 
-                mMap.clear();
-
-                if (mCurrentLocation != null) {
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
-                    mMap.addMarker(markerOptions);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), MAP_DEFAULT_ZOOM));
-                }
-            }
+//            if (mMap != null) {
+//
+//                mMap.clear();
+//
+//                if (mCurrentLocation != null) {
+//                    MarkerOptions markerOptions = new MarkerOptions();
+//                    markerOptions.position(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
+//                    mMap.addMarker(markerOptions);
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), MAP_DEFAULT_ZOOM));
+//                }
+//            }
 
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
@@ -268,6 +268,51 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
         }
     }
 
+    private void drawMap() {
+        if (mMap == null) {
+            return;
+        }
+
+        mMap.clear();
+        ArrayList<Marker> markers = new ArrayList<>();
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        if (mCurrentLocation != null) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.title("My Position");
+            markerOptions.position(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            Marker marker =  mMap.addMarker(markerOptions);
+            markers.add(marker);
+        }
+
+        if (mSensor.getLatitude() != 0 && mSensor.getLongitude() != 0 ) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.title("Lost Position");
+            markerOptions.position(new LatLng(mSensor.getLatitude(), mSensor.getLongitude()));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            Marker marker =  mMap.addMarker(markerOptions);
+            markers.add(marker);
+        }
+
+        if (markers.size() == 2) {
+            for (int j = 0; j < markers.size(); j++) {
+                builder.include(markers.get(j).getPosition());
+            }
+
+            int padding = 100;
+            LatLngBounds bounds = builder.build();
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.moveCamera(cu);
+        } else if (mCurrentLocation != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), MAP_DEFAULT_ZOOM));
+        } else if (mSensor.getLatitude() != 0 && mSensor.getLongitude() != 0 ){
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mSensor.getLatitude(), mSensor.getLongitude()), MAP_DEFAULT_ZOOM));
+        }
+    }
+
+
     //********************************************************************************
     // Map Functions
     //********************************************************************************
@@ -284,25 +329,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.clear();
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        if (mSensor.getLatitude() != 0 && mSensor.getLongitude() != 0 ) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mSensor.getLatitude(), mSensor.getLongitude()), MAP_DEFAULT_ZOOM));
-        } else if (mCameraPosition != null) {
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-        } else if (mCurrentLocation != null) {
-            markerOptions.title("");
-            markerOptions.position(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
-            mMap.addMarker(markerOptions);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), MAP_DEFAULT_ZOOM));
-        } else {
-            markerOptions.position(new LatLng(25.3, 34.2));
-            markerOptions.title("");
-            mMap.addMarker(markerOptions);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.3, 34.2), MAP_DEFAULT_ZOOM));
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        }
+        drawMap();
 
         //정보창 클릭 리스너
 //        mMap.setOnInfoWindowClickListener(infoWindowClickListener);

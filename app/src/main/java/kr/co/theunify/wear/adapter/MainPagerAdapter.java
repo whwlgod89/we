@@ -6,11 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -21,7 +18,6 @@ import kr.co.theunify.wear.sensor.Sensor;
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
 	private String TAG = MainPagerAdapter.class.getSimpleName();
-
 
 	//********************************************************************************
 	//  Layout Member Variable
@@ -92,6 +88,11 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 		} else {
 			return mList.size();
 		}
+	}
+
+	@Override
+	public int getItemPosition(Object object) {
+		return POSITION_NONE;
 	}
 
 //	//********************************************************************************

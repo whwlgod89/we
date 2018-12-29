@@ -1,6 +1,5 @@
 package kr.co.theunify.wear.activity;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 

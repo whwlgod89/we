@@ -42,7 +42,7 @@ public class Sensor implements Serializable {
     public static final UUID UART_RX_CHAR_UUID = UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e");
     public static final UUID UART_TX_CHAR_UUID = UUID.fromString("6e400003-b5a3-f393-e0a9-e50e24dcca9e");
 
-    enum CONNECT_STATE {
+    public static enum CONNECT_STATE {
         POWER_OFF,
         INITIALIZED,
         CONNECTING,
@@ -156,7 +156,7 @@ public class Sensor implements Serializable {
         final byte[] rxBuff = characteristic.getValue();
         final int cmd = (int) (rxBuff[0] & 0xFF);
         final int data = (int) (rxBuff[1] & 0xFF);
-        ULog.w(TAG, "rxHandler: ID= "+ mSensor.getId() + ", CMD=" + cmd + ", DATA=" + data);
+        ULog.i(TAG, "rxHandler: ID= "+ mSensor.getId() + ", CMD=" + cmd + ", DATA=" + data);
 
         // CareBell 에서는 Rx 하면 5 바이트를 받네, HeyTong 에서는 2바이트
         //int[] convBuf = new int[5];
@@ -174,32 +174,32 @@ public class Sensor implements Serializable {
         //      [4]:ETX - 0x55
         switch(cmd) {
             case 0xDD:      // 센서에서 휴대폰 찾기 알람 시작 (data = 배터리 잔량)
-                ULog.w(TAG, "Start Alarm of Phone: ID= "+ mSensor.getId() + ", Battery=" + data);
+                ULog.i(TAG, "Start Alarm of Phone: ID= "+ mSensor.getId() + ", Battery=" + data);
                 //updateUI(Const.ACTION_SENSOR_FIND_PHONE_START);
                 actionUI(Const.ACTION_SENSOR_FIND_PHONE_START);
                 break;
             case 0xEE:      // 센서에서 휴대폰 찾기 알람 종료 (data = 배터리 잔량)
-                ULog.w(TAG, "Stop Alarm of Phone: ID= "+ mSensor.getId() + ", Battery=" + data);
+                ULog.i(TAG, "Stop Alarm of Phone: ID= "+ mSensor.getId() + ", Battery=" + data);
                 //updateUI(Const.ACTION_SENSOR_FIND_PHONE_STOP);
                 actionUI(Const.ACTION_SENSOR_FIND_PHONE_STOP);
                 break;
             case 0xF0:      // 센서 단말기의 FW 버전 정보 (data = 버전 정보)
-                ULog.w(TAG, "Response of Firmware: ID= "+ mSensor.getId() + ", Version=" + data);
+                ULog.i(TAG, "Response of Firmware: ID= "+ mSensor.getId() + ", Version=" + data);
                 break;
             case 0xF1:      // 센서에서 주기적으로 발신하는 배터리 잔량 (data = 배터리 잔량)
-                ULog.w(TAG, "Report of Battery Level: ID= "+ mSensor.getId() + ", Battery=" + data);
+                ULog.i(TAG, "Report of Battery Level: ID= "+ mSensor.getId() + ", Battery=" + data);
                 mSensor.setBattery(data);
                 updateUI(Const.ACTION_SENSOR_BATTERY);
                 //battery = true;
                 break;
             case 0xFF:      // 센서 단말기의 전원 OFF 알림 (data = 배터리 잔량)
-                ULog.w(TAG, "rxHandler(): Report of Sensor OFF: ID= "+ mSensor.getId() + ", Battery=" + data);
+                ULog.i(TAG, "rxHandler(): Report of Sensor OFF: ID= "+ mSensor.getId() + ", Battery=" + data);
                 //disconnected = true;
                 //mActiveState = ACTIVE_STATE.POWER_OFF;
                 disconnect(true);
                 break;
             default:
-                ULog.w(TAG, "Unknown Packet");
+                ULog.i(TAG, "Unknown Packet");
                 break;
         }
     }
@@ -250,7 +250,7 @@ public class Sensor implements Serializable {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                ULog.w(TAG, "mBluetoothGatt.onServicesDiscovered() - ID: " + mSensor.getId() + ", mConnectState=" + mSensor.getState());
+                ULog.i(TAG, "mBluetoothGatt.onServicesDiscovered() - ID: " + mSensor.getId() + ", mConnectState=" + mSensor.getState());
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss");
                 mConnectedDateTime = dateFormat.format(Calendar.getInstance().getTime());
@@ -273,8 +273,8 @@ public class Sensor implements Serializable {
                 //BO: 추가...  연결이 되었으니, 10초 이내에 0x01 Packet을 보내야 한다.
                 sensor_init();
             } else {
-                //ULog.w(TAG, "ID: "+ mPosition + " onServicesDiscovered received: " + status);
-                ULog.w(TAG, "ID: "+ mSensor.getId() + " onServicesDiscovered received: " + status);
+                //ULog.i(TAG, "ID: "+ mPosition + " onServicesDiscovered received: " + status);
+                ULog.i(TAG, "ID: "+ mSensor.getId() + " onServicesDiscovered received: " + status);
             }
         }
 
@@ -292,12 +292,16 @@ public class Sensor implements Serializable {
 
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-            ULog.w(TAG, "onReadRemoteRssi: Name=" + mSensor.getName() + ", RSSI=" + rssi + ", LOCAL=" + mSensor.getRssi() + ", STATUS=" + status);
+            ULog.i(TAG, "onReadRemoteRssi: Name=" + mSensor.getName() + ", RSSI=" + rssi + ", LOCAL=" + mSensor.getRssi() + ", STATUS=" + status);
             if(status == BluetoothGatt.GATT_SUCCESS) {
-                if(mSensor.getMode() == Const.ACTION_MODE_THEFT && rssi < mSensor.getRssi()) {
-                    ULog.e(TAG, "Hit Low RSSI in Theft Mode");
-                    // 알람을 줘야 한다....
-                    actionUI(Const.ACTION_SENSOR_WARN_THEFT);
+                if(mSensor.getMode() == Const.ACTION_MODE_THEFT ) {
+                    if ( rssi < mSensor.getRssi()) {
+                        ULog.e(TAG, "Hit Low RSSI in Theft Mode");
+                        // 알람을 줘야 한다....
+                        actionUI(Const.ACTION_SENSOR_WARN_THEFT);
+                    } else {
+                        updateUI(Const.ACTION_SENSOR_DETECTING);
+                    }
                 }
             }
         }
@@ -308,7 +312,7 @@ public class Sensor implements Serializable {
     // 한번만 할까?... 일단 그냥 해보고...
     public void readRemoteRSSI() {
         if(mBluetoothGatt != null) {
-            ULog.w(TAG, "readRemoteRssi: Sensor=" + mSensor.getName());
+            //ULog.i(TAG, "readRemoteRssi: Sensor=" + mSensor.getName());
             mBluetoothGatt.readRemoteRssi();
         }
     }
@@ -318,7 +322,7 @@ public class Sensor implements Serializable {
             if(mQueryCount > 3) {
                 mQueryCount = 0;      //BO: 3번까지만 유지되게 해본다........
             }else {
-                ULog.w(TAG, "rxSensorInit(): ID=" + mSensor.getId() + ", ConnectState=" + mSensor.getState());
+                ULog.i(TAG, "rxSensorInit(): ID=" + mSensor.getId() + ", ConnectState=" + mSensor.getState());
                 sensor_init();
             }
         }
@@ -326,7 +330,7 @@ public class Sensor implements Serializable {
 
     // 센서 초기화?... 센서에 연결 알림으로 사용하면 될까?.................
     public void sensor_init() {
-        ULog.w(TAG, "sensor_init(): ID=" + mSensor.getId() + ", ConnectState=" + mSensor.getState());
+        ULog.i(TAG, "sensor_init(): ID=" + mSensor.getId() + ", ConnectState=" + mSensor.getState());
         if(mSensor.getState() != CONNECT_STATE.CONNECTED.ordinal()) {
             return;
         }
@@ -335,14 +339,14 @@ public class Sensor implements Serializable {
         packet[0] = (byte) 0x01;    // 휴대폰은 단말기와 연결되면 10초 이내에 발신해야 한다.
         packet[1] = (byte) 0x00;    // Dummy
         writeRXCharacteristic(packet);
-        ULog.w(TAG, "SENT Initial Code...");
+        ULog.i(TAG, "SENT Initial Code...");
         mQueryCount++;
         mQueryHandler.postDelayed(rxSensorInit, 3000);
         //updateUI(Const.ACTION_SENSOR_INITIALIZE);
     }
 
     public void findSensor() {
-        ULog.w(TAG, "findSensor(): ID=" + mSensor.getId() + ", ConnectState=" + mSensor.getState()+ ", FindState=" + mFindingSensor);
+        ULog.i(TAG, "findSensor(): ID=" + mSensor.getId() + ", ConnectState=" + mSensor.getState()+ ", FindState=" + mFindingSensor);
         if(mSensor.getState() != CONNECT_STATE.CONNECTED.ordinal()) {
             mFindingSensor = false;
             return;
@@ -383,7 +387,7 @@ public class Sensor implements Serializable {
 
 // 센서 전원 OFF 명령... 그런데 HeyTong App UI 에는 센서 OFF 제어가 없다.
 //    public void sensor_poweroff() {
-//        ULog.w(TAG, "sensor_poweroff(): ID=" + mSensorId + ", ConnectState=" + mConnectState);
+//        ULog.i(TAG, "sensor_poweroff(): ID=" + mSensorId + ", ConnectState=" + mConnectState);
 //        if(mConnectState != CONNECT_STATE.CONNECTED) {
 //            return;
 //        }
@@ -400,16 +404,16 @@ public class Sensor implements Serializable {
 //    }
 
     public boolean connect() {
-        ULog.w(TAG, "ID: "+ mSensor.getId() +" connect() called. mConnectState=" + mSensor.getState());
+        ULog.i(TAG, "ID: "+ mSensor.getId() +" connect() called. mConnectState=" + mSensor.getState());
 
         if (mBluetoothAdapter == null || mSensor.getId() == null) {
             //Log.w(TAG, "ID: "+ mPosition + " BluetoothAdapter not initialized or unspecified address.");
-            ULog.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
+            ULog.i(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
         }
         if(mSensor.getState() == CONNECT_STATE.CONNECTED.ordinal()) {
-            //ULog.w(TAG, "ID: " + mPosition +" Already connected.");
-            ULog.w(TAG, "ID: " + mSensor.getId() +" Already connected.");
+            //ULog.i(TAG, "ID: " + mPosition +" Already connected.");
+            ULog.i(TAG, "ID: " + mSensor.getId() +" Already connected.");
             return false;
         }
 
@@ -417,34 +421,34 @@ public class Sensor implements Serializable {
 
         // Previously connected device.  Try to reconnect.
         if (mBluetoothGatt != null) {
-            ULog.w(TAG, "connect().mBluetoothGatt.connect() - ID: "+ mSensor.getId() + ", mConnectState=" + mSensor.getState());
+            ULog.i(TAG, "connect().mBluetoothGatt.connect() - ID: "+ mSensor.getId() + ", mConnectState=" + mSensor.getState());
             if (mBluetoothGatt.connect()) {
                 // 연결이 안되었는데, OK가 떨어지네 (센서 끊긴 상태에서 서비스 시작할 때의 Connect()에서 발견)
                 // Android 문서에서는 연결 시도 초기화가 성공되면 true로 적혀 있고, 범위 밖에 있어도 재시도를 한다고 적혀 있다~!!!.
-                ULog.w(TAG, "ID: "+ mSensor.getId() + " Connected OK!");
+                ULog.i(TAG, "ID: "+ mSensor.getId() + " Connected OK!");
                 return true;
             } else {
-                ULog.w(TAG, "ID: "+ mSensor.getId() + " Connect FAILED!");
+                ULog.i(TAG, "ID: "+ mSensor.getId() + " Connect FAILED!");
                 return false;
             }
         }
 
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mSensor.getId());
         if (device == null) {
-            //ULog.w(TAG, "ID:" + mPosition+ " Device not found.  Unable to connect.");
-            ULog.w(TAG, "ID:" + mSensor.getId() + " Device not found.  Unable to connect.");
+            //ULog.i(TAG, "ID:" + mPosition+ " Device not found.  Unable to connect.");
+            ULog.i(TAG, "ID:" + mSensor.getId() + " Device not found.  Unable to connect.");
             return false;
         }
 
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
-        ULog.w(TAG, "connect().device.connectGatt() - ID: "+ mSensor.getId() + ", mConnectState=" + mSensor.getState());
+        ULog.i(TAG, "connect().device.connectGatt() - ID: "+ mSensor.getId() + ", mConnectState=" + mSensor.getState());
         mBluetoothGatt = device.connectGatt(mContext, false, mGattCallback);
         if(mBluetoothGatt != null) {
-            ULog.w(TAG, "ID: "+ mBluetoothGatt.getDevice().getAddress() + " connectGatt() OK!");
+            ULog.i(TAG, "ID: "+ mBluetoothGatt.getDevice().getAddress() + " connectGatt() OK!");
         }
         else {
-            ULog.w(TAG, "ID: "+ mSensor.getId() + " connectGatt() FAILED");
+            ULog.i(TAG, "ID: "+ mSensor.getId() + " connectGatt() FAILED");
         }
         return true;
     }
@@ -461,8 +465,8 @@ public class Sensor implements Serializable {
         else
             mSensor.setState(CONNECT_STATE.DISCONNECTED.ordinal());
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            //ULog.w(TAG, "ID: "+ mPosition+ " BluetoothAdapter not initialized");
-            ULog.w(TAG, "ID: "+ mSensor.getId() + " BluetoothAdapter not initialized");
+            //ULog.i(TAG, "ID: "+ mPosition+ " BluetoothAdapter not initialized");
+            ULog.i(TAG, "ID: "+ mSensor.getId() + " BluetoothAdapter not initialized");
             return;
         }
 
@@ -481,7 +485,7 @@ public class Sensor implements Serializable {
         mServiceDiscoveredHandler.removeCallbacks(serviceDiscoveredFailed);
 
         //mAutoHandler.postDelayed(force_disconnect_handler, 10*1000);
-        ULog.w(TAG, "disconnect(): Sensor OFF ID= "+ mSensor.getId() );
+        ULog.i(TAG, "disconnect(): Sensor OFF ID= "+ mSensor.getId() );
         disconnect();
     }
 
@@ -492,8 +496,8 @@ public class Sensor implements Serializable {
         //mReconnHandler.removeCallbacks(connectStableCheck);
         mServiceDiscoveredHandler.removeCallbacks(serviceDiscoveredFailed);
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            //ULog.w(TAG, "ID: "+ mPosition+" BluetoothAdapter not initialized");
-            ULog.w(TAG, "ID: "+ mSensor.getId() +" BluetoothAdapter not initialized");
+            //ULog.i(TAG, "ID: "+ mPosition+" BluetoothAdapter not initialized");
+            ULog.i(TAG, "ID: "+ mSensor.getId() +" BluetoothAdapter not initialized");
             return;
         }
 
@@ -505,22 +509,21 @@ public class Sensor implements Serializable {
 
     private Runnable reconnect = new Runnable() {
         public void run() {
-            ULog.w(TAG, "ID:" + mSensor.getId() + " reconnect()");
+            ULog.i(TAG, "ID:" + mSensor.getId() + " reconnect()");
             if(mBluetoothGatt != null && mSensor.getState() != CONNECT_STATE.CONNECTED.ordinal()) {
                 //mBluetoothGatt.disconnect();
                 //mBluetoothGatt.close();
                 //mBluetoothGatt = null;
                 //connect();
                 if(mBluetoothGatt.connect()) {
-                    ULog.w(TAG, "ID:" + mSensor.getId() + " reconnect() - mBluetoothGatt.connect() OK!");
-                }
-                else {
-                    ULog.w(TAG, "ID:" + mSensor.getId() + " reconnect() - mBluetoothGatt.connect() FAILED!");
+                    ULog.i(TAG, "ID:" + mSensor.getId() + " reconnect() - mBluetoothGatt.connect() Try OK!");
+                } else {
+                    ULog.i(TAG, "ID:" + mSensor.getId() + " reconnect() - mBluetoothGatt.connect() Try FAILED!");
                 }
 
                 mSensor.setState(CONNECT_STATE.CONNECTING.ordinal());
             }else {
-                ULog.w(TAG, "ID:" + mSensor.getId() + " reconnect() - mBluetoothGatt == NULL !!!!!!!");
+                ULog.i(TAG, "ID:" + mSensor.getId() + " reconnect() - mBluetoothGatt == NULL !!!!!!!");
                 //connect();
             }
 
@@ -537,7 +540,7 @@ public class Sensor implements Serializable {
     private Runnable serviceDiscoveredFailed = new Runnable() {
         @Override
         public void run() {
-            ULog.w(TAG, "ID: "+ mSensor.getId() + " serviceDiscoveredFailed()");
+            ULog.i(TAG, "ID: "+ mSensor.getId() + " serviceDiscoveredFailed()");
             if(mSensor.getState() != CONNECT_STATE.CONNECTED.ordinal()) {
                 //disconnect(true);
                 mAutoHandler.postDelayed(reconnect, 100);
@@ -553,8 +556,8 @@ public class Sensor implements Serializable {
         if (mBluetoothGatt == null) {
             return;
         }
-        //ULog.w(TAG, "ID: "+ mPosition+ " mBluetoothGatt closed");
-        ULog.w(TAG, "ID: "+ mSensor.getId() + " mBluetoothGatt closed");
+        //ULog.i(TAG, "ID: "+ mPosition+ " mBluetoothGatt closed");
+        ULog.i(TAG, "ID: "+ mSensor.getId() + " mBluetoothGatt closed");
         mSensor.setId("");          //FIXME
         mBluetoothGatt.close();
         mBluetoothGatt = null;
@@ -595,10 +598,10 @@ public class Sensor implements Serializable {
     public void writeRXCharacteristic(byte[] value)
     {
         if (mBluetoothGatt == null) {
-            ULog.w(TAG, "writeRXCharacteristic() - BluetoothGatt = NULL.. ID=" + mSensor.getId());
+            ULog.i(TAG, "writeRXCharacteristic() - BluetoothGatt = NULL.. ID=" + mSensor.getId());
             return;
         }
-        ULog.w(TAG, "writeRXCharacteristic() - BluetoothGatt=" + mBluetoothGatt + ", ID=" + mSensor.getId());
+        ULog.i(TAG, "writeRXCharacteristic() - BluetoothGatt=" + mBluetoothGatt + ", ID=" + mSensor.getId());
 
         BluetoothGattService RxService = mBluetoothGatt.getService(UART_SERVICE_UUID);
         //showMessage("mBluetoothGatt null"+ mBluetoothGatt);
@@ -615,21 +618,21 @@ public class Sensor implements Serializable {
         }
         RxChar.setValue(value);
         boolean status = mBluetoothGatt.writeCharacteristic(RxChar);
-        //ULog.w(TAG, "ID: " + mPosition +  " write TXchar - status=" + status);
-        ULog.w(TAG, "ID: " + mSensor.getId() +  " write TXchar - status=" + status);
+        //ULog.i(TAG, "ID: " + mPosition +  " write TXchar - status=" + status);
+        ULog.i(TAG, "ID: " + mSensor.getId() +  " write TXchar - status=" + status);
     }
 
     /**
      * 단말기와 연결이 끊겼을 때 경고화면을 띄운다.
      */
     public void actionUI(String action) {
-        //ULog.w(KeyManager.TAG, "Draw Link-loss Activity");
+        //ULog.i(KeyManager.TAG, "Draw Link-loss Activity");
         //if(!mLinked) {/*if this sensor removed from service.*/
-        //    ULog.w(TAG, "Can't invoke UI due to be removed from service.");
+        //    ULog.i(TAG, "Can't invoke UI due to be removed from service.");
         //    return;
         //}
-        //ULog.w(TAG, "ID: "+ mPosition+ " actionUI() called.");
-        ULog.w(TAG, "ID: "+ mSensor.getId() + " actionUI() called.");
+        //ULog.i(TAG, "ID: "+ mPosition+ " actionUI() called.");
+        ULog.i(TAG, "ID: "+ mSensor.getId() + " actionUI() called.");
 
         Bundle bun = new Bundle();
         bun.putString(Const.EXTRA_ACTION_TYPE, action);
@@ -652,7 +655,7 @@ public class Sensor implements Serializable {
     // App 에서 UI 갱신이 필요할 때, 이렇게 전달했네. Activity에 Broadcast Receiver가 있어야 하겠네.
     public void updateUI(String action) {
         if(Const.DEBUG) {
-            ULog.w(TAG, "updateUI() called. Action=" + action);
+            ULog.i(TAG, "updateUI() called. Action=" + action);
         }
 
         final Intent intent = new Intent(action);
@@ -665,8 +668,8 @@ public class Sensor implements Serializable {
     // 1. 아래의 initialize()에서 호출
     // 2. App에서 센서를 추가했을 때(addSensor) 호출
     public void initialize() {
-        //ULog.w(TAG, "ID:" + mPosition+ " initialize() called.");
-        ULog.w(TAG, "ID:" + mSensor.getId() + " initialize() called.");
+        //ULog.i(TAG, "ID:" + mPosition+ " initialize() called.");
+        ULog.i(TAG, "ID:" + mSensor.getId() + " initialize() called.");
 
         //setPreConnState(CONN_STATE.INITIALIZED);
         mSensor.setState(CONNECT_STATE.INITIALIZED.ordinal());

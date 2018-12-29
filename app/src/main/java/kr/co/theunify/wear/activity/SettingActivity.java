@@ -16,10 +16,10 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
+import kr.co.theunify.wear.utils.ULog;
 
 public class SettingActivity extends BaseActivity {
     private static final String TAG = "[" + SettingActivity.class.getSimpleName() + "]";
@@ -35,7 +35,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume() - RESTART=" + Const.mRestartApp + ", FINISH=" + Const.mFinishApp + "..........");
+        ULog.i(TAG, "onResume() - RESTART=" + Const.mRestartApp + ", FINISH=" + Const.mFinishApp + "..........");
 //        if(Const.mRestartApp) {
 //            setResult(Const.RESULT_CODE_OF_RESTART_APP);
 //            finish();
@@ -53,7 +53,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, "onBackPressed() - RESTART=" + Const.mRestartApp + ", FINISH=" + Const.mFinishApp + "..........");
+        ULog.i(TAG, "onBackPressed() - RESTART=" + Const.mRestartApp + ", FINISH=" + Const.mFinishApp + "..........");
         setResult(Activity.RESULT_CANCELED);
         super.onBackPressed();
     }
@@ -84,7 +84,7 @@ public class SettingActivity extends BaseActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dlgConfirm.dismiss();
-                            Log.d(TAG, "RESTART..." + getActivity().getLocalClassName());
+                            ULog.i(TAG, "RESTART..." + getActivity().getLocalClassName());
                             Const.mRestartApp = true;
                             getActivity().setResult(Const.RESULT_CODE_OF_RESTART_APP);
                             getActivity().finish();
@@ -114,7 +114,7 @@ public class SettingActivity extends BaseActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dlgConfirm.dismiss();
-                            Log.d(TAG, "RESTART..." + getActivity().getLocalClassName());
+                            ULog.i(TAG, "RESTART..." + getActivity().getLocalClassName());
                             Const.mFinishApp = true;
                             getActivity().setResult(Const.RESULT_CODE_OF_FINISH_APP);
                             getActivity().finish();

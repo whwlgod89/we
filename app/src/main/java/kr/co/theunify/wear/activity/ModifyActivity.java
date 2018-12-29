@@ -1,38 +1,22 @@
 package kr.co.theunify.wear.activity;
 
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.WearApp;
-import kr.co.theunify.wear.adapter.SensorAdapter;
 import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.utils.UString;
 import kr.co.theunify.wear.utils.Utils;
@@ -151,20 +135,20 @@ public class ModifyActivity extends BaseActivity {
 
         String phone = edt_phone.getText().toString();
         if (UString.isEmpty(phone)) {
-            Toast.makeText(mContext, "전화벉호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "전화번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int mode = (rg_mode.getCheckedRadioButtonId() == R.id.radio_lost) ? Const.ACTION_MODE_LOSS : Const.ACTION_MODE_THEFT;
-        int rssi = -100;
+        int rssi = Const.THEFT_LEVEL_HIGH;
         if (mode == Const.ACTION_MODE_THEFT) {
             rssi = seekbar_dimming.getProgress();
             if (rssi == 0) {
-                rssi = -75;
+                rssi = Const.THEFT_LEVEL_LOW;
             } else if (rssi == 1) {
-                rssi = -85;
+                rssi = Const.THEFT_LEVEL_MID;
             } else {
-                rssi = -100;
+                rssi = Const.THEFT_LEVEL_HIGH;
             }
         }
 
@@ -195,9 +179,9 @@ public class ModifyActivity extends BaseActivity {
             layout_rssi.setVisibility(View.VISIBLE);
 
             int rssi = mSensor.getInfo().getRssi();
-            if (rssi == -75) {
+            if (rssi == Const.THEFT_LEVEL_LOW) {
                 seekbar_dimming.setProgress(0);
-            } else if (rssi == -85) {
+            } else if (rssi == Const.THEFT_LEVEL_MID) {
                 seekbar_dimming.setProgress(1);
             } else {
                 seekbar_dimming.setProgress(2);
