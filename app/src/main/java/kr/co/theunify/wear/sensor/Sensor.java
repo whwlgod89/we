@@ -460,10 +460,12 @@ public class Sensor implements Serializable {
      * callback.
      */
     public void disconnect() {
-        if(mForceDisconnect)
+        if(mForceDisconnect) {
             mSensor.setState(CONNECT_STATE.FORCE_DISCONNECTED.ordinal());
-        else
+        }
+        else {
             mSensor.setState(CONNECT_STATE.DISCONNECTED.ordinal());
+        }
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             //ULog.i(TAG, "ID: "+ mPosition+ " BluetoothAdapter not initialized");
             ULog.i(TAG, "ID: "+ mSensor.getId() + " BluetoothAdapter not initialized");
@@ -479,10 +481,14 @@ public class Sensor implements Serializable {
     public void disconnect(boolean force) {
         mForceDisconnect =  force;
         //mBluetoothAdapter.stopLeScan(mLeScanCallback);
-        mAutoHandler.removeCallbacks(reconnect);
+        if (mAutoHandler != null) {
+            mAutoHandler.removeCallbacks(reconnect);
+        }
         //mAutoHandler.removeCallbacks(connectFailed);
         //mReconnHandler.removeCallbacks(connectStableCheck);
-        mServiceDiscoveredHandler.removeCallbacks(serviceDiscoveredFailed);
+        if (mServiceDiscoveredHandler != null) {
+            mServiceDiscoveredHandler.removeCallbacks(serviceDiscoveredFailed);
+        }
 
         //mAutoHandler.postDelayed(force_disconnect_handler, 10*1000);
         ULog.i(TAG, "disconnect(): Sensor OFF ID= "+ mSensor.getId() );

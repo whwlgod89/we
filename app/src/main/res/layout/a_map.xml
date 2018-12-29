@@ -32,8 +32,9 @@
                 android:id="@+id/btn_my_pos"
                 android:layout_width="@dimen/px120"
                 android:layout_height="@dimen/px120"
-                android:layout_marginLeft="@dimen/px32"
+                android:layout_marginRight="@dimen/px32"
                 android:layout_marginTop="@dimen/px32"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/map_my_pos" />
 
         </RelativeLayout>

@@ -67,7 +67,10 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.txt_page)        TextView txt_page;              // 페이지 번호
     @BindView(R.id.layout_page)     LinearLayout layout_page;       // 페이지 Dot
 
-    @BindView(R.id.layout_empty)   LinearLayout layout_empty;     // 하나도 없을 시 레이아웃
+    @BindView(R.id.move_left)     ImageView move_left;              // 왼쪽으로 이동
+    @BindView(R.id.move_right)     ImageView move_right;            // 오른쪽으로 이동
+
+    @BindView(R.id.layout_empty)   LinearLayout layout_empty;       // 하나도 없을 시 레이아웃
     @BindView(R.id.btn_add)         TextView btn_add;               // 추가 버튼
 
     //********************************************************************************
@@ -513,7 +516,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
-        if(mApp.getSensorCount() == Const.MAX_SENSORS) {
+        if(mApp.getSensorCount() >= Const.MAX_SENSORS) {
 //            showAddSensor(false);       // Show/Hide Widgets for Add Sensor
         } else {
             Intent i = new Intent();
@@ -554,6 +557,21 @@ public class MainActivity extends BaseActivity {
             Intent i = new Intent();
             i.setClass(this, ModifyActivity.class);
             startActivityForResult(i, Const.REQUEST_CODE_OF_MODIFY_SENSOR);
+        }
+    }
+
+    @OnClick({R.id.move_left, R.id.move_right} )
+    public void onClickMove(View v) {
+        if (v.getId() == R.id.move_left) {
+            if (mApp.getCurPosition() != 0) {
+                mApp.setCurSensor(mApp.getCurPosition()-1);
+                updatePage(mApp.getCurPosition());
+            }
+        } else if (v.getId() == R.id.move_right) {
+            if (mApp.getCurPosition() < mApp.getSensorCount()-1) {
+                mApp.setCurSensor(mApp.getCurPosition()+1);
+                updatePage(mApp.getCurPosition());
+            }
         }
     }
 
@@ -622,9 +640,10 @@ public class MainActivity extends BaseActivity {
      * @param position
      */
     private void updatePage(int position) {
-        updateBattery();
         // 이름 업데이트
         txt_name.setText(mApp.getCurSensor().getSensorName());
+        // 배터리 업데이트
+        updateBattery();
 
         // 페이지 텍스트 업데이트
         txt_page.setText((position+1) + " / " + mApp.getSensorCount());
@@ -653,7 +672,7 @@ public class MainActivity extends BaseActivity {
      * 센서 추가하기 버튼 보이기 숨기기
      */
     private void updateAddSensor() {
-        if(mApp.getSensorCount() == Const.MAX_SENSORS) {
+        if(mApp.getSensorCount() >= Const.MAX_SENSORS) {
             btn_add.setVisibility(View.INVISIBLE);
         } else {
             btn_add.setVisibility(View.VISIBLE);
@@ -777,26 +796,6 @@ public class MainActivity extends BaseActivity {
             final String sensorId = intent.getStringExtra(Const.EXTRA_ACTION_SENSOR_ID);
             ULog.i(TAG, "MainActivity Broadcast Receiver: Action=" + action + ", Type=" + actionType + ", ID=" + sensorId);
 
-//            if (action.equals(Const.ACTION_SENSOR_INITIALIZE) ||
-//                    action.equals(Const.ACTION_SENSOR_DETECTING)   ||
-//                    action.equals(Const.ACTION_SENSOR_BATTERY)   ||
-//                    action.equals(Const.ACTION_GATT_DISCONNECT)   ||
-//                    action.equals(Const.ACTION_GATT_DISCONNECTED)  ||
-//                    action.equals(Const.ACTION_GATT_CONNECTED)      ||
-//                    action.equals(Const.ACTION_GATT_CONNECTING)      ||
-//                    action.equals(Const.ACTION_GATT_FAILED) )
-//            {
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        mSensorAdapter.notifyDataSetChanged();
-//                        if(action.equals(Const.ACTION_GATT_CONNECTED)) {
-//                            //stopAlarm();
-//                            //hAnimation.postDelayed(sAnim, 100);
-//                        }
-//                        ULog.i(TAG, "Broadcast receiver " + action);
-//                    }
-//                });
-//            }
             //BO: 배터리 수준 알림. 화면의 배터리 아이콘에 적용
             if (action.equals(Const.ACTION_SENSOR_BATTERY)) {
                 runOnUiThread(new Runnable() {
@@ -843,39 +842,6 @@ public class MainActivity extends BaseActivity {
                     }
                 });
             }
-//BO: 변경 from updateUI to actionUI
-//            else if(action.equals(Const.ACTION_GATT_DISCONNECTED)) {
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        ULog.i(TAG, "Broadcast Receiver. Action=" + action);
-//                        mSensorAdapter.notifyDataSetChanged();
-//                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-//                                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-//                                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-//                                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//                        getWindow().makeActive();
-//                        mApp.startAlarm2(true);
-//                    }
-//                });
-//            }
-//            else if(action.equals(Const.ACTION_SENSOR_FIND_PHONE_START))
-//            {
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        ULog.i(TAG, "Broadcast Receiver. Action=" + action);
-//                        mApp.startAlarm2(false);
-//                    }
-//                });
-//            }
-//            else if(action.equals(Const.ACTION_SENSOR_FIND_PHONE_STOP))
-//            {
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        ULog.i(TAG, "Broadcast Receiver. Action=" + action);
-//                        mApp.stopAlarm2();
-//                    }
-//                });
-//            }
             else {
                 ULog.i(TAG, "Broadcast Receiver. Action NOT handled=" + action);
             }
@@ -899,8 +865,6 @@ public class MainActivity extends BaseActivity {
     Runnable needRestart = new Runnable(){
         @Override
         public void run(){
-            //Intent bindIntent = new Intent(MainActivity.this, SensorService.class);
-            //stopService(bindIntent);
             AlertDialog alertDialog = null;
             AlertDialog.Builder alertDialogBuilder = null;
             alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
