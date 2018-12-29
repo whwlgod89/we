@@ -274,6 +274,7 @@ public class WalletActivity extends BaseActivity {
      * 사용자 뷰 초기화
      */
     private void initView() {
+
         initTitle();
 
         initListView();
@@ -312,6 +313,8 @@ public class WalletActivity extends BaseActivity {
 //            }
 //            @Override public void afterTextChanged(Editable s) { }
 //        });
+
+        layout_rssi.setVisibility(View.INVISIBLE);
 
     }
 

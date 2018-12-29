@@ -19,15 +19,15 @@
             android:layout_height="@dimen/px90"
             android:layout_centerVertical="true"
             android:background="@drawable/top_back_icon"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/img_logo"
-            android:layout_width="@dimen/px322"
-            android:layout_height="@dimen/px127"
+            android:layout_width="@dimen/px258"
+            android:layout_height="@dimen/px102"
             android:layout_centerInParent="true"
             android:background="@drawable/top_logo"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/txt_title"
@@ -36,27 +36,26 @@
             android:layout_centerInParent="true"
             android:text="지갑추가"
             android:textColor="#353535"
-            android:textSize="@dimen/px80"
-            android:visibility="gone"/>
+            android:textSize="@dimen/px60"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/img_search"
-            android:layout_width="@dimen/px100"
-            android:layout_height="@dimen/px100"
+            android:layout_width="@dimen/px90"
+            android:layout_height="@dimen/px90"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/top_search_dis"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/img_setting"
-            android:layout_width="@dimen/px100"
-            android:layout_height="@dimen/px100"
+            android:layout_width="@dimen/px90"
+            android:layout_height="@dimen/px90"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/top_setting_icon"
-            android:visibility="gone"/>
-
+            android:visibility="gone" />
 
     </RelativeLayout>
 

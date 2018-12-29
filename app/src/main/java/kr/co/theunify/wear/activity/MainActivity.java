@@ -652,10 +652,10 @@ public class MainActivity extends BaseActivity {
         layout_page.removeAllViews();
 
         for (int i = 0; i < mApp.getSensorCount(); i++) {
-            int size = (int) getResources().getDimension(R.dimen.px40);
+            int size = (int) getResources().getDimension(R.dimen.px34);
             ImageView iv = new ImageView(mContext);
             if (i == position) {
-                size = (int) getResources().getDimension(R.dimen.px50);
+                size = (int) getResources().getDimension(R.dimen.px44);
                 iv.setBackgroundResource(R.drawable.bg_pager_big);
             } else {
                 iv.setBackgroundResource(R.drawable.bg_pager_small);

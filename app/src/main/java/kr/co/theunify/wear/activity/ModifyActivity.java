@@ -173,6 +173,7 @@ public class ModifyActivity extends BaseActivity {
         edt_name.setText(mSensor.getSensorName());
         edt_phone.setText(mSensor.getPhoneNumber());
         if (mSensor.getActionMode() == Const.ACTION_MODE_LOSS) {
+            layout_rssi.setVisibility(View.INVISIBLE);
             rg_mode.check(R.id.radio_lost);
         } else {
             rg_mode.check(R.id.radio_steal);

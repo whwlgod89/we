@@ -14,7 +14,7 @@
         <kr.co.theunify.wear.view.TitlebarView
             android:id="@+id/v_titlebar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px200" />
+            android:layout_height="@dimen/px160" />
 
         <RelativeLayout
             android:layout_width="match_parent"

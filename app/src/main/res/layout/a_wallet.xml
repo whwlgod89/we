@@ -14,13 +14,13 @@
         <kr.co.theunify.wear.view.TitlebarView
             android:id="@+id/v_titlebar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px200" />
+            android:layout_height="@dimen/px160" />
 
         <LinearLayout
             android:id="@+id/layout_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_weight="1"
             android:background="#ececec"
             android:orientation="vertical">
 
@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:lineSpacingExtra="@dimen/px10"
                 android:text="@string/no_detect_sensor"
-                android:lineSpacingExtra="@dimen/px20"
-                android:textSize="@dimen/px60" />
+                android:textSize="@dimen/px50" />
 
             <ListView
                 android:id="@+id/list_sensor"
@@ -46,11 +46,8 @@
         <!--지갑 정보 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/px120"
-            android:layout_marginTop="@dimen/px40"
-            android:layout_marginRight="@dimen/px120"
-            android:layout_weight="8"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/px60"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
@@ -58,15 +55,15 @@
             <!--지갑 이름-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px160"
+                android:layout_height="@dimen/px120"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/px400"
+                    android:layout_width="@dimen/px300"
                     android:layout_height="wrap_content"
                     android:text="@string/add_name"
-                    android:textSize="@dimen/px60" />
+                    android:textSize="@dimen/px50" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,27 +71,27 @@
                     android:background="@drawable/border_edit_r50"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/px40"
-                    android:paddingRight="@dimen/px20">
+                    android:paddingLeft="@dimen/px20"
+                    android:paddingRight="@dimen/px10">
 
                     <!--이름 최대 길이 20자-->
                     <EditText
                         android:id="@+id/edt_name"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:enabled="false"
                         android:hint="@string/add_sensor"
                         android:inputType="text"
                         android:maxLength="15"
-                        android:textSize="@dimen/px60" />
+                        android:textSize="@dimen/px50" />
 
                     <ImageView
                         android:id="@+id/del_name"
-                        android:layout_width="@dimen/px140"
-                        android:layout_height="@dimen/px140"
+                        android:layout_width="@dimen/px100"
+                        android:layout_height="@dimen/px100"
                         android:background="@drawable/btn_delete"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -103,16 +100,16 @@
             <!--전화 번호-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px160"
+                android:layout_height="@dimen/px120"
                 android:layout_marginTop="@dimen/px40"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/px400"
+                    android:layout_width="@dimen/px300"
                     android:layout_height="wrap_content"
                     android:text="@string/add_phone"
-                    android:textSize="@dimen/px60" />
+                    android:textSize="@dimen/px50" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -120,27 +117,27 @@
                     android:background="@drawable/border_edit_r50"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/px40"
-                    android:paddingRight="@dimen/px20">
+                    android:paddingLeft="@dimen/px20"
+                    android:paddingRight="@dimen/px10">
 
                     <!--전화번호 최대 길이 15 +82 10-3313-2956-->
                     <EditText
                         android:id="@+id/edt_phone"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:enabled="false"
                         android:hint="@string/add_phone"
                         android:inputType="phone"
                         android:maxLength="16"
-                        android:textSize="@dimen/px60" />
+                        android:textSize="@dimen/px50" />
 
                     <ImageView
                         android:id="@+id/del_phone"
-                        android:layout_width="@dimen/px140"
-                        android:layout_height="@dimen/px140"
+                        android:layout_width="@dimen/px100"
+                        android:layout_height="@dimen/px100"
                         android:background="@drawable/btn_delete"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -154,16 +151,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/px400"
+                    android:layout_width="@dimen/px300"
                     android:layout_height="wrap_content"
                     android:text="@string/add_mode"
-                    android:textSize="@dimen/px60" />
+                    android:textSize="@dimen/px50" />
 
                 <RadioGroup
                     android:id="@+id/rg_mode"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -174,18 +170,18 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="@string/add_mode_lost"
-                        android:textSize="@dimen/px50" />
+                        android:textSize="@dimen/px46" />
 
                     <RadioButton
                         android:id="@+id/radio_steal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/px20"
+                        android:layout_marginLeft="@dimen/px40"
                         android:layout_weight="1"
                         android:checked="false"
                         android:enabled="false"
                         android:text="@string/add_mode_steal"
-                        android:textSize="@dimen/px50" />
+                        android:textSize="@dimen/px46" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -194,19 +190,19 @@
                 android:id="@+id/layout_rssi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/px400"
-                android:layout_marginTop="@dimen/px60"
-                android:layout_marginRight="@dimen/px100"
+                android:layout_marginLeft="@dimen/px300"
+                android:layout_marginTop="@dimen/px40"
+                android:layout_marginRight="@dimen/px40"
                 android:orientation="vertical"
-                android:visibility="invisible">
+                android:visibility="visible">
 
                 <SeekBar
                     android:id="@+id/seekbar_dimming"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:max="2"
-                    android:maxHeight="@dimen/px45"
-                    android:minHeight="@dimen/px45"
+                    android:maxHeight="@dimen/px40"
+                    android:minHeight="@dimen/px40"
                     android:progress="0"
                     android:progressDrawable="@drawable/seek_progress"
                     android:splitTrack="false"
@@ -215,8 +211,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/px30"
-                    android:layout_marginRight="@dimen/px30"
+                    android:layout_marginTop="@dimen/px10"
+                    android:layout_marginLeft="@dimen/px20"
+                    android:layout_marginRight="@dimen/px20"
                     android:orientation="horizontal">
 
                     <TextView
@@ -226,7 +223,7 @@
                         android:gravity="left"
                         android:text="75dB"
                         android:textColor="#aaaaaa"
-                        android:textSize="@dimen/px40" />
+                        android:textSize="@dimen/px30" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -235,7 +232,7 @@
                         android:gravity="center"
                         android:text="85dB"
                         android:textColor="#aaaaaa"
-                        android:textSize="@dimen/px40" />
+                        android:textSize="@dimen/px30" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -244,7 +241,7 @@
                         android:gravity="right"
                         android:text="100dB"
                         android:textColor="#aaaaaa"
-                        android:textSize="@dimen/px40" />
+                        android:textSize="@dimen/px30" />
 
                 </LinearLayout>
 
@@ -253,21 +250,19 @@
             <TextView
                 android:id="@+id/btn_add"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px160"
-                android:layout_marginLeft="@dimen/px180"
-                android:layout_marginTop="@dimen/px60"
-                android:layout_marginRight="@dimen/px180"
-                android:layout_marginBottom="@dimen/px60"
+                android:layout_height="@dimen/px120"
+                android:layout_marginLeft="@dimen/px100"
+                android:layout_marginTop="@dimen/px40"
+                android:layout_marginRight="@dimen/px100"
+                android:layout_marginBottom="@dimen/px100"
                 android:background="@drawable/selector_btn_add_sensor"
                 android:gravity="center"
                 android:text="Save"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/px60" />
-
+                android:textSize="@dimen/px50" />
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 </RelativeLayout>

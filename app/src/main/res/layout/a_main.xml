@@ -14,7 +14,7 @@
         <kr.co.theunify.wear.view.TitlebarView
             android:id="@+id/v_titlebar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px200" />
+            android:layout_height="@dimen/px160" />
 
         <LinearLayout
             android:id="@+id/layout_wallet"
@@ -36,11 +36,10 @@
                     android:id="@+id/txt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/px20"
                     android:gravity="center"
                     android:text="HeyT-OB:C6:4F"
                     android:textColor="#554433"
-                    android:textSize="@dimen/px80" />
+                    android:textSize="@dimen/px60" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -53,16 +52,16 @@
 
                     <ImageView
                         android:id="@+id/move_left"
-                        android:layout_width="@dimen/px132"
-                        android:layout_height="@dimen/px261"
+                        android:layout_width="@dimen/px88"
+                        android:layout_height="@dimen/px174"
                         android:layout_marginLeft="@dimen/px20"
                         android:background="@drawable/arrow_left" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/px60"
-                        android:layout_marginRight="@dimen/px60"
+                        android:layout_marginLeft="@dimen/px30"
+                        android:layout_marginRight="@dimen/px30"
                         android:layout_weight="1"
                         android:background="@drawable/border_white_r30"
                         android:gravity="center"
@@ -78,16 +77,16 @@
 
                         <ImageView
                             android:id="@+id/img_battery"
-                            android:layout_width="@dimen/px265"
-                            android:layout_height="@dimen/px81"
+                            android:layout_width="@dimen/px177"
+                            android:layout_height="@dimen/px54"
                             android:layout_marginTop="@dimen/px10"
                             android:background="@drawable/ic_b1" />
                     </LinearLayout>
 
                     <ImageView
                         android:id="@+id/move_right"
-                        android:layout_width="@dimen/px132"
-                        android:layout_height="@dimen/px261"
+                        android:layout_width="@dimen/px88"
+                        android:layout_height="@dimen/px174"
                         android:layout_marginRight="@dimen/px20"
                         android:background="@drawable/arrow_right" />
                 </LinearLayout>
@@ -104,53 +103,48 @@
                         android:id="@+id/txt_page"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1/6"
+                        android:text="1/5"
                         android:textColor="#888888"
-                        android:textSize="@dimen/px50" />
+                        android:textSize="@dimen/px36" />
 
                     <!--페이지 Dot-->
                     <LinearLayout
                         android:id="@+id/layout_page"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/px70"
+                        android:layout_height="@dimen/px50"
                         android:background="#efefef"
                         android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="@dimen/px50"
-                            android:layout_height="@dimen/px50"
+                            android:layout_width="@dimen/px40"
+                            android:layout_height="@dimen/px40"
                             android:background="@drawable/bg_pager_big" />
 
                         <ImageView
-                            android:layout_width="@dimen/px40"
-                            android:layout_height="@dimen/px40"
+                            android:layout_width="@dimen/px34"
+                            android:layout_height="@dimen/px34"
                             android:layout_marginLeft="@dimen/px15"
                             android:background="@drawable/bg_pager_small" />
 
                         <ImageView
-                            android:layout_width="@dimen/px40"
-                            android:layout_height="@dimen/px40"
+                            android:layout_width="@dimen/px34"
+                            android:layout_height="@dimen/px34"
                             android:layout_marginLeft="@dimen/px15"
                             android:background="@drawable/bg_pager_small" />
 
                         <ImageView
-                            android:layout_width="@dimen/px40"
-                            android:layout_height="@dimen/px40"
+                            android:layout_width="@dimen/px34"
+                            android:layout_height="@dimen/px34"
                             android:layout_marginLeft="@dimen/px15"
                             android:background="@drawable/bg_pager_small" />
 
                         <ImageView
-                            android:layout_width="@dimen/px40"
-                            android:layout_height="@dimen/px40"
+                            android:layout_width="@dimen/px34"
+                            android:layout_height="@dimen/px34"
                             android:layout_marginLeft="@dimen/px15"
                             android:background="@drawable/bg_pager_small" />
 
-                        <ImageView
-                            android:layout_width="@dimen/px40"
-                            android:layout_height="@dimen/px40"
-                            android:layout_marginLeft="@dimen/px15"
-                            android:background="@drawable/bg_pager_small" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -160,8 +154,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/px140"
-                android:layout_marginRight="@dimen/px140"
+                android:layout_marginLeft="@dimen/px100"
+                android:layout_marginRight="@dimen/px100"
                 android:layout_weight="8"
                 android:orientation="vertical">
 
@@ -175,15 +169,15 @@
                         android:id="@+id/btn_find"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/px40"
+                        android:layout_margin="@dimen/px30"
                         android:layout_weight="1"
                         android:background="@drawable/selector_main_btn"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="@dimen/px96"
-                            android:layout_height="@dimen/px96"
+                            android:layout_width="@dimen/px98"
+                            android:layout_height="@dimen/px98"
                             android:background="@drawable/icon_sensor" />
 
                         <TextView
@@ -192,7 +186,7 @@
                             android:layout_marginTop="@dimen/px20"
                             android:text="Find Sensor"
                             android:textColor="#888888"
-                            android:textSize="@dimen/px60" />
+                            android:textSize="@dimen/px50" />
 
                     </LinearLayout>
 
@@ -200,15 +194,15 @@
                         android:id="@+id/btn_location"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/px40"
+                        android:layout_margin="@dimen/px30"
                         android:layout_weight="1"
                         android:background="@drawable/selector_main_btn"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="@dimen/px96"
-                            android:layout_height="@dimen/px96"
+                            android:layout_width="@dimen/px98"
+                            android:layout_height="@dimen/px98"
                             android:background="@drawable/icon_location" />
 
                         <TextView
@@ -217,7 +211,7 @@
                             android:layout_marginTop="@dimen/px20"
                             android:text="Location"
                             android:textColor="#888888"
-                            android:textSize="@dimen/px60" />
+                            android:textSize="@dimen/px50" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -232,15 +226,15 @@
                         android:id="@+id/btn_remove"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/px40"
+                        android:layout_margin="@dimen/px30"
                         android:layout_weight="1"
                         android:background="@drawable/selector_main_btn"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="@dimen/px96"
-                            android:layout_height="@dimen/px96"
+                            android:layout_width="@dimen/px98"
+                            android:layout_height="@dimen/px98"
                             android:background="@drawable/icon_wastebasket" />
 
                         <TextView
@@ -249,7 +243,7 @@
                             android:layout_marginTop="@dimen/px20"
                             android:text="Remove"
                             android:textColor="#888888"
-                            android:textSize="@dimen/px60" />
+                            android:textSize="@dimen/px50" />
 
                     </LinearLayout>
 
@@ -257,15 +251,15 @@
                         android:id="@+id/btn_setting"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/px40"
+                        android:layout_margin="@dimen/px30"
                         android:layout_weight="1"
                         android:background="@drawable/selector_main_btn"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="@dimen/px96"
-                            android:layout_height="@dimen/px96"
+                            android:layout_width="@dimen/px98"
+                            android:layout_height="@dimen/px98"
                             android:background="@drawable/icon_setting" />
 
                         <TextView
@@ -274,7 +268,7 @@
                             android:layout_marginTop="@dimen/px20"
                             android:text="Settings"
                             android:textColor="#888888"
-                            android:textSize="@dimen/px60" />
+                            android:textSize="@dimen/px50" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -286,7 +280,7 @@
         <LinearLayout
             android:id="@+id/layout_empty"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px1200"
+            android:layout_height="@dimen/px800"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone">
@@ -294,10 +288,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/px20"
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/px20"
-                android:text="추가된 Sensor가 없습니다.\n새로운 Sensor를 추가해 주세요."
+                android:text="추가된 Sensor가 없습니다.\nSensor를 추가해 주세요."
                 android:textColor="#666666"
                 android:textSize="@dimen/px60" />
 
@@ -306,15 +299,15 @@
         <TextView
             android:id="@+id/btn_add"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px180"
-            android:layout_marginLeft="@dimen/px180"
-            android:layout_marginRight="@dimen/px180"
-            android:layout_marginBottom="@dimen/px60"
+            android:layout_height="@dimen/px140"
+            android:layout_marginLeft="@dimen/px100"
+            android:layout_marginRight="@dimen/px100"
+            android:layout_marginBottom="@dimen/px50"
             android:background="@drawable/selector_btn_add_sensor"
             android:gravity="center"
             android:text="Tab + to add sensor"
             android:textColor="#ffffff"
-            android:textSize="@dimen/px60" />
+            android:textSize="@dimen/px50" />
     </LinearLayout>
 
 
