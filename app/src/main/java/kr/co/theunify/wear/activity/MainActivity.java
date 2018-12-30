@@ -2,7 +2,6 @@ package kr.co.theunify.wear.activity;
 
 import android.Manifest;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -214,20 +213,7 @@ public class MainActivity extends BaseActivity {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-//            PowerManager powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
-//            if(!powerManager.isScreenOn()) {
-//                PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "WALLET");
-//                wakeLock.acquire();
-//                wakeLock.release();
-//            }
-
-            //setTurnScreenOn(true);
-            //setShowWhenLocked(true);
-//            mSensorAdapter.notifyDataSetChanged();
-
-            //final AlertDialog mDlgDisconnected = new AlertDialog.Builder(MainActivity.this).create();
-            //mDlgDisconnected.setTitle("연결 끊김");
-            mDlgDisconnected = Utils.showPopupDlg(this, "", "[" + sensorName + "] 센서와 연결이 끊어졌습니다.",
+            mDlgDisconnected = Utils.showPopupDlg(this, "", "[" + sensorName + "] " + getString(R.string.alert_msg_lost_sensor),
                     getString(R.string.ok), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -289,15 +275,6 @@ public class MainActivity extends BaseActivity {
                 else {
                     ULog.i(TAG, "onCreateByIntent() - Location Providers are NOT Enabled");
                     showAlertPopup("", "위치 제공자 비활성화", getResources().getString(R.string.ok), null, "");
-//                    final AlertDialog dlgAlert = new AlertDialog.Builder(MainActivity.this).create();
-//                    dlgAlert.setMessage("위치 제공자 비활성화");
-//                    dlgAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dlgAlert.dismiss();
-//                        }
-//                    });
-//                    dlgAlert.show();
                     return;
                 }
 
@@ -341,15 +318,6 @@ public class MainActivity extends BaseActivity {
 
                 ULog.i(TAG, "onCreateByIntent() - Location Permission is not Granted");
                 showAlertPopup("", "위치 정보 권한 없음", getResources().getString(R.string.ok), null, "");
-//                final AlertDialog dlgAlert = new AlertDialog.Builder(MainActivity.this).create();
-//                dlgAlert.setMessage("위치 정보 권한 없음");
-//                dlgAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dlgAlert.dismiss();
-//                    }
-//                });
-//                dlgAlert.show();
             }
             // 연결이 끊어졌을 때의 위치를 확인한다.
             //============================================================
@@ -365,29 +333,8 @@ public class MainActivity extends BaseActivity {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-//            PowerManager powerManager = (PowerManager)getSystemService(Context.POWER_SERVICE);
-//            if(!powerManager.isScreenOn()) {
-//                PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "WALLET");
-//                wakeLock.acquire();
-//                wakeLock.release();
-//            }
-
-            //setTurnScreenOn(true);
-            //setShowWhenLocked(true);
-
-            //final AlertDialog mDlgFindPhone = new AlertDialog.Builder(MainActivity.this).create();
-            //mDlgHFindPhone.setTitle("휴대폰 찾기");
-            mDlgFindPhone = Utils.showPopupDlg(this, "", "[" + sensorName + "] 센서에서\n휴대폰을 찾습니다.",
+            mDlgFindPhone = Utils.showPopupDlg(this, "", "[" + sensorName + "] " + getString(R.string.alert_msg_find_sensor),
                     getString(R.string.ok), null, "", null, null);
-//            mDlgFindPhone.setMessage();
-//            mDlgFindPhone.setButton(AlertDialog.BUTTON_NEUTRAL, "확인", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    mDlgFindPhone.dismiss();
-//                    mDlgFindPhoneOn = false;
-//                    mApp.stopAlarm2();
-//                }
-//            });
             mDlgFindPhone.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -564,13 +511,15 @@ public class MainActivity extends BaseActivity {
     public void onClickMove(View v) {
         if (v.getId() == R.id.move_left) {
             if (mApp.getCurPosition() != 0) {
-                mApp.setCurSensor(mApp.getCurPosition()-1);
-                updatePage(mApp.getCurPosition());
+                pager_main.setCurrentItem(mApp.getCurPosition()-1);
+//                mApp.setCurSensor(mApp.getCurPosition()-1);
+//                updatePage(mApp.getCurPosition());
             }
         } else if (v.getId() == R.id.move_right) {
             if (mApp.getCurPosition() < mApp.getSensorCount()-1) {
-                mApp.setCurSensor(mApp.getCurPosition()+1);
-                updatePage(mApp.getCurPosition());
+                pager_main.setCurrentItem(mApp.getCurPosition()+1);
+//                mApp.setCurSensor(mApp.getCurPosition()+1);
+//                updatePage(mApp.getCurPosition());
             }
         }
     }
@@ -633,6 +582,10 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+        pager_main.setCurrentItem(mApp.getCurPosition());
+        if (mApp.getCurPosition() != -1) {
+            updatePage(mApp.getCurPosition());
+        }
     }
 
     /**
@@ -865,31 +818,18 @@ public class MainActivity extends BaseActivity {
     Runnable needRestart = new Runnable(){
         @Override
         public void run(){
-            AlertDialog alertDialog = null;
-            AlertDialog.Builder alertDialogBuilder = null;
-            alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-            alertDialogBuilder
-                    .setCancelable(false)
-                    .setPositiveButton("앱 재시작",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    restartApp(1000*2);
-                                }
-                            }
-                    )
-                    .setNegativeButton("앱 종료",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
-                                    dialog.cancel();
-                                    finishApp();
-                                }
-                            }
-                    );
-            alertDialog = alertDialogBuilder.create();
-            alertDialog.setTitle("블루투스 상태변화");
-            alertDialog.setMessage("앱을 다시 실행하셔야 합니다.");
-            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-            alertDialog.show();
+            Utils.showPopupDlg(MainActivity.this, "블루투스 상태변화", "앱을 다시 실행하셔야 합니다.",
+                    "앱 재시작", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            restartApp(1000 * 2);
+                        }
+                    }, "앱 종료", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finishApp();
+                        }
+                    }, null);
         }
     };
 }

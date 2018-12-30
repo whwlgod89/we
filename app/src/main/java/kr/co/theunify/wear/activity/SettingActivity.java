@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
@@ -78,26 +79,17 @@ public class SettingActivity extends BaseActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     final Context context = getActivity();
-                    final AlertDialog dlgConfirm = new AlertDialog.Builder(context).create();
-                    dlgConfirm.setMessage(getString(R.string.pref_confirm_app_control_restart));
-                    dlgConfirm.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dlgConfirm.dismiss();
-                            ULog.i(TAG, "RESTART..." + getActivity().getLocalClassName());
-                            Const.mRestartApp = true;
-                            getActivity().setResult(Const.RESULT_CODE_OF_RESTART_APP);
-                            getActivity().finish();
-                        }
-                    });
-                    dlgConfirm.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dlgConfirm.dismiss();
-                        }
-                    });
 
-                    dlgConfirm.show();
+                    ((BaseActivity)getActivity()).showAlertPopup("", getString(R.string.pref_confirm_app_control_restart),
+                            getResources().getString(R.string.ok), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ULog.i(TAG, "RESTART..." + getActivity().getLocalClassName());
+                                    Const.mRestartApp = true;
+                                    getActivity().setResult(Const.RESULT_CODE_OF_RESTART_APP);
+                                    getActivity().finish();
+                                }
+                            }, getString(R.string.cancel));
                     return true;
                 }
             });
@@ -108,26 +100,16 @@ public class SettingActivity extends BaseActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     final Context context = getActivity();
-                    final AlertDialog dlgConfirm = new AlertDialog.Builder(context).create();
-                    dlgConfirm.setMessage(getString(R.string.pref_confirm_app_control_finish));
-                    dlgConfirm.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dlgConfirm.dismiss();
-                            ULog.i(TAG, "RESTART..." + getActivity().getLocalClassName());
-                            Const.mFinishApp = true;
-                            getActivity().setResult(Const.RESULT_CODE_OF_FINISH_APP);
-                            getActivity().finish();
-                        }
-                    });
-                    dlgConfirm.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dlgConfirm.dismiss();
-                        }
-                    });
-
-                    dlgConfirm.show();
+                    ((BaseActivity)getActivity()).showAlertPopup("", getString(R.string.pref_confirm_app_control_finish),
+                            getResources().getString(R.string.ok), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ULog.i(TAG, "RESTART..." + getActivity().getLocalClassName());
+                                    Const.mFinishApp = true;
+                                    getActivity().setResult(Const.RESULT_CODE_OF_FINISH_APP);
+                                    getActivity().finish();
+                                }
+                            }, getString(R.string.cancel));
                     return true;
                 }
             });

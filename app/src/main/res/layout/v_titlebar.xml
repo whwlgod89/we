@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="지갑추가"
+            android:text="@string/title_search"
             android:textColor="#353535"
             android:textSize="@dimen/px60"
             android:visibility="gone" />

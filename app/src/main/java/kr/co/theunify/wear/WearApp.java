@@ -49,10 +49,10 @@ public class WearApp extends Application {
         ULog.i(TAG, "onCreateApp SensorService=" + ((mService == null) ? "NULL" : mService));
 
         // 테스트 센서 추가
-        addSensor("HT-AAAA_01", "Mama's Wallet", "010-1111-1111", 0, -100);
-        addSensor("HT-AAAA_02", "Papa's Wallet", "010-1111-1111", 0, -100);
-        addSensor("HT-AAAA_03", "Tomi's Wallet", "010-1111-1111", 0, -100);
-        addSensor("HT-AAAA_04", "Jack's Wallet", "010-1111-1111", 0, -100);
+//        addSensor("HT-AAAA_01", "Mama's Wallet", "010-1111-1111", 0, -100);
+//        addSensor("HT-AAAA_02", "Papa's Wallet", "010-1111-1111", 0, -100);
+//        addSensor("HT-AAAA_03", "Tomi's Wallet", "010-1111-1111", 0, -100);
+//        addSensor("HT-AAAA_04", "Jack's Wallet", "010-1111-1111", 0, -100);
     }
 
     /**
@@ -80,10 +80,9 @@ public class WearApp extends Application {
         mService.removeSensor(mCurSensor);
         mAllSensors.remove(mCurSensor);
         deleteSensor();
+
         // 현재 센서 위치 지정
-        if (mAllSensors.size()>0){
-            setCurSensor(0);
-        }
+        setCurSensor(0);
     }
 
     /**

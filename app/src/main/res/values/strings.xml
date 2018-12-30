@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wear</string>
+    <string name="app_name">WEAR</string>
 
     <!-- Strings in Splash Activity -->
     <string name="BLE_not_supported">BLE is not supported.</string>
@@ -12,9 +12,11 @@
     <string name="error_grant_permission">권한 승인 후 이용이 가능합니다.</string>
 
     <!-- Widgets in Main Activity -->
-    <string name="title_main">Wear</string>
+    <string name="title_main">WEAR</string>
     <string name="title_sensor_full">Sensor Count</string>
     <string name="msg_sensor_full">You can use max 5 sensors</string>
+
+    <string name="no_add_sensor">No Added Sensor\nPlease, add Sensor</string>
 
     <!-- Widgets in Search Activity -->
     <string name="title_search">Add Wallet</string>
@@ -63,6 +65,7 @@
     <string name="edit_wallet">Apply</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="msg_check_device">Select Wallet Device</string>
     <string name="msg_check_name">Enter Wallet Name</string>
     <string name="msg_check_phone">Enter Phone Number</string>
     <string name="title_confirm_register">Register</string>
@@ -116,8 +119,8 @@
     <string name="pref_summary_app_control_finish">Finish app completely including service.</string>
     <string name="pref_confirm_app_control_finish">Are you sure to finish Wear?</string>
 
-    <string name="pref_app_control_restart">App을 다시 시작합니다.</string>
-    <string name="pref_app_control_finish">App을 완전히 종료합니다.</string>
+    <string name="pref_app_control_restart">Restart app.</string>
+    <string name="pref_app_control_finish">Finish app.</string>
 
     <string name="pref_title_show_guide_category">Help</string>
     <string name="pref_title_show_guide">Wear Guide</string>
@@ -125,18 +128,7 @@
 
     <string name="title_activity_sensor_info">Sensor Information</string>
 
-
-
-    <string name="add_title">지갑추가 </string>
-    <string name="add_name">지갑 이름</string>
-    <string name="add_sensor">센서 이름</string>
-    <string name="add_phone">전화 번호</string>
-    <string name="add_mode">동작 모드</string>
-    <string name="add_mode_lost">분실 방지</string>
-    <string name="add_mode_steal">도난 방지</string>
-    <string name="add_button">add sensor</string>
-
-    <string name="modify_button">수정하기</string>
-
+    <string name="alert_msg_lost_sensor">Disconnected Sensor</string>
+    <string name="alert_msg_find_sensor">Find From Sensor</string>
 
 </resources>

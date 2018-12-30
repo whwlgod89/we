@@ -9,12 +9,12 @@ import kr.co.theunify.wear.utils.Utils;
 
 public class BaseActivity extends AppCompatActivity {
 
-    public CommonDialog mAlertDialog = null;
+    public CommonDialog mPopDialog = null;
 
     public CommonDialog showAlertPopup(String title, String desc, String ok, View.OnClickListener okListener, String cancel ) {
-        mAlertDialog = Utils.showPopupDlg(this, title, desc,
+        mPopDialog = Utils.showPopupDlg(this, title, desc,
                 ok, okListener,
                 cancel, null, null);
-        return  mAlertDialog;
+        return  mPopDialog;
     }
 }

@@ -290,7 +290,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/px20"
-                android:text="추가된 Sensor가 없습니다.\nSensor를 추가해 주세요."
+                android:text="@string/no_add_sensor"
                 android:textColor="#666666"
                 android:textSize="@dimen/px60" />
 

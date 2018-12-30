@@ -60,9 +60,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/px300"
+                    android:layout_width="@dimen/px350"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_name"
+                    android:text="@string/sensor_name"
                     android:textSize="@dimen/px50" />
 
                 <LinearLayout
@@ -81,7 +81,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:enabled="false"
-                        android:hint="@string/add_sensor"
+                        android:hint="@string/hint_sensor_name"
                         android:inputType="text"
                         android:maxLength="15"
                         android:textSize="@dimen/px50" />
@@ -106,9 +106,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/px300"
+                    android:layout_width="@dimen/px350"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_phone"
+                    android:text="@string/phone_no"
                     android:textSize="@dimen/px50" />
 
                 <LinearLayout
@@ -127,7 +127,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:enabled="false"
-                        android:hint="@string/add_phone"
+                        android:hint="@string/hint_phone_number"
                         android:inputType="phone"
                         android:maxLength="16"
                         android:textSize="@dimen/px50" />
@@ -151,16 +151,16 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/px300"
+                    android:layout_width="@dimen/px350"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_mode"
+                    android:text="@string/action_mode"
                     android:textSize="@dimen/px50" />
 
                 <RadioGroup
                     android:id="@+id/rg_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <RadioButton
                         android:id="@+id/radio_lost"
@@ -169,18 +169,17 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:enabled="false"
-                        android:text="@string/add_mode_lost"
+                        android:text="@string/action_loss"
                         android:textSize="@dimen/px46" />
 
                     <RadioButton
                         android:id="@+id/radio_steal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/px40"
                         android:layout_weight="1"
                         android:checked="false"
                         android:enabled="false"
-                        android:text="@string/add_mode_steal"
+                        android:text="@string/action_theft"
                         android:textSize="@dimen/px46" />
                 </RadioGroup>
 

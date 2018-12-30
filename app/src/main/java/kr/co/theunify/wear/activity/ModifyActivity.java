@@ -129,15 +129,15 @@ public class ModifyActivity extends BaseActivity {
 
         String name = edt_name.getText().toString();
         if (UString.isEmpty(name)) {
-            Toast.makeText(mContext, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getString(R.string.msg_check_name), Toast.LENGTH_SHORT).show();
             return;
         }
 
         String phone = edt_phone.getText().toString();
-        if (UString.isEmpty(phone)) {
-            Toast.makeText(mContext, "전화번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (UString.isEmpty(phone)) {
+//            Toast.makeText(mContext, "전화번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         int mode = (rg_mode.getCheckedRadioButtonId() == R.id.radio_lost) ? Const.ACTION_MODE_LOSS : Const.ACTION_MODE_THEFT;
         int rssi = Const.THEFT_LEVEL_HIGH;
@@ -168,7 +168,7 @@ public class ModifyActivity extends BaseActivity {
         initTitle();
 
         layout_list.setVisibility(View.GONE);
-        btn_add.setText(getResources().getString(R.string.modify_button));
+        btn_add.setText(getResources().getString(R.string.modify));
 
         edt_name.setText(mSensor.getSensorName());
         edt_phone.setText(mSensor.getPhoneNumber());
@@ -198,7 +198,7 @@ public class ModifyActivity extends BaseActivity {
 
     private void initTitle() {
         v_titlebar.setTitleVisible(View.VISIBLE);
-        v_titlebar.setTitle("지갑수정");
+        v_titlebar.setTitle(getString(R.string.title_modify));
         v_titlebar.setBackVisible(View.VISIBLE);
     }
 

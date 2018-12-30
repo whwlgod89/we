@@ -55,7 +55,7 @@
                 android:background="@drawable/selector_popup_cancel"
                 android:clickable="true"
                 android:gravity="center"
-                android:text="취소"
+                android:text="@string/cancel"
                 android:textColor="@drawable/selector_popup_cancel_txt"
                 android:textSize="@dimen/px46"
                 app:clickable="true" />
@@ -70,7 +70,7 @@
                 android:background="@drawable/selector_popup_ok"
                 android:clickable="true"
                 android:gravity="center"
-                android:text="확인"
+                android:text="@string/ok"
                 android:textColor="@drawable/selector_popup_ok_txt"
                 android:textSize="@dimen/px46"
                 app:clickable="true" />
