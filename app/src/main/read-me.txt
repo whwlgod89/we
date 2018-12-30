@@ -1,0 +1,13 @@
+﻿theUnify google 계정
+
+https://play.google.com/apps/publish
+
+계정 : theunify.mobile@gmail.com
+비밀번호 : tunf_0622
+IOS     Tunf_0622
+
+
+key : theunify
+key alias : wear
+key store password : wear123
+

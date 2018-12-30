@@ -147,7 +147,7 @@ public class SplashActivity extends BaseActivity {
     @SuppressLint("NewApi")
     private void checkPermission() {
         if (checkCallingOrSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED
-                || checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+//                || checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
                 || checkCallingOrSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || checkCallingOrSelfPermission(Manifest.permission.DISABLE_KEYGUARD) != PackageManager.PERMISSION_GRANTED
 
@@ -163,7 +163,7 @@ public class SplashActivity extends BaseActivity {
 
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.INTERNET,
-                    Manifest.permission.READ_PHONE_STATE,
+//                    Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.DISABLE_KEYGUARD,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -192,8 +192,8 @@ public class SplashActivity extends BaseActivity {
                         grantResults[6] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[7] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[8] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[9] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[10] == PackageManager.PERMISSION_GRANTED ) {
+                        grantResults[9] == PackageManager.PERMISSION_GRANTED/* &&
+                        grantResults[10] == PackageManager.PERMISSION_GRANTED */) {
                     initView();
                 } else {
                     showAlertPopup("", getResources().getString(R.string.error_grant_permission), getResources().getString(R.string.ok), new View.OnClickListener() {
