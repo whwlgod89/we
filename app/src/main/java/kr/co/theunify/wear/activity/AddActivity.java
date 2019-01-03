@@ -37,9 +37,9 @@ import kr.co.theunify.wear.view.TitlebarView;
 /**
  * 지갑 추가 화면
  */
-public class WalletActivity extends BaseActivity {
+public class AddActivity extends BaseActivity {
 
-    private String TAG = WalletActivity.class.getSimpleName();
+    private String TAG = AddActivity.class.getSimpleName();
 
 
     //********************************************************************************

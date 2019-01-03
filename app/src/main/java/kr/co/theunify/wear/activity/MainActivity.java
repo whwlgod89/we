@@ -467,7 +467,7 @@ public class MainActivity extends BaseActivity {
 //            showAddSensor(false);       // Show/Hide Widgets for Add Sensor
         } else {
             Intent i = new Intent();
-            i.setClass(this, WalletActivity.class);
+            i.setClass(this, AddActivity.class);
             startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
         }
     }
