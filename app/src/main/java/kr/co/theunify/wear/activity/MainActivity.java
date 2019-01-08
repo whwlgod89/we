@@ -283,8 +283,11 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onLocationChanged(Location location) {
                         ULog.i(TAG, "onLocationChanged(): Lat=" + location.getLatitude() + ", Lon=" + location.getLongitude() + ", Provider=" + location.getProvider());
-                        mApp.getSensor(sensorName).getInfo().setLocation(location.getLatitude(), location.getLongitude());
-                        mApp.updateSensor(mApp.getSensor(sensorName));
+                        Sensor sensor = mApp.getSensor(sensorName);
+                        if (sensor.getLatitude() == 0 && sensor.getLongitude() == 0) {
+                            mApp.getSensor(sensorName).getInfo().setLocation(location.getLatitude(), location.getLongitude());
+                            mApp.updateSensorLoc(mApp.getSensor(sensorName));
+                        }
                         mLocManager.removeUpdates(mLocListener);
                     }
 
@@ -767,7 +770,7 @@ public class MainActivity extends BaseActivity {
                         if (sensor != null) {
                             if (sensor.getLatitude() != 0 || sensor.getLongitude() != 0) {
                                 sensor.getInfo().setLocation(0, 0);
-                                mApp.updateSensor(sensor);
+                                mApp.updateSensorLoc(sensor);
                             }
                         }
                         //ULog.i(TAG, "Broadcast Receiver. Action=" + action);

@@ -172,12 +172,21 @@ public class WearApp extends Application {
     }
 
     /**
-     * 센서 업데이트 하기
+     * 센서 기본정보 업데이트 하기
      * @param sensor
      */
     public void updateSensor(Sensor sensor) {
         ULog.i(TAG, "Update Sensor in Database = " + sensor.toShortString());
         mDB.updateSensor(sensor.getInfo());
+    }
+
+    /**
+     * 센서 위치정보 업데이트 하기
+     * @param sensor
+     */
+    public void updateSensorLoc(Sensor sensor) {
+        ULog.i(TAG, "Update Sensor in Database = " + sensor.toShortString());
+        mDB.updateSensorLoc(sensor.getInfo());
     }
 
     /**
