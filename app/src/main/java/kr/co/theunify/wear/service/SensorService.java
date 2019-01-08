@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -57,8 +58,10 @@ public class SensorService extends Service {
     private Handler hRingTone;
     private Handler hVibe;
     private Vibrator mVibe;
-    private MediaPlayer mMp;
+    private MediaPlayer mediaPlayer;
     private RingtoneManager mRingtoneMgr;
+    private AudioManager audioManager;
+    private int beforeAudioVolume;        //이전 오디오 볼륨
 
     //BO: Alarm (Sound + Vibrate)
     private boolean mAlarmVibrate = false;
@@ -97,7 +100,9 @@ public class SensorService extends Service {
 //        }
 
         mRingtoneMgr = new RingtoneManager(getApplicationContext());
-        mMp = MediaPlayer.create(this,RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
+        mediaPlayer = MediaPlayer.create(this,RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         mVibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         //Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         if(hVibe == null) {
@@ -399,14 +404,16 @@ public class SensorService extends Service {
             else {
                 mAlarmUri = Uri.parse(strAlarm);
             }
-            mMp = MediaPlayer.create(this, mAlarmUri);
+            mediaPlayer = MediaPlayer.create(this, mAlarmUri);
         }
         ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
 
         if(mAlarmSound || mAlarmVibrate) {
             if(mAlarmSound) {
-                mMp.setLooping(true);
-                mMp.start();
+                beforeAudioVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
             }
             mApp.setAlarmState(true);
             mAlarmTimer.start();
@@ -419,11 +426,12 @@ public class SensorService extends Service {
         mAlarmTimer.cancel();
         mApp.setAlarmState(false);
         //hAlarm.removeCallbacks(iAlarm);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, beforeAudioVolume,0);
 
-        if(mAlarmSound && mMp != null) {
-            mMp.stop();
-            mMp.release();
-            mMp = null;
+        if(mAlarmSound && mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
 
         if(mAlarmVibrate) {
@@ -498,13 +506,15 @@ public class SensorService extends Service {
                 ULog.i(TAG,"RING TONE IS NULL....");
             }else {
                 //if(ringToneUri != null && mRingtoneMgr != null) {
-                //    mMp = MediaPlayer.create(this,ringToneUri);
+                //    mediaPlayer = MediaPlayer.create(this,ringToneUri);
                 if(defaultRingtoneUri != null && mRingtoneMgr != null) {
-                    mMp = MediaPlayer.create(this, defaultRingtoneUri);
-                    if(mMp == null) {
+                    mediaPlayer = MediaPlayer.create(this, defaultRingtoneUri);
+                    if(mediaPlayer == null) {
                         ULog.i(TAG,"MEDIA PLAYER IS NULL....");
                         bSoundEn = false;
                     }else {
+                        beforeAudioVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
                     }
                 }else {
                     ULog.i(TAG,"RING TONE or RingtoneMgr IS NULL....");
@@ -534,10 +544,10 @@ public class SensorService extends Service {
         }else {
             hRingTone.removeCallbacks(iRingTone);
             mRingtoneTimer.cancel();
-            if(mMp != null) {
-                mMp.stop();
-                mMp.release();
-                mMp = null;
+            if(mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer = null;
             }
         }
     }
@@ -571,9 +581,9 @@ public class SensorService extends Service {
                 mApp.setAlarmState(false);
 
                 if(mAlarmSound) {
-                    mMp.stop();
-                    mMp.release();
-                    mMp = null;
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
                 }
 
                 if(mAlarmVibrate) {
@@ -622,9 +632,9 @@ public class SensorService extends Service {
 
     private CountDownTimer mRingtoneTimer = new CountDownTimer(1000*30, 2000) {
         public void onTick(long millisUntilFinished) {
-            if(mMp != null && !mMp.isPlaying()) {
+            if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
                 Log.w(TAG, "Alarm Sound play...");
-                mMp.start();
+                mediaPlayer.start();
             }
         }
         public void onFinish() {
@@ -632,11 +642,11 @@ public class SensorService extends Service {
             if(mSoundLoopCount<= mSoundFinishCount) {
                 mSoundFinishCount= 0;
 
-                if (mMp != null) {
+                if (mediaPlayer != null) {
                     Log.w(TAG, "Alarm Sound stop...");
-                    mMp.pause();
-                    //mMp.stop();
-                    //mMp.release();
+                    mediaPlayer.pause();
+                    //mediaPlayer.stop();
+                    //mediaPlayer.release();
                 }
                 switch(mAlarmHowOften) {
                     case 0: /*one time*/
