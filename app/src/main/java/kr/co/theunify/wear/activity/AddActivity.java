@@ -48,7 +48,7 @@ public class AddActivity extends BaseActivity {
 
     @BindView(R.id.v_titlebar)              TitlebarView v_titlebar;
 
-    // 리스트
+     // 리스트
     @BindView(R.id.txt_empty)               TextView    txt_empty;
     @BindView(R.id.list_sensor)				ListView	list_sensor;
 

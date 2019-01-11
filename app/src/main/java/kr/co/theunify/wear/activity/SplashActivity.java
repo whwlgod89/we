@@ -61,6 +61,7 @@ public class SplashActivity extends BaseActivity {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.BLE_not_supported, Toast.LENGTH_SHORT).show();
             finish();
+            return;
         }
 
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
@@ -70,6 +71,7 @@ public class SplashActivity extends BaseActivity {
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, R.string.BLE_not_supported, Toast.LENGTH_SHORT).show();
             finish();
+            return;
         }
 
         if (!mBluetoothAdapter.isEnabled()) {
