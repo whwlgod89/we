@@ -52,23 +52,31 @@ public class MainPagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.item_main_pager, null);
 
-        Sensor sensor = mList.get(mPosition);
+        if (mList != null) {
+            Sensor sensor = mList.get(mPosition);
 
-        ImageView iv_new = (ImageView) v.findViewById(R.id.iv_new);
-        iv_new.setVisibility(View.GONE);
+            ImageView iv_new = (ImageView) v.findViewById(R.id.iv_new);
+            iv_new.setVisibility(View.GONE);
 
-        ImageView iv_wallet = (ImageView) v.findViewById(R.id.iv_wallet);
+            ImageView iv_wallet = (ImageView) v.findViewById(R.id.iv_wallet);
 
-        if (sensor.getConnectState() == Sensor.CONNECT_STATE.CONNECTED.ordinal()) {
-            int resource = R.drawable.purse_00;
-            switch (mPosition%3) {
-                case 0: resource = R.drawable.purse_00; break;
-                case 1: resource = R.drawable.purse_01; break;
-                case 2: resource = R.drawable.purse_02; break;
+            if (sensor.getConnectState() == Sensor.CONNECT_STATE.CONNECTED.ordinal()) {
+                int resource = R.drawable.purse_00;
+                switch (mPosition % 3) {
+                    case 0:
+                        resource = R.drawable.purse_00;
+                        break;
+                    case 1:
+                        resource = R.drawable.purse_01;
+                        break;
+                    case 2:
+                        resource = R.drawable.purse_02;
+                        break;
+                }
+                iv_wallet.setBackgroundResource(resource);
+            } else {
+                iv_wallet.setBackgroundResource(R.drawable.purse_03);
             }
-            iv_wallet.setBackgroundResource(resource);
-        } else {
-            iv_wallet.setBackgroundResource(R.drawable.purse_03);
         }
 
         return v;
