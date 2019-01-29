@@ -81,8 +81,7 @@ public class Sensor implements Serializable {
     // AddSensor 에서 센서 추가
     public Sensor(Context context, String sensorId, String sensorName, String phoneNumber, int actionMode, int rssi) {
         this.mContext = context;
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
+        final BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
         if (mBluetoothAdapter != null) {
             mAutoHandler = new Handler();
