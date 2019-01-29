@@ -36,6 +36,7 @@ public class Const {
     // 센서 추가 전달 Intent Parameter Keys
     public static final String SENSOR_ID = "SENSOR_ID";
     public static final String SENSOR_NAME = "SENSOR_NAME";
+    public static final String WEAR_NAME = "WEAR_NAME";
     public static final String PHONE_NUMBER = "PHONE_NUMBER";
     public static final String ACTION_MODE = "ACTION_MODE";
     public static final String RSSI = "THEFT_RSSI";

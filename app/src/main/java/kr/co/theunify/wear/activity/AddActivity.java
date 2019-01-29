@@ -54,6 +54,7 @@ public class AddActivity extends BaseActivity {
 
     // 이름 입력
     @BindView(R.id.edt_name)				EditText	edt_name;
+    @BindView(R.id.edt_Wear_name)           EditText edt_Wear_name;
     @BindView(R.id.del_name)                ImageView   del_name;
 
     // 전화번호 입력
@@ -196,8 +197,9 @@ public class AddActivity extends BaseActivity {
         mAdapter.setSelected(position);
         BluetoothDevice device = mAdapter.getItem(position);
         if (device != null) {
-            edt_name.setEnabled(true);
+            edt_name.setEnabled(false);
             edt_phone.setEnabled(true);
+            edt_Wear_name.setEnabled(true);
             radio_lost.setEnabled(true);
             radio_steal.setEnabled(true);
 
@@ -238,6 +240,7 @@ public class AddActivity extends BaseActivity {
         }
 
         String name = edt_name.getText().toString();
+        String wear_name = edt_Wear_name.getText().toString();
         if (UString.isEmpty(name)) {
             Toast.makeText(mContext, getString(R.string.msg_check_name), Toast.LENGTH_SHORT).show();
             return;
@@ -257,7 +260,7 @@ public class AddActivity extends BaseActivity {
             }
         }
 
-        addSensor(device, name, phone, mode, rssi);
+        addSensor(device, name, wear_name ,phone, mode, rssi);
 
     }
 
@@ -334,6 +337,8 @@ public class AddActivity extends BaseActivity {
         list_sensor.setVisibility(View.GONE);
     }
 
+
+
     /**
      * 센서 추가하기 - 메시지 확인 후 추가
      * @param device
@@ -342,7 +347,7 @@ public class AddActivity extends BaseActivity {
      * @param mode
      * @param rssi
      */
-    private void addSensor(final BluetoothDevice device, final String name, final String phone, final int mode, final int rssi) {
+    private void addSensor(final BluetoothDevice device, final String name, final String wear_name,final String phone, final int mode, final int rssi) {
         Utils.showPopupDlg(this, getString(R.string.title_confirm_register), getString(R.string.msg_confirm_register),
                 getResources().getString(R.string.ok), new View.OnClickListener() {
                     @Override
@@ -350,6 +355,7 @@ public class AddActivity extends BaseActivity {
                         Intent intent = new Intent();
                         intent.putExtra(Const.SENSOR_ID, device.getAddress());
                         intent.putExtra(Const.SENSOR_NAME, name);
+                        intent.putExtra(Const.WEAR_NAME,wear_name);
                         intent.putExtra(Const.PHONE_NUMBER, phone);
                         intent.putExtra(Const.ACTION_MODE, mode);
                         intent.putExtra(Const.RSSI, rssi);
@@ -368,7 +374,7 @@ public class AddActivity extends BaseActivity {
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
-            v_titlebar.setSearchImg(R.drawable.top_search_dis);
+            v_titlebar.setSearchImg(R.drawable.anim_search);
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);

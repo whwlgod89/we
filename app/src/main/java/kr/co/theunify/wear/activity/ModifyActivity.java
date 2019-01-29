@@ -39,6 +39,7 @@ public class ModifyActivity extends BaseActivity {
 
     @BindView(R.id.layout_list)               LinearLayout    layout_list;
     @BindView(R.id.edt_name)				EditText	edt_name;
+    @BindView(R.id.edt_Wear_name)           EditText    edt_Wear_name;
     @BindView(R.id.edt_phone)				EditText	edt_phone;
     @BindView(R.id.rg_mode)                 RadioGroup  rg_mode;
     @BindView(R.id.radio_lost)				RadioButton	radio_lost;
@@ -199,7 +200,8 @@ public class ModifyActivity extends BaseActivity {
 
         }
 
-        edt_name.setEnabled(true);
+        edt_name.setEnabled(false);
+        edt_Wear_name.setEnabled(true);
         edt_phone.setEnabled(true);
         radio_lost.setEnabled(true);
         radio_steal.setEnabled(true);
