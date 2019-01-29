@@ -17,6 +17,11 @@
     <string name="title_main">WEAR</string>
     <string name="title_sensor_full">개수 제한</string>
     <string name="msg_sensor_full">최대 5개까지만 추가할 수 있습니다.</string>
+    <string name="btn_find_sensor">웨어 찾기</string>
+    <string name="btn_location_sensor">웨어 위치</string>
+    <string name="btn_modify_sensor">웨어 수정</string>
+    <string name="btn_info_sensor">사용법</string>
+    <string name="btn_add_sensor">내 웨어 추가</string>
 
     <string name="no_add_sensor">추가된 센서가 없습니다.\n센서를 추가해 주세요.</string>
 
@@ -58,10 +63,12 @@
     <string name="title_modify">지갑 수정</string>
     <string name="sensor_id">지갑 ID:</string>
     <string name="sensor_name">지갑 이름:</string>
+    <string name="wear_name">웨어 이름:</string>
     <string name="my_wallet">나의 지갑</string>
     <string name="phone_no">전화 번호:</string>
     <string name="action_mode">동작 모드:</string>
     <string name="action_loss">분실 방지</string>
+    <string name="select_wear">웨어 선택 : </string>
     <string name="action_theft">도난 방지</string>
     <string name="register">등록</string>
     <string name="modify">수정</string>
@@ -85,6 +92,7 @@
     <string name="cmd_stop">중지</string>
     <string name="hint_sensor_id">센서 주소</string>
     <string name="hint_sensor_name">센서 이름</string>
+    <string name="hint_wear_name">웨어 이름</string>
     <string name="hint_phone_number">전화 번호</string>
     <string name="start_detect_sensor">검색중입니다.</string>
     <string name="no_detect_sensor">검색된 센서가 없습니다.\n검색버튼을 눌러 다시 검색해 주세요.</string>

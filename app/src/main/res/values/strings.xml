@@ -15,8 +15,13 @@
     <string name="title_main">WEAR</string>
     <string name="title_sensor_full">Sensor Count</string>
     <string name="msg_sensor_full">You can use max 5 sensors</string>
+    <string name="btn_find_sensor">웨어 찾기</string>
+    <string name="btn_location_sensor">웨어 위치</string>
+    <string name="btn_modify_sensor">웨어 수정</string>
+    <string name="btn_info_sensor">사용법</string>
+    <string name="btn_add_sensor">내 웨어 추가</string>
 
-    <string name="no_add_sensor">No Added Sensor\nPlease, add Sensor</string>
+<string name="no_add_sensor">No Added Sensor\nPlease, add Sensor</string>
 
     <!-- Widgets in Search Activity -->
     <string name="title_search">Add Wallet</string>
@@ -55,9 +60,13 @@
     <string name="title_modify">Modify Wallet</string>
     <string name="sensor_id">Sensor ID:</string>
     <string name="sensor_name">Sensor Name:</string>
+    <string name="wear_name">Wear Name:</string>
     <string name="my_wallet">My Wallet</string>
     <string name="phone_no">Phone No:</string>
     <string name="action_mode">Action Mode:</string>
+
+    <string name="select_wear">Select Wear : </string>
+
     <string name="action_loss">Prevent Loss</string>
     <string name="action_theft">Prevent Theft</string>
     <string name="register">Register</string>
@@ -82,11 +91,13 @@
     <string name="cmd_stop">Stop</string>
     <string name="hint_sensor_id">Sensor Address</string>
     <string name="hint_sensor_name">Sensor Name</string>
+    <string name="hint_wear_name">Wear Name</string>
     <string name="hint_phone_number">Phone Number</string>
     <string name="start_detect_sensor">Detecting Sensor</string>
     <string name="no_detect_sensor">Not Detect Sensor\nPlease, Retry Again</string>
 
     <string name="title_activity_settings">Settings</string>
+
 
     <!-- Strings related to Settings -->
     <string name="title_setting">Settings</string>
@@ -130,5 +141,6 @@
 
     <string name="alert_msg_lost_sensor">Disconnected Sensor</string>
     <string name="alert_msg_find_sensor">Find From Sensor</string>
+    <!--  <string name="alert_msg_bubble">How to Use</string> -->
 
 </resources>
