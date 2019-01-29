@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,6 +55,7 @@
             android:orientation="vertical">
 
             <!--지갑 이름-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px120"
@@ -82,6 +85,51 @@
                         android:layout_weight="1"
                         android:enabled="false"
                         android:hint="@string/hint_sensor_name"
+                        android:inputType="text"
+                        android:maxLength="15"
+                        android:textSize="@dimen/px50" />
+
+                    <ImageView
+                        android:id="@+id/del_name"
+                        android:layout_width="@dimen/px100"
+                        android:layout_height="@dimen/px100"
+                        android:background="@drawable/btn_delete"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px120"
+                android:layout_marginTop="@dimen/px40"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/px350"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wear_name"
+                    android:textSize="@dimen/px50" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/border_edit_r50"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/px20"
+                    android:paddingRight="@dimen/px10">
+
+                    <!--이름 최대 길이 20자-->
+                    <EditText
+                        android:id="@+id/edt_Wear_name"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:hint="@string/hint_wear_name"
                         android:inputType="text"
                         android:maxLength="15"
                         android:textSize="@dimen/px50" />
@@ -158,7 +206,7 @@
 
                 <RadioGroup
                     android:id="@+id/rg_mode"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -182,6 +230,20 @@
                         android:text="@string/action_theft"
                         android:textSize="@dimen/px46" />
                 </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/btn_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/description" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -246,19 +308,149 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/btn_add"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px120"
-                android:layout_marginLeft="@dimen/px100"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="@dimen/px350"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px40"
+                    android:layout_weight="1"
+                    android:text="@string/select_wear"
+                    android:textSize="@dimen/px50" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/px40"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/radioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/purse_00" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/purse_01" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/radioButton3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/purse_02" />
+                    </LinearLayout>
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/px40"
-                android:layout_marginRight="@dimen/px100"
-                android:layout_marginBottom="@dimen/px100"
-                android:background="@drawable/selector_btn_add_sensor"
                 android:gravity="center"
-                android:text="Save"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/px50" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/delete_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/btn_delete"
+                        android:layout_width="@dimen/px250"
+                        android:layout_height="@dimen/px120"
+                        android:layout_marginLeft="@dimen/px100"
+                        android:layout_marginTop="@dimen/px40"
+                        android:layout_marginRight="@dimen/px100"
+                        android:layout_marginBottom="@dimen/px100"
+                        android:background="@drawable/selector_btn_add_sensor"
+                        android:gravity="center"
+                        android:text="@string/cmd_remove_sensor"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/px50" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/btn_add"
+                        android:layout_width="@dimen/px500"
+                        android:layout_height="@dimen/px120"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/px100"
+                        android:layout_marginTop="@dimen/px40"
+                        android:layout_marginRight="@dimen/px100"
+                        android:layout_marginBottom="@dimen/px100"
+                        android:background="@drawable/selector_btn_add_sensor"
+                        android:gravity="center"
+                        android:text="@string/btn_register"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/px50" />
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

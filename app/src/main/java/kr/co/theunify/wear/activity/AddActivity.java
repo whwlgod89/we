@@ -30,6 +30,7 @@ import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.adapter.SensorAdapter;
+import kr.co.theunify.wear.dialog.CommonDialog;
 import kr.co.theunify.wear.utils.UString;
 import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
@@ -66,9 +67,11 @@ public class AddActivity extends BaseActivity {
     @BindView(R.id.radio_steal)				RadioButton	radio_steal;
 
     @BindView(R.id.layout_rssi)             LinearLayout layout_rssi;
+    @BindView(R.id.delete_layout)           LinearLayout delete_layout;
     @BindView(R.id.seekbar_dimming)         SeekBar seekbar_dimming;
 
     @BindView(R.id.btn_add)					TextView	btn_add;
+
 
     //********************************************************************************
     //  Member Variable
@@ -81,6 +84,7 @@ public class AddActivity extends BaseActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning = false;          // 스캔 중인지?
+    private CommonDialog mBubble;
 
     //********************************************************************************
     //  LifeCycle Functions
@@ -229,6 +233,13 @@ public class AddActivity extends BaseActivity {
         layout_rssi.setVisibility(View.VISIBLE);
     }
 
+    @OnClick(R.id.btn_question)
+    public void onClickBubble(){
+
+        mBubble =  Utils.showPopupDlg(this, "", "",
+                getString(R.string.ok), null, "", null, null);
+    }
+
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
         BluetoothDevice device = mAdapter.getSelected();
@@ -238,7 +249,7 @@ public class AddActivity extends BaseActivity {
         }
 
         String name = edt_name.getText().toString();
-        if (UString.isEmpty(name)) {
+            if (UString.isEmpty(name)) {
             Toast.makeText(mContext, getString(R.string.msg_check_name), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -315,6 +326,8 @@ public class AddActivity extends BaseActivity {
     }
 
     private void initTitle() {
+
+        delete_layout.setVisibility(View.GONE);
         v_titlebar.setTitleVisible(View.VISIBLE);
         v_titlebar.setTitle(getString(R.string.title_register));
         v_titlebar.setBackVisible(View.VISIBLE);
@@ -363,12 +376,14 @@ public class AddActivity extends BaseActivity {
      * 센서 감지 스캔하기
      * @param enable
      */
+    // search icon 애니메이션 작업
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
-            v_titlebar.setSearchImg(R.drawable.top_search_dis);
+            v_titlebar.setSearchImg(R.drawable.anim_search);
+
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);

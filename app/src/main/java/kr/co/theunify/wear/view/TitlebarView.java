@@ -2,6 +2,8 @@ package kr.co.theunify.wear.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +52,7 @@ public class TitlebarView extends LinearLayout {
 	//********************************************************************************
 
 	private Context mContext;
+	private AnimationDrawable animationDrawable;
 
 	//********************************************************************************
 	//  Construction Functions
@@ -137,10 +141,21 @@ public class TitlebarView extends LinearLayout {
 
 	public void setSearchImg(int res) {
 		img_search.setBackgroundResource(res);
+		/*animationDrawable = (AnimationDrawable) img_search.getBackground();
+		img_search.post(new Runnable() {
+            @Override
+            public void run() {
+                animationDrawable.start();
+                animationDrawable.stop();
+            }
+        });*/
 	}
 
 	public void setSettingVisible(int visible) {
 		img_setting.setVisibility(visible);
+	}
+	public void setBackground(Drawable res) {
+	    img_search.setBackground(res);
 	}
 
 }

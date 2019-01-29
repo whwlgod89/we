@@ -40,10 +40,6 @@
             android:summary="@string/pref_summary_start_on_boot"
             android:title="@string/pref_title_start_on_boot" />
         <Preference
-            android:key="pref_key_app_control_restart"
-            android:summary="@string/pref_summary_app_control_restart"
-            android:title="@string/pref_title_app_control_restart" />
-        <Preference
             android:key="pref_key_app_control_finish"
             android:summary="@string/pref_summary_app_control_finish"
             android:title="@string/pref_title_app_control_finish" />

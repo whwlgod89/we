@@ -21,7 +21,7 @@
     <string name="btn_info_sensor">사용법</string>
     <string name="btn_add_sensor">내 웨어 추가</string>
 
-<string name="no_add_sensor">No Added Sensor\nPlease, add Sensor</string>
+    <string name="no_add_sensor">No Added Sensor\nPlease, add Sensor</string>
 
     <!-- Widgets in Search Activity -->
     <string name="title_search">Add Wallet</string>
@@ -47,6 +47,7 @@
     <string name="register_sensor">Register Sensor</string>
 
     <!-- Widgets in Sensor Activity -->
+    <string name="search_wear">Search Wear</string>
     <string name="title_sensor">My Wallet</string>
     <string name="sensor_info">Sensor Info</string>
     <string name="cmd_search_sensor">Search</string>
@@ -54,6 +55,7 @@
     <string name="cmd_remove_sensor">Delete</string>
     <string name="remove_title">Remove Wallet</string>
     <string name="remove_message">Are you sure to delete?</string>
+    <string name="select_complete">Select Complete</string>
 
     <!-- Widgets in Register Activity -->
     <string name="title_register">Register Wallet</string>
@@ -70,7 +72,7 @@
     <string name="action_loss">Prevent Loss</string>
     <string name="action_theft">Prevent Theft</string>
     <string name="register">Register</string>
-    <string name="modify">Modify</string>
+    <string name="modify">Modify Complete</string>
     <string name="edit_wallet">Apply</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -95,7 +97,7 @@
     <string name="hint_phone_number">Phone Number</string>
     <string name="start_detect_sensor">Detecting Sensor</string>
     <string name="no_detect_sensor">Not Detect Sensor\nPlease, Retry Again</string>
-
+    <string name="btn_register">Register Complete</string>
     <string name="title_activity_settings">Settings</string>
 
 
