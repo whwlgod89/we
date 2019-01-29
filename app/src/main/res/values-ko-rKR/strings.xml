@@ -99,7 +99,8 @@
     <string name="hint_phone_number">전화 번호</string>
     <string name="start_detect_sensor">검색중입니다.</string>
     <string name="no_detect_sensor">검색된 센서가 없습니다.\n검색버튼을 눌러 다시 검색해 주세요.</string>
-
+    <string name="ask_bring_phonenumber">요청</string>
+    <string name="ask_phone">폰번호를 가져와도 됩니까?</string>
     <string name="title_activity_settings">설정</string>
 
     <!-- Strings related to Settings -->

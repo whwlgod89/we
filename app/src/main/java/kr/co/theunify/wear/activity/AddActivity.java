@@ -1,5 +1,6 @@
 package kr.co.theunify.wear.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -10,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,6 +33,7 @@ import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.adapter.SensorAdapter;
+import kr.co.theunify.wear.dialog.CommonDialog;
 import kr.co.theunify.wear.utils.UString;
 import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
@@ -76,9 +80,11 @@ public class AddActivity extends BaseActivity {
     //********************************************************************************
 
     private Context mContext;
-
+    private CommonDialog checkphoneDialog;
     private SensorAdapter mAdapter;
+    TelephonyManager telManager;
 //    private List<BluetoothDevice> mSensorList;		// 리스트
+
 
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning = false;          // 스캔 중인지?
@@ -198,7 +204,7 @@ public class AddActivity extends BaseActivity {
         BluetoothDevice device = mAdapter.getItem(position);
         if (device != null) {
             edt_name.setEnabled(false);
-            edt_phone.setEnabled(true);
+            edt_phone.setEnabled(false);
             edt_Wear_name.setEnabled(true);
             radio_lost.setEnabled(true);
             radio_steal.setEnabled(true);
@@ -277,6 +283,8 @@ public class AddActivity extends BaseActivity {
         initTitle();
 
         initListView();
+
+
 
         // seekbar 체인지리스너
         seekbar_dimming.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -428,4 +436,27 @@ public class AddActivity extends BaseActivity {
                     });
                 }
             };
+    private void BringPhonenumber(String status){
+        telManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+
+
+        int phone_check = ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE);
+
+        try {
+
+        }catch(SecurityException e){
+            e.printStackTrace();
+        }
+
+/*
+        checkphoneDialog = Utils.showPopupDlg(this, getString(R.string.ask_bring_phonenumber), getString(R.string.ask_phone), getString(R.string.ok), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        edt_phone =  ();
+                    }
+                }
+                , getString(R.string.cancel), null, null);
+        */
+    }
 }
