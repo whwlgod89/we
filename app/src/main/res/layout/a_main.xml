@@ -184,7 +184,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/px20"
-                            android:text="Find Sensor"
+                            android:text="@string/btn_find_sensor"
                             android:textColor="#888888"
                             android:textSize="@dimen/px50" />
 
@@ -209,7 +209,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/px20"
-                            android:text="Location"
+                            android:text="@string/btn_location_sensor"
                             android:textColor="#888888"
                             android:textSize="@dimen/px50" />
 
@@ -235,13 +235,13 @@
                         <ImageView
                             android:layout_width="@dimen/px98"
                             android:layout_height="@dimen/px98"
-                            android:background="@drawable/icon_wastebasket" />
+                            android:background="@drawable/wear_modify" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/px20"
-                            android:text="Remove"
+                            android:text="@string/btn_modify_sensor"
                             android:textColor="#888888"
                             android:textSize="@dimen/px50" />
 
@@ -260,13 +260,13 @@
                         <ImageView
                             android:layout_width="@dimen/px98"
                             android:layout_height="@dimen/px98"
-                            android:background="@drawable/icon_setting" />
+                            android:background="@drawable/howtouse" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/px20"
-                            android:text="Settings"
+                            android:text="@string/btn_info_sensor"
                             android:textColor="#888888"
                             android:textSize="@dimen/px50" />
 
@@ -305,7 +305,7 @@
             android:layout_marginBottom="@dimen/px50"
             android:background="@drawable/selector_btn_add_sensor"
             android:gravity="center"
-            android:text="Tab + to add sensor"
+            android:text="@string/btn_add_sensor"
             android:textColor="#ffffff"
             android:textSize="@dimen/px50" />
     </LinearLayout>
