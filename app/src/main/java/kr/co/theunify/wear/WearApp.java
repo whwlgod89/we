@@ -226,7 +226,9 @@ public class WearApp extends Application {
      * @return
      */
     public Sensor getCurSensor() {
-        ULog.i(TAG, "Get Current Wallet in Memory = " + mCurSensor.toLongString());
+        if (mCurSensor != null) {
+            ULog.i(TAG, "Get Current Wallet in Memory = " + mCurSensor.toLongString());
+        }
         return mCurSensor;
     }
 

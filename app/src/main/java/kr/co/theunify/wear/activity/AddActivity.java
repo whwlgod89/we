@@ -3,7 +3,12 @@ package kr.co.theunify.wear.activity;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +28,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,9 +38,15 @@ import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.adapter.SensorAdapter;
+import kr.co.theunify.wear.data.SensorInfo;
+import kr.co.theunify.wear.sensor.Sensor;
+import kr.co.theunify.wear.utils.ULog;
 import kr.co.theunify.wear.utils.UString;
 import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
+
+import static kr.co.theunify.wear.sensor.Sensor.UART_RX_CHAR_UUID;
+import static kr.co.theunify.wear.sensor.Sensor.UART_SERVICE_UUID;
 
 /**
  * 지갑 추가 화면
@@ -82,6 +96,10 @@ public class AddActivity extends BaseActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning = false;          // 스캔 중인지?
 
+//    private Sensor mSelectedSensor;
+//    private BluetoothGatt mBluetoothGatt;
+
+
     //********************************************************************************
     //  LifeCycle Functions
     //********************************************************************************
@@ -103,8 +121,7 @@ public class AddActivity extends BaseActivity {
 
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
 
         // Checks if Bluetooth is supported on the device.
@@ -152,6 +169,8 @@ public class AddActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+//        disconnect();
     }
 
     //********************************************************************************
@@ -205,6 +224,11 @@ public class AddActivity extends BaseActivity {
             edt_name.setSelection(device.getName().length());
             edt_name.requestFocus();
             Utils.showSoftKeyboard(mContext, edt_name);
+
+//            SensorInfo info = new SensorInfo(device.getAddress(), device.getName(), "", Const.ACTION_MODE_LOSS, 100);
+//            mSelectedSensor = new Sensor(info);
+//            connect();
+
         }
     }
 
@@ -409,7 +433,6 @@ public class AddActivity extends BaseActivity {
                                 return;
                             }
 
-                            Log.w(TAG, "Add Sensor : " + sensorName);
                             mAdapter.addDevice(device);
 
                             // 하나라도 보이면 리스트가 보여야 한다.
@@ -422,4 +445,84 @@ public class AddActivity extends BaseActivity {
                     });
                 }
             };
+
+
+    //********************************************************************************
+    //  Sensor Functions
+    // 리스트 선택 시 센서와 연결 후 바로 끊기
+    //********************************************************************************
+
+//    public boolean connect() {
+//        ULog.w(TAG, "ID: "+ mSelectedSensor.getSensorId() +" connect() called. mConnectState=" + mSelectedSensor.getConnectState());
+//
+//        if (mBluetoothAdapter == null || mSelectedSensor.getSensorId() == null) {
+//            ULog.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
+//            return false;
+//        }
+//
+//       final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mSelectedSensor.getSensorId());
+//        if (device == null) {
+//            ULog.w(TAG, "ID:" + mSelectedSensor.getSensorId() + " Device not found.  Unable to connect.");
+//            return false;
+//        }
+//
+//        ULog.w(TAG, "connect().device.connectGatt() - ID: "+ mSelectedSensor.getSensorId());
+//        mBluetoothGatt = device.connectGatt(mContext, false, mGattCallback);
+//        if(mBluetoothGatt != null) {
+//            ULog.w(TAG, "ID: "+ mBluetoothGatt.getDevice().getAddress() + " connectGatt() OK!");
+//        } else {
+//            ULog.w(TAG, "ID: "+ mSelectedSensor.getSensorId() + " connectGatt() FAILED");
+//        }
+//        return true;
+//    }
+//
+//    public void disconnect() {
+//        ULog.w(TAG,"Disconnect++");
+//        if (mSelectedSensor == null) {
+//            return;
+//        }
+//        ULog.w(TAG,"Disconnect++1");
+//        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+//            ULog.w(TAG, "ID: "+ mSelectedSensor.getSensorId() + " BluetoothAdapter not initialized");
+//            return;
+//        }
+//        ULog.w(TAG,"Disconnect++2");
+//        mBluetoothGatt.disconnect();
+//        mBluetoothGatt.close();
+//        mBluetoothGatt = null;
+//        ULog.w(TAG,"Disconnect++3");
+//    }
+//
+//    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+//        @Override
+//        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+//            ULog.w(TAG,"ID: "+ mSelectedSensor.getSensorId() + " onConnectionStateChange(), newState=" + newState);
+//
+//            if (newState == BluetoothProfile.STATE_CONNECTED) {
+//                ULog.w(TAG,"ID: "+ mSelectedSensor.getSensorId() + " Connected to GATT server.");
+//                // 연결했으니 바로 끊는다.
+//                disconnect();
+//            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+//                ULog.w(TAG,"ID: " + mSelectedSensor.getSensorId() + " Disconnected from GATT server.");
+//            }
+//        }
+//
+//        @Override
+//        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+//        }
+//
+//        @Override
+//        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+//        }
+//
+//        @Override
+//        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+//        }
+//
+//        @Override
+//        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+//        }
+//    };
+
+
 }
