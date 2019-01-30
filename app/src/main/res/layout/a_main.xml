@@ -223,7 +223,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/btn_remove"
+                        android:id="@+id/btn_setting"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/px30"
@@ -248,7 +248,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/btn_setting"
+                        android:id="@+id/btn_instruction"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/px30"

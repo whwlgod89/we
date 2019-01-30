@@ -1,7 +1,11 @@
 package kr.co.theunify.wear.activity;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,20 +39,31 @@ public class ModifyActivity extends BaseActivity {
     //  Layout Member Variable
     //********************************************************************************
 
-    @BindView(R.id.v_titlebar)              TitlebarView v_titlebar;
+    @BindView(R.id.v_titlebar)
+    TitlebarView v_titlebar;
 
-    @BindView(R.id.layout_list)               LinearLayout    layout_list;
-    @BindView(R.id.edt_name)				EditText	edt_name;
-    @BindView(R.id.edt_Wear_name)           EditText    edt_Wear_name;
-    @BindView(R.id.edt_phone)				EditText	edt_phone;
-    @BindView(R.id.rg_mode)                 RadioGroup  rg_mode;
-    @BindView(R.id.radio_lost)				RadioButton	radio_lost;
-    @BindView(R.id.radio_steal)				RadioButton	radio_steal;
+    @BindView(R.id.layout_list)
+    LinearLayout layout_list;
+    @BindView(R.id.edt_name)
+    EditText edt_name;
+    @BindView(R.id.edt_Wear_name)
+    EditText edt_Wear_name;
+    @BindView(R.id.edt_phone)
+    EditText edt_phone;
+    @BindView(R.id.rg_mode)
+    RadioGroup rg_mode;
+    @BindView(R.id.radio_lost)
+    RadioButton radio_lost;
+    @BindView(R.id.radio_steal)
+    RadioButton radio_steal;
 
-    @BindView(R.id.layout_rssi)             LinearLayout layout_rssi;
-    @BindView(R.id.seekbar_dimming)         SeekBar seekbar_dimming;
+    @BindView(R.id.layout_rssi)
+    LinearLayout layout_rssi;
+    @BindView(R.id.seekbar_dimming)
+    SeekBar seekbar_dimming;
 
-    @BindView(R.id.btn_add)					TextView	btn_add;
+    @BindView(R.id.btn_add)
+    TextView btn_add;
 
 
     //********************************************************************************
@@ -79,14 +94,14 @@ public class ModifyActivity extends BaseActivity {
 
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
     }
 
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 
     }
@@ -128,9 +143,9 @@ public class ModifyActivity extends BaseActivity {
     }
 
     @OnClick(R.id.btn_question)
-    public void onClickBubble(){
+    public void onClickBubble() {
 
-        mBubble =  Utils.showPopupDlg(this, "", "",
+        mBubble = Utils.showPopupDlg(this, "", "",
                 getString(R.string.ok), null, "", null, null);
     }
 
@@ -230,4 +245,23 @@ public class ModifyActivity extends BaseActivity {
                 }, getResources().getString(R.string.cancel), null, null);
     }
 
+    private String getPhoneNumber(TelephonyManager telManager) {
+        String phoneNumber = "";
+        try {
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) !=
+                    PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+            }
+            String tmpPhoneNumber = telManager.getLine1Number();
+            phoneNumber = tmpPhoneNumber.replace("+82", "0");
+
+        } catch (Exception e) {
+            phoneNumber = "";
+        }
+
+        return phoneNumber;
+    }
 }

@@ -482,8 +482,29 @@ public class MainActivity extends BaseActivity {
         startActivityForResult(intent, Const.REQUEST_CODE_OF_APP_SETTINGS);
     }
 
-    @OnClick({R.id.btn_find, R.id.btn_location, R.id.btn_remove, R.id.btn_setting} )
+    @OnClick({R.id.btn_find, R.id.btn_location, R.id.btn_setting,R.id.btn_instruction} )
     public void onClickOption(View v) {
+        Intent i = new Intent();
+        switch (v.getId())
+        {
+            case R.id.btn_find:
+                mApp.getCurSensor().findSensor();
+                break;
+
+            case R.id.btn_location:
+                // 지도 화면으로 이동한다. - 구글 지도
+                i.setClass(this, MapActivity.class);
+                startActivity(i);
+                break;
+            case  R.id.btn_setting:
+                i.setClass(this, ModifyActivity.class);
+                startActivityForResult(i, Const.REQUEST_CODE_OF_MODIFY_SENSOR);
+                break;
+            case R.id.btn_instruction:
+                break;
+                // remove 를 지우고 사용방법을 추가
+        }
+     /*
         if (v.getId() == R.id.btn_find) {
             mApp.getCurSensor().findSensor();
         } else if (v.getId() == R.id.btn_location) {
@@ -507,7 +528,8 @@ public class MainActivity extends BaseActivity {
             Intent i = new Intent();
             i.setClass(this, ModifyActivity.class);
             startActivityForResult(i, Const.REQUEST_CODE_OF_MODIFY_SENSOR);
-        }
+        }*/
+
     }
 
     @OnClick({R.id.move_left, R.id.move_right} )

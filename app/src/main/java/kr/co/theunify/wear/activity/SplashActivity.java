@@ -161,7 +161,8 @@ public class SplashActivity extends BaseActivity {
                 || checkCallingOrSelfPermission(Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED
 
                 || checkCallingOrSelfPermission(Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED
-                || checkCallingOrSelfPermission(Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED ) {
+                || checkCallingOrSelfPermission(Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED
+                || checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.INTERNET,
@@ -174,7 +175,8 @@ public class SplashActivity extends BaseActivity {
                     Manifest.permission.WAKE_LOCK,
                     Manifest.permission.VIBRATE,
                     Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN
+                    Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.READ_PHONE_STATE
             }, PERMISSION_REQUEST_REQUEST);
 
         } else {
@@ -194,7 +196,8 @@ public class SplashActivity extends BaseActivity {
                         grantResults[6] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[7] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[8] == PackageManager.PERMISSION_GRANTED &&
-                        grantResults[9] == PackageManager.PERMISSION_GRANTED/* &&
+                        grantResults[9] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[10] == PackageManager.PERMISSION_GRANTED/* &&
                         grantResults[10] == PackageManager.PERMISSION_GRANTED */) {
                     initView();
                 } else {

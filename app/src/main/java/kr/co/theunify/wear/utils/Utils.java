@@ -1,5 +1,6 @@
 package kr.co.theunify.wear.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -7,6 +8,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.RequiresPermission;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -28,6 +32,8 @@ import java.util.TimerTask;
 
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.dialog.CommonDialog;
+
+import static android.content.Context.TELEPHONY_SERVICE;
 
 
 /**
@@ -105,6 +111,7 @@ public class Utils {
         }
 
     }
+
 
     /**
      * 키보드 보이기
