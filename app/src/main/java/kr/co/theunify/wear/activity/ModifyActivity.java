@@ -2,10 +2,12 @@ package kr.co.theunify.wear.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -64,7 +66,7 @@ public class ModifyActivity extends BaseActivity {
 
     @BindView(R.id.btn_add)
     TextView btn_add;
-
+    @BindView(R.id.delete_layout)   LinearLayout delete_layout;
 
     //********************************************************************************
     //  Member Variable
@@ -148,6 +150,27 @@ public class ModifyActivity extends BaseActivity {
         mBubble = Utils.showPopupDlg(this, "", "",
                 getString(R.string.ok), null, "", null, null);
     }
+    @OnClick(R.id.delete_layout)
+    public void onClickDelete(){
+        Utils.showPopupDlg(this, getString(R.string.remove_title), getString(R.string.remove_message),
+                getResources().getString(R.string.ok), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 센서 삭제
+                        mApp.removeSensor();
+                        // 화면 업데이트
+                        initView();
+
+                        Intent intent = new Intent(mContext, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mContext.startActivity(intent);
+
+
+                    }
+                }, getResources().getString(R.string.cancel), null, null);
+
+
+    }
 
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
@@ -176,6 +199,9 @@ public class ModifyActivity extends BaseActivity {
             } else {
                 rssi = Const.THEFT_LEVEL_HIGH;
             }
+        }
+        if(TextUtils.isEmpty(wearname) || wearname ==""){
+            wearname = String.valueOf(getText(R.string.null_wearName));
         }
 
         modifySensor(name, wearname,phone, mode, rssi);
@@ -218,7 +244,7 @@ public class ModifyActivity extends BaseActivity {
 
         edt_name.setEnabled(false);
         edt_Wear_name.setEnabled(true);
-        edt_phone.setEnabled(true);
+        edt_phone.setEnabled(false);
         radio_lost.setEnabled(true);
         radio_steal.setEnabled(true);
     }

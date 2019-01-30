@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.co.theunify.wear.R;
+import kr.co.theunify.wear.activity.MainActivity;
 
 /**
  * 공용 다이얼로그
@@ -104,6 +105,8 @@ public class CommonDialog extends Dialog {
     public void setOkListener(View.OnClickListener listener) {
         okListener = listener;
     }
+
+
 
     public void setCancelListener(View.OnClickListener listener) {
         cancelListener = listener;

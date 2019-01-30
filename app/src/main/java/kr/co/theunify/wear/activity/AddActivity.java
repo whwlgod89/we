@@ -232,7 +232,6 @@ public class AddActivity extends BaseActivity  {
         BluetoothDevice device = mAdapter.getItem(position);
         if (device != null) {
             edt_name.setEnabled(false);
-            edt_phone.setEnabled(false);
             edt_Wear_name.setEnabled(true);
 
             radio_lost.setEnabled(true);
@@ -298,7 +297,9 @@ public class AddActivity extends BaseActivity  {
                 rssi = Const.THEFT_LEVEL_HIGH;
             }
         }
+
         String wallet = "gg";
+
         addSensor(device, name, wear_name, phone, mode, rssi,wallet);
 
     }
@@ -354,7 +355,7 @@ public class AddActivity extends BaseActivity  {
 //            @Override public void afterTextChanged(Editable s) { }
 //        });
 
-
+        edt_phone.setEnabled(false);
         layout_rssi.setVisibility(View.INVISIBLE);
         delete_layout.setVisibility(View.GONE);
 

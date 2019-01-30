@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
     private String mSenserNameForPermission = "";
 
     private MainPagerAdapter mainPagerAdapter;
-
+    private Sensor mSensor;
     private CommonDialog mDlgFindPhone;           // 센서에서 폰 찾기 다이얼로그
     private boolean mDlgFindPhoneOn = false;     // 센서에서 폰 찾기 다이얼로그 표시 여부 (알람 종료 후 종료?)
     private CommonDialog mDlgDisconnected;        // 센서 연결 끊김 다이얼로그
@@ -433,6 +433,7 @@ public class MainActivity extends BaseActivity {
                     Sensor sensor = mApp.getSensor(index);
                     String strRegister = "ID=[" + sensor.getSensorId() + "], Name=[" + sensor.getSensorName() + "], Phone=[" + sensor.getPhoneNumber() + "], Mode=[" + sensor.getActionMode() + "]";
                     Toast.makeText(MainActivity.this, strRegister, Toast.LENGTH_SHORT).show();
+                    mApp.updateSensor(mSensor);
                 }
             }
         }

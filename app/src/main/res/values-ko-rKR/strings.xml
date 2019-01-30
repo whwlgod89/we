@@ -102,6 +102,7 @@
     <string name="ask_bring_phonenumber">요청</string>
     <string name="ask_phone">폰번호를 가져와도 됩니까?</string>
     <string name="title_activity_settings">설정</string>
+    <string name="null_wearName">헤이통</string>
 
     <!-- Strings related to Settings -->
     <string name="title_setting">설정</string>
