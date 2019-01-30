@@ -411,14 +411,16 @@ public class MainActivity extends BaseActivity {
 
         if(requestCode == Const.REQUEST_CODE_OF_ADD_SENSOR) {
             if (resultCode == Const.RESULT_CODE_OF_SENSOR_ADDED) {
+                //WearApp mApp
 
                 String sensorId = data.getStringExtra(Const.SENSOR_ID);
                 String sensorName = data.getStringExtra(Const.SENSOR_NAME);
+                String walletName = data.getStringExtra(Const.WEAR_NAME);
                 String phoneNumber = data.getStringExtra(Const.PHONE_NUMBER);
                 int actionMode = data.getIntExtra(Const.ACTION_MODE, Const.ACTION_MODE_LOSS);
                 int rssi = data.getIntExtra(Const.RSSI, 100);
 
-                mApp.addSensor(sensorId, sensorName, phoneNumber, actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
+                mApp.addSensor(sensorId, sensorName, walletName, phoneNumber,actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
 
                 // 센서의 위치를 추가한 것으확인한다.
                 mApp.setCurSensor(mApp.getSensorCount()-1);
@@ -619,8 +621,9 @@ public class MainActivity extends BaseActivity {
      */
     private void updatePage(int position) {
         // 이름 업데이트
-        txt_name.setText(mApp.getCurSensor().getSensorName());
+        txt_name.setText(mApp.getCurSensor().getWearname());
         // 배터리 업데이트
+
         updateBattery();
 
         // 페이지 텍스트 업데이트
