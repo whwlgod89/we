@@ -59,12 +59,13 @@ public class WearApp extends Application {
      * 센서 추가하기
      * @param sensorId      address
      * @param sensorName    지정한 이름
+     * @param wearName      지갑이름
      * @param phoneNumber   전화번호
      * @param actionMode    설정 모드
      * @param rssi          rssi 값 - 도난 모드에서
      */
-    public void addSensor(String sensorId, String sensorName, String phoneNumber, int actionMode, int rssi) {
-        SensorInfo info = new SensorInfo(sensorId, sensorName, phoneNumber, actionMode, rssi);
+    public void addSensor(String sensorId, String sensorName, String wearName,String phoneNumber, int actionMode, int rssi) {
+        SensorInfo info = new SensorInfo(sensorId, sensorName,wearName,phoneNumber, actionMode, rssi);
         Sensor sensor = new Sensor(info);
         insertSensor(sensor);           // 등록된 센서 목록 관리 DB에 추가
         mAllSensors.add(sensor);        // 센서 목록 관리 메모리에 추가 (처음 실행시에 DB 에서 로드)

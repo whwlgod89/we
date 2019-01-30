@@ -19,9 +19,11 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.adapter.SensorAdapter;
+import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
 
 public class WearListActivity extends BaseActivity {
@@ -37,6 +39,7 @@ public class WearListActivity extends BaseActivity {
     @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;
     @BindView(R.id.txt_empty)       TextView txt_empty;
     @BindView(R.id.list_sensor)     ListView list_sensor;
+    @BindView(R.id.result)          TextView result;
 
     private boolean mScanning = false;          // 스캔 중인지?
 
@@ -115,6 +118,7 @@ public class WearListActivity extends BaseActivity {
         initTitle();
 
         initListView();
+        scanLeDevice(true);
 
     }
     private void initTitle() {
@@ -170,6 +174,20 @@ public class WearListActivity extends BaseActivity {
         }
     };
 
+
+    @OnItemClick(R.id.list_sensor)
+    public void onListSensorItemClick(int position) {
+        mAdapter.setSelected(position);
+        BluetoothDevice device = mAdapter.getItem(position);
+        if (device != null) {
+
+            // 프로그래스 팝업띄우기 만들기
+
+            //
+
+        }
+    }
+
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
@@ -197,6 +215,7 @@ public class WearListActivity extends BaseActivity {
                             if (mAdapter.getCount() > 0) {
                                 txt_empty.setVisibility(View.GONE);
                                 list_sensor.setVisibility(View.VISIBLE);
+                                result.setText("ㅎ2");
                             }
 
                         }

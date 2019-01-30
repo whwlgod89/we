@@ -31,14 +31,17 @@ public class SensorInfo {
     public SensorInfo() {
     }
 
-    public SensorInfo(String id, String name, String phone, int mode, int rssi) {
+    //ModifyActivity
+    public SensorInfo(String id, String name,String wearname ,String phone, int mode, int rssi) {
         this.id = id;
         this.name = name;
+        this.wearname=wearname;
         this.phone = phone;
         this.mode = mode;
         this.rssi = rssi;
     }
 
+    //AddActivity
     public SensorInfo(String id, String name, String phone, int mode, int rssi, double latitude, double longitude, int battery) {
         this.id = id;
         this.name = name;
@@ -52,6 +55,7 @@ public class SensorInfo {
 
     private String id;           // Bluetooth Device Address
     private String name;         // User Defined Device Name
+    private String wearname;
     private String phone;        // User Defined Phone Number
     private int mode;            // User Defined Action Mode (Prevent Loss=0, Theft=1)
     private int rssi;                  // User Defined RSSI Value (75, 85, 100)
@@ -75,6 +79,14 @@ public class SensorInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getWearname() {
+        return wearname;
+    }
+
+    public void setWearname(String wearname) {
+        this.wearname = wearname;
     }
 
     public String getPhone() {

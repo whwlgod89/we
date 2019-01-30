@@ -153,6 +153,7 @@ public class ModifyActivity extends BaseActivity {
     public void onClickBtnAdd() {
 
         String name = edt_name.getText().toString();
+        String wearname = edt_Wear_name.getText().toString();
         if (UString.isEmpty(name)) {
             Toast.makeText(mContext, getString(R.string.msg_check_name), Toast.LENGTH_SHORT).show();
             return;
@@ -177,7 +178,7 @@ public class ModifyActivity extends BaseActivity {
             }
         }
 
-        modifySensor(name, phone, mode, rssi);
+        modifySensor(name, wearname,phone, mode, rssi);
 
     }
 
@@ -228,13 +229,14 @@ public class ModifyActivity extends BaseActivity {
         v_titlebar.setBackVisible(View.VISIBLE);
     }
 
-    private void modifySensor(final String name, final String phone, final int mode, final int rssi) {
+    private void modifySensor(final String name, final String wearnName,final String phone, final int mode, final int rssi) {
         Utils.showPopupDlg(this, getString(R.string.title_confirm_modify), getString(R.string.msg_confirm_modify),
                 getResources().getString(R.string.ok), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mSensor.getInfo().setName(name);
                         mSensor.getInfo().setPhone(phone);
+                        mSensor.getInfo().setWearname(wearnName);
                         mSensor.getInfo().setMode(mode);
                         mSensor.getInfo().setRssi(rssi);
                         mApp.updateSensor(mSensor);

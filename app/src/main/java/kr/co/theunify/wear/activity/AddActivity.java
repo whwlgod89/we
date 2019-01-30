@@ -11,13 +11,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +29,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
@@ -43,7 +43,7 @@ import kr.co.theunify.wear.view.TitlebarView;
 /**
  * 지갑 추가 화면
  */
-public class AddActivity extends BaseActivity {
+public class AddActivity extends BaseActivity  {
 
 
     private String TAG = AddActivity.class.getSimpleName();
@@ -57,54 +57,49 @@ public class AddActivity extends BaseActivity {
     TitlebarView v_titlebar;
 
     // 리스트
-    @BindView(R.id.txt_empty)
-    TextView txt_empty;
-    @BindView(R.id.list_sensor)
-    ListView list_sensor;
+    @BindView(R.id.txt_empty)       TextView txt_empty;
+    @BindView(R.id.list_sensor)     ListView list_sensor;
 
     // 이름 입력
-    @BindView(R.id.edt_name)
-    EditText edt_name;
-    @BindView(R.id.edt_Wear_name)
-    EditText edt_Wear_name;
-    @BindView(R.id.del_name)
-    ImageView del_name;
+    @BindView(R.id.edt_name)        EditText edt_name;
+    @BindView(R.id.edt_Wear_name)   EditText edt_Wear_name;
+    @BindView(R.id.del_name)        ImageView del_name;
 
     // 전화번호 입력
-    @BindView(R.id.edt_phone)
-    EditText edt_phone;
-    @BindView(R.id.del_phone)
-    ImageView del_phone;
+    @BindView(R.id.edt_phone)       EditText edt_phone;
+    @BindView(R.id.del_phone)       ImageView del_phone;
+
 
     // 모드 선택 라디오
-    @BindView(R.id.rg_mode)
-    RadioGroup rg_mode;
-    @BindView(R.id.radio_lost)
-    RadioButton radio_lost;
-    @BindView(R.id.radio_steal)
-    RadioButton radio_steal;
+    @BindView(R.id.rg_mode)         RadioGroup rg_mode;
+    @BindView(R.id.radio_lost)      RadioButton radio_lost;
+    @BindView(R.id.radio_steal)     RadioButton radio_steal;
 
-    @BindView(R.id.layout_rssi)
-    LinearLayout layout_rssi;
-    @BindView(R.id.delete_layout)
-    LinearLayout delete_layout;
+    @BindView(R.id.layout_rssi)     LinearLayout layout_rssi;
+    @BindView(R.id.btn_question)    LinearLayout btn_question;
+    @BindView(R.id.delete_layout)   LinearLayout delete_layout;
 
-    @BindView(R.id.seekbar_dimming)
-    SeekBar seekbar_dimming;
+    @BindView(R.id.seekbar_dimming) SeekBar seekbar_dimming;
 
-    @BindView(R.id.btn_add)
-    TextView btn_add;
-    @BindView(R.id.btn_delete)
-    TextView btn_delete;
+    @BindView(R.id.btn_add)         TextView btn_add;
+    @BindView(R.id.btn_delete)      TextView btn_delete;
+
+    //  지갑선택
+    @BindView(R.id.rg_wallet)       RadioGroup rg_wallet;
+    @BindView(R.id.radio_brown)     RadioButton radio_brwon;
+    @BindView(R.id.radio_green)     RadioButton radio_green;
+    @BindView(R.id.radio_purple)    RadioButton radio_purple;
+
+
 
     //********************************************************************************
     //  Member Variable
     //********************************************************************************
 
     private Context mContext;
-    private CommonDialog checkphoneDialog;
+    private CommonDialog mBubble;
     private SensorAdapter mAdapter;
-    TelephonyManager telManager;
+
 //    private List<BluetoothDevice> mSensorList;		// 리스트
 
 
@@ -223,6 +218,13 @@ public class AddActivity extends BaseActivity {
         // 스캔하기
         scanLeDevice(true);
     }
+    @OnClick(R.id.btn_question)
+    public void onClickBubble() {
+
+        mBubble = Utils.showPopupDlg(this, "", "",
+                getString(R.string.ok), null, "", null, null);
+    }
+
 
     @OnItemClick(R.id.list_sensor)
     public void onListSensorItemClick(int position) {
@@ -296,8 +298,8 @@ public class AddActivity extends BaseActivity {
                 rssi = Const.THEFT_LEVEL_HIGH;
             }
         }
-
-        addSensor(device, name, wear_name, phone, mode, rssi);
+        String wallet = "gg";
+        addSensor(device, name, wear_name, phone, mode, rssi,wallet);
 
     }
 
@@ -388,7 +390,7 @@ public class AddActivity extends BaseActivity {
      * @param mode
      * @param rssi
      */
-    private void addSensor(final BluetoothDevice device, final String name, final String wear_name, final String phone, final int mode, final int rssi) {
+    private void addSensor(final BluetoothDevice device, final String name, final String wearName, final String phone, final int mode, final int rssi,final String wallet) {
         Utils.showPopupDlg(this, getString(R.string.title_confirm_register), getString(R.string.msg_confirm_register),
                 getResources().getString(R.string.ok), new View.OnClickListener() {
                     @Override
@@ -396,10 +398,11 @@ public class AddActivity extends BaseActivity {
                         Intent intent = new Intent();
                         intent.putExtra(Const.SENSOR_ID, device.getAddress());
                         intent.putExtra(Const.SENSOR_NAME, name);
-                        intent.putExtra(Const.WEAR_NAME, wear_name);
+                        intent.putExtra(Const.WEAR_NAME, wearName);
                         intent.putExtra(Const.PHONE_NUMBER, phone);
                         intent.putExtra(Const.ACTION_MODE, mode);
                         intent.putExtra(Const.RSSI, rssi);
+                        intent.putExtra(Const.WALLET_COLOR, wallet);
                         setResult(Const.RESULT_CODE_OF_SENSOR_ADDED, intent);
                         finish();
                     }
@@ -469,7 +472,6 @@ public class AddActivity extends BaseActivity {
                     });
                 }
             };
-
     private String getPhoneNumber(TelephonyManager telManager) {
         String phoneNumber = "";
         try {

@@ -49,6 +49,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
                 android:id="@+id/btn_add"
                 android:layout_width="@dimen/px500"
                 android:layout_height="@dimen/px120"
