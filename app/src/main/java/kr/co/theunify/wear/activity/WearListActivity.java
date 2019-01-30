@@ -215,7 +215,6 @@ public class WearListActivity extends BaseActivity {
                             if (mAdapter.getCount() > 0) {
                                 txt_empty.setVisibility(View.GONE);
                                 list_sensor.setVisibility(View.VISIBLE);
-                                result.setText("ㅎ2");
                             }
 
                         }

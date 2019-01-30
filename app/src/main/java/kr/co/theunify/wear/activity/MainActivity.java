@@ -483,6 +483,7 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.setClass(this, SettingActivity.class);
         startActivityForResult(intent, Const.REQUEST_CODE_OF_APP_SETTINGS);
+
     }
 
     @OnClick({R.id.btn_find, R.id.btn_location, R.id.btn_setting,R.id.btn_instruction} )
@@ -504,6 +505,8 @@ public class MainActivity extends BaseActivity {
                 startActivityForResult(i, Const.REQUEST_CODE_OF_MODIFY_SENSOR);
                 break;
             case R.id.btn_instruction:
+                i.setClass(this,InstructionActivity.class);
+                startActivity(i);
                 break;
                 // remove 를 지우고 사용방법을 추가
         }

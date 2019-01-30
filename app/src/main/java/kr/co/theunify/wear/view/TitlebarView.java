@@ -104,6 +104,7 @@ public class TitlebarView extends LinearLayout {
 	@OnClick(R.id.img_setting)
 	public void onClickImgSetting() {
 
+
 	}
 
 	//********************************************************************************
