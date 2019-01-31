@@ -67,7 +67,7 @@
 
 
         <activity android:name=".activity.InstructionActivity"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
 
         <meta-data

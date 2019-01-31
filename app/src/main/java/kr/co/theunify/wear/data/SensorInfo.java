@@ -14,9 +14,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
@@ -26,25 +29,28 @@ import kr.co.theunify.wear.activity.MainActivity;
 import kr.co.theunify.wear.sensor.ConnectionEvent;
 import kr.co.theunify.wear.sensor.Sensor;
 
-public class SensorInfo {
+public class SensorInfo implements Serializable {
 
     public SensorInfo() {
     }
 
     //ModifyActivity
-    public SensorInfo(String id, String name,String wearname ,String phone, int mode, int rssi) {
+    public SensorInfo(String id, String name, String wearname, int cover, String phone, int mode, int rssi) {
         this.id = id;
         this.name = name;
         this.wearname=wearname;
+        this.cover = cover;
         this.phone = phone;
         this.mode = mode;
         this.rssi = rssi;
     }
 
     //AddActivity
-    public SensorInfo(String id, String name, String phone, int mode, int rssi, double latitude, double longitude, int battery) {
+    public SensorInfo(String id, String name, String wearnam, int cover, String phone, int mode, int rssi, double latitude, double longitude, int battery) {
         this.id = id;
         this.name = name;
+        this.wearname = wearnam;
+        this.cover = cover;
         this.phone = phone;
         this.mode = mode;
         this.rssi = rssi;
@@ -54,8 +60,9 @@ public class SensorInfo {
     }
 
     private String id;           // Bluetooth Device Address
-    private String name;         // User Defined Device Name
-    private String wearname;
+    private String name;         // 기본 Device Name
+    private String wearname;     // 사용자가 입력한 이름
+    private int cover;           // 지갑 껍데기 커버
     private String phone;        // User Defined Phone Number
     private int mode;            // User Defined Action Mode (Prevent Loss=0, Theft=1)
     private int rssi;                  // User Defined RSSI Value (75, 85, 100)
@@ -87,6 +94,14 @@ public class SensorInfo {
 
     public void setWearname(String wearname) {
         this.wearname = wearname;
+    }
+
+    public int getCover() {
+        return cover;
+    }
+
+    public void setCover(int cover) {
+        this.cover = cover;
     }
 
     public String getPhone() {
@@ -147,4 +162,6 @@ public class SensorInfo {
     public void setBattery(int battery) {
         this.battery = battery;
     }
+
+
 }

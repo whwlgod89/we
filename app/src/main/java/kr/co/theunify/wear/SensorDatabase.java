@@ -16,14 +16,23 @@ public class SensorDatabase extends SQLiteOpenHelper {
 
     private static final String DATABASE_SENSOR_LIST_NAME = "sensor_list";
 
+
     private static final String COLUMN_SENSOR_ID = "id";
     private static final String COLUMN_SENSOR_NAME = "name";
+    private static final String COLUMN_SENSOR_WEAR = "wear";
+    private static final String COLUMN_SENSOR_COVER = "cover";          // cover
     private static final String COLUMN_SENSOR_PHONE_NUM = "phone";
     private static final String COLUMN_SENSOR_MODE = "mode";
     private static final String COLUMN_SENSOR_RSSI = "rssi";
     private static final String COLUMN_SENSOR_LATITUDE = "latitude";
     private static final String COLUMN_SENSOR_LONGITUDE = "longitude";
     private static final String COLUMN_SENSOR_BATTERY = "battery";
+
+    private static final String DATABASE_ALTER_NAME = "ALTER TABLE "
+            + DATABASE_SENSOR_LIST_NAME + " ADD COLUMN " + COLUMN_SENSOR_WEAR + " text;";
+    private static final String DATABASE_ALTER_COVER = "ALTER TABLE "
+            + DATABASE_SENSOR_LIST_NAME + " ADD COLUMN " + COLUMN_SENSOR_COVER + " integer;";
+
 
     public SensorDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -34,6 +43,8 @@ public class SensorDatabase extends SQLiteOpenHelper {
         String sql = "CREATE TABLE sensor_list (" +
                 "id text PRIMARY KEY," +
                 "name text," +
+                "wear text," +
+                "cover integer," +
                 "phone text," +
                 "mode integer," +
                 "rssi integer," +      // THeft RSSI 감도
@@ -45,7 +56,11 @@ public class SensorDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + DATABASE_SENSOR_LIST_NAME);
+        if (oldVersion < 6) {
+            db.execSQL(DATABASE_ALTER_NAME);
+            db.execSQL(DATABASE_ALTER_COVER);
+        }
+        //db.execSQL("DROP TABLE IF EXISTS " + DATABASE_SENSOR_LIST_NAME);
     }
 
     // 처음 추가.
@@ -55,6 +70,8 @@ public class SensorDatabase extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put("id",sensor.getId());
             values.put("name",sensor.getName());
+            values.put("wear",sensor.getWearname());
+            values.put("cover",sensor.getCover());
             values.put("phone", sensor.getPhone());
             values.put("mode", sensor.getMode());
             values.put("rssi", sensor.getRssi());
@@ -72,6 +89,8 @@ public class SensorDatabase extends SQLiteOpenHelper {
         if(db != null) {
             ContentValues values = new ContentValues();
             values.put("name",sensor.getName());
+            values.put("wear",sensor.getWearname());
+            values.put("cover",sensor.getCover());
             values.put("phone", sensor.getPhone());
             values.put("mode", sensor.getMode());
             values.put("rssi", sensor.getRssi());
@@ -120,13 +139,15 @@ public class SensorDatabase extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
 
-            String id, name, phone;
-            int rssi, mode, battery;
+            String id, name, wear, phone;
+            int cover, rssi, mode, battery;
             double latitude, longitude;
 
             do {
                 id = c.getString(c.getColumnIndex(COLUMN_SENSOR_ID));
                 name = c.getString(c.getColumnIndex(COLUMN_SENSOR_NAME));
+                wear = c.getString(c.getColumnIndex(COLUMN_SENSOR_WEAR));
+                cover = c.getInt(c.getColumnIndex(COLUMN_SENSOR_COVER));
                 phone = c.getString(c.getColumnIndex(COLUMN_SENSOR_PHONE_NUM));
                 mode = c.getInt(c.getColumnIndex(COLUMN_SENSOR_MODE));
                 rssi = c.getInt(c.getColumnIndex(COLUMN_SENSOR_RSSI));
@@ -134,7 +155,7 @@ public class SensorDatabase extends SQLiteOpenHelper {
                 longitude = c.getDouble(c.getColumnIndex(COLUMN_SENSOR_LONGITUDE));
                 battery = c.getInt(c.getColumnIndex(COLUMN_SENSOR_BATTERY));
 
-                SensorInfo info = new SensorInfo(id, name, phone, mode, rssi, latitude, longitude, battery);
+                SensorInfo info = new SensorInfo(id, name, wear, cover, phone, mode, rssi, latitude, longitude, battery);
                 Sensor sensor = new Sensor(info);
                 sensors.add(sensor);
             } while (c.moveToNext());

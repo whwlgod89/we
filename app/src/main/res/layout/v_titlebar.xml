@@ -45,7 +45,7 @@
             android:layout_height="@dimen/px90"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/top_search_dis"
+            android:background="@drawable/top_search_icon"
             android:visibility="gone" />
 
         <ImageView

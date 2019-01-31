@@ -61,21 +61,35 @@ public class MainPagerFragment extends Fragment {
             ImageView iv_wallet = (ImageView) v.findViewById(R.id.iv_wallet);
 
             if (sensor.getConnectState() == Sensor.CONNECT_STATE.CONNECTED.ordinal()) {
-                int resource = R.drawable.purse_00;
-                switch (mPosition % 3) {
+                int resource = R.drawable.purse_01;
+
+                switch (sensor.getCover()) {
                     case 0:
-                        resource = R.drawable.purse_00;
-                        break;
-                    case 1:
                         resource = R.drawable.purse_01;
                         break;
-                    case 2:
+                    case 1:
                         resource = R.drawable.purse_02;
+                        break;
+                    case 2:
+                        resource = R.drawable.purse_03;
                         break;
                 }
                 iv_wallet.setBackgroundResource(resource);
             } else {
-                iv_wallet.setBackgroundResource(R.drawable.purse_03);
+                int resource = R.drawable.purse_01_dis;
+
+                switch (sensor.getCover()) {
+                    case 0:
+                        resource = R.drawable.purse_01_dis;
+                        break;
+                    case 1:
+                        resource = R.drawable.purse_02_dis;
+                        break;
+                    case 2:
+                        resource = R.drawable.purse_03_dis;
+                        break;
+                }
+                iv_wallet.setBackgroundResource(resource);
             }
         }
 

@@ -10,17 +10,17 @@
 
         <ImageView
             android:id="@+id/iv_wallet"
-            android:layout_width="@dimen/px370"
-            android:layout_height="@dimen/px304"
-            android:layout_marginLeft="@dimen/px60"
-            android:layout_marginTop="@dimen/px20"
-            android:background="@drawable/purse_00" />
+            android:layout_width="@dimen/px500"
+            android:layout_height="@dimen/px410"
+            android:layout_centerInParent="true"
+            android:background="@drawable/purse_01" />
 
         <ImageView
             android:id="@+id/iv_new"
             android:layout_width="@dimen/px118"
             android:layout_height="@dimen/px118"
-            android:background="@drawable/new_symbol_icon" />
+            android:background="@drawable/new_symbol_icon"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

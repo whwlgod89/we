@@ -1,15 +1,21 @@
 package kr.co.theunify.wear.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.annotation.UiThread;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,10 +25,14 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.adapter.SensorAdapter;
+import kr.co.theunify.wear.data.SensorInfo;
+import kr.co.theunify.wear.sensor.Sensor;
+import kr.co.theunify.wear.utils.ULog;
 import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
 
@@ -31,9 +41,9 @@ public class WearListActivity extends BaseActivity {
 
     private String TAG = WearListActivity.class.getSimpleName();
 
-    private BluetoothAdapter mBluetoothAdapter;
-    private SensorAdapter mAdapter;
-    private Context mContext;
+    //********************************************************************************
+    //  Layout Member Variable
+    //********************************************************************************
 
 
     @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;
@@ -41,15 +51,32 @@ public class WearListActivity extends BaseActivity {
     @BindView(R.id.list_sensor)     ListView list_sensor;
     @BindView(R.id.result)          TextView result;
 
+
+    //********************************************************************************
+    //  Member Variable
+    //********************************************************************************
+
+    private Context mContext;
+
+    private BluetoothAdapter mBluetoothAdapter;
+    private SensorAdapter mAdapter;
+
+
     private boolean mScanning = false;          // 스캔 중인지?
 
+    private SensorInfo mSelectedSensor;
+    private BluetoothGatt mBluetoothGatt;
+
+    private ProgressDialog mProgress;
+
+    //********************************************************************************
+    //  LifeCycle Functions
+    //********************************************************************************
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_wearlist);
-
-
         mContext = this;
         ButterKnife.bind(this);
 
@@ -78,8 +105,6 @@ public class WearListActivity extends BaseActivity {
         initView();
     }
 
-
-
     @Override
     public void onResume(){
         super.onResume();
@@ -93,13 +118,13 @@ public class WearListActivity extends BaseActivity {
 
         scanLeDevice(true);
     }
+
     public void onPause(){
         super.onPause();
 
         scanLeDevice(false);
         mAdapter.clear();
     }
-
 
     @Override
     protected void onDestroy() {
@@ -110,7 +135,76 @@ public class WearListActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        disconnect();
     }
+
+    //********************************************************************************
+    //  Override Functions
+    //********************************************************************************
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // User chose not to enable Bluetooth.
+        if (requestCode == Const.REQUEST_CODE_OF_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Const.REQUEST_CODE_OF_ADD_SENSOR && resultCode == Const.RESULT_CODE_OF_SENSOR_ADDED) {
+            String sensorId = data.getStringExtra(Const.SENSOR_ID);
+            String sensorName = data.getStringExtra(Const.SENSOR_NAME);
+            String walletName = data.getStringExtra(Const.WEAR_NAME);
+            int cover = data.getIntExtra(Const.WEAR_COVER, R.drawable.purse_01);
+            String phoneNumber = data.getStringExtra(Const.PHONE_NUMBER);
+            int actionMode = data.getIntExtra(Const.ACTION_MODE, Const.ACTION_MODE_LOSS);
+            int rssi = data.getIntExtra(Const.RSSI, 100);
+
+            setResult(Const.RESULT_CODE_OF_SENSOR_ADDED, data);
+            finish();
+        }
+    }
+
+    //********************************************************************************
+    //  Override Event Functions
+    //********************************************************************************
+
+    /**
+     * 뒤로 이동 버튼 클릭 시
+     */
+    @OnClick({R.id.img_back, R.id.btn_close})
+    public void onClickImgBack() {
+        onBackPressed();
+    }
+
+    /**
+     * 타이틀 검색 버튼 클릭 시
+     */
+    @OnClick(R.id.img_search)
+    public void onClickImgSearch() {
+        // 리스트 업데이트
+        initListView();
+        // 스캔하기
+        scanLeDevice(true);
+    }
+
+    @OnItemClick(R.id.list_sensor)
+    public void onListSensorItemClick(int position) {
+        mAdapter.setSelected(position);
+        BluetoothDevice device = mAdapter.getItem(position);
+        if (device != null) {
+//          // 센서 정보 추가하고, 알림 울리기 시작
+            mSelectedSensor = new SensorInfo(device.getAddress(), device.getName(), device.getName(), R.drawable.purse_01, "", Const.ACTION_MODE_LOSS, 100);
+           if (connect() ) {
+               showProgress("웨어 확인 중입니다.");
+           }
+        }
+    }
+
+    //********************************************************************************
+    //  User Define Functions
+    //********************************************************************************
 
 
     private void initView() {
@@ -119,8 +213,8 @@ public class WearListActivity extends BaseActivity {
 
         initListView();
         scanLeDevice(true);
-
     }
+
     private void initTitle() {
         v_titlebar.setTitleVisible(View.VISIBLE);
         v_titlebar.setTitle(getString(R.string.search_wear));
@@ -141,8 +235,26 @@ public class WearListActivity extends BaseActivity {
         list_sensor.setVisibility(View.GONE);
     }
 
+    /**
+     * 프로그래스 보이기
+     */
+    public void showProgress(String msg) {
+        hideProgress();
+        if (!isFinishing()) {
+            mProgress = new ProgressDialog(mContext);
+            mProgress.setMessage(msg);
+            mProgress.show();
+        }
+    }
 
-
+    /**
+     * 프로그래서 숨기기
+     */
+    public void hideProgress() {
+        if (mProgress != null) {
+            mProgress.dismiss();
+        }
+    }
 
     /**
      * 센서 감지 스캔하기
@@ -153,11 +265,11 @@ public class WearListActivity extends BaseActivity {
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
             mBluetoothAdapter.startLeScan(mLeScanCallback);
-            v_titlebar.setSearchImg(R.drawable.anim_search);
+            v_titlebar.startSearch();
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            v_titlebar.setSearchImg(R.drawable.top_search_nor);
+            v_titlebar.stopSearch();
         }
     }
 
@@ -174,19 +286,6 @@ public class WearListActivity extends BaseActivity {
         }
     };
 
-
-    @OnItemClick(R.id.list_sensor)
-    public void onListSensorItemClick(int position) {
-        mAdapter.setSelected(position);
-        BluetoothDevice device = mAdapter.getItem(position);
-        if (device != null) {
-
-            // 프로그래스 팝업띄우기 만들기
-
-            //
-
-        }
-    }
 
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
@@ -221,5 +320,94 @@ public class WearListActivity extends BaseActivity {
                     });
                 }
             };
+
+
+    //********************************************************************************
+    //  Sensor Functions
+    // 리스트 선택 시 센서와 연결 후 바로 끊기
+    //********************************************************************************
+
+    public boolean connect() {
+        ULog.w(TAG, "ID: "+ mSelectedSensor.getId() +" connect() called. mConnectState=" + mSelectedSensor.getState());
+
+        if (mBluetoothAdapter == null || mSelectedSensor.getId() == null) {
+            ULog.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
+            return false;
+        }
+
+       final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mSelectedSensor.getId());
+        if (device == null) {
+            ULog.w(TAG, "ID:" + mSelectedSensor.getId() + " Device not found.  Unable to connect.");
+            return false;
+        }
+
+        ULog.w(TAG, "connect().device.connectGatt() - ID: "+ mSelectedSensor.getId());
+        mBluetoothGatt = device.connectGatt(mContext, false, mGattCallback);
+        if(mBluetoothGatt != null) {
+            ULog.w(TAG, "ID: "+ mBluetoothGatt.getDevice().getAddress() + " connectGatt() OK!");
+        } else {
+            ULog.w(TAG, "ID: "+ mSelectedSensor.getId() + " connectGatt() FAILED");
+        }
+        return true;
+    }
+
+    public void disconnect() {
+
+        hideProgress();
+
+        ULog.w(TAG,"Disconnect++");
+        if (mSelectedSensor == null) {
+            return;
+        }
+        ULog.w(TAG,"Disconnect++1");
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+            ULog.w(TAG, "ID: "+ mSelectedSensor.getId() + " BluetoothAdapter not initialized");
+            return;
+        }
+        ULog.w(TAG,"Disconnect++2");
+        mBluetoothGatt.disconnect();
+        mBluetoothGatt.close();
+        mBluetoothGatt = null;
+        ULog.w(TAG,"Disconnect++3");
+    }
+
+    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            ULog.w(TAG,"ID: "+ mSelectedSensor.getId() + " onConnectionStateChange(), newState=" + newState);
+
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                ULog.w(TAG,"ID: "+ mSelectedSensor.getId() + " Connected to GATT server.");
+                // 연결했으니 바로 끊는다.
+                disconnect();
+
+                // 알림음 울렸으니 추가화면으로 이동한다.
+                Intent i = new Intent();
+                i.setClass(WearListActivity.this, AddActivity.class);
+                i.putExtra("wear", mSelectedSensor);
+                startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
+
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                hideProgress();
+                ULog.w(TAG,"ID: " + mSelectedSensor.getId() + " Disconnected from GATT server.");
+            }
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        }
+
+        @Override
+        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+        }
+    };
 
 }

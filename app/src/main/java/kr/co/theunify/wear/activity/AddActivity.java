@@ -2,25 +2,17 @@ package kr.co.theunify.wear.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -29,13 +21,12 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
-import kr.co.theunify.wear.adapter.SensorAdapter;
+import kr.co.theunify.wear.data.SensorInfo;
 import kr.co.theunify.wear.dialog.CommonDialog;
+import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.utils.UString;
 import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
@@ -53,12 +44,7 @@ public class AddActivity extends BaseActivity  {
     //  Layout Member Variable
     //********************************************************************************
 
-    @BindView(R.id.v_titlebar)
-    TitlebarView v_titlebar;
-
-    // 리스트
-    @BindView(R.id.txt_empty)       TextView txt_empty;
-    @BindView(R.id.list_sensor)     ListView list_sensor;
+    @BindView(R.id.v_titlebar)    TitlebarView v_titlebar;
 
     // 이름 입력
     @BindView(R.id.edt_name)        EditText edt_name;
@@ -99,13 +85,8 @@ public class AddActivity extends BaseActivity  {
 
     private Context mContext;
     private CommonDialog mBubble;
-    private SensorAdapter mAdapter;
 
-//    private List<BluetoothDevice> mSensorList;		// 리스트
-
-
-    private BluetoothAdapter mBluetoothAdapter;
-    private boolean mScanning = false;          // 스캔 중인지?
+    private SensorInfo mSensor;
 
     //********************************************************************************
     //  LifeCycle Functions
@@ -118,31 +99,7 @@ public class AddActivity extends BaseActivity  {
         mContext = this;
         ButterKnife.bind(this);
 
-        // Use this check to determine whether BLE is supported on the device.  Then you can
-        // selectively disable BLE-related features.
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(this, R.string.BLE_not_supported, Toast.LENGTH_SHORT).show();
-            setResult(Activity.RESULT_CANCELED);
-            finish();
-        }
-
-        // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
-        // BluetoothAdapter through BluetoothManager.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
-        final TelephonyManager  telManager =
-                (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        edt_phone.setText(getPhoneNumber(telManager));
-
-        // Checks if Bluetooth is supported on the device.
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(this, R.string.error_bluetooth_not_supported, Toast.LENGTH_SHORT).show();
-            setResult(Activity.RESULT_CANCELED);
-            finish();
-            return;
-        }
-
+        mSensor = (SensorInfo) getIntent().getSerializableExtra("wear");
 
         initView();
     }
@@ -151,24 +108,12 @@ public class AddActivity extends BaseActivity  {
     @Override
     public void onResume() {
         super.onResume();
-
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, Const.REQUEST_CODE_OF_ENABLE_BT);
-        }
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        //mSensorList.requestFocus();
-
-        scanLeDevice(true);
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-
-        scanLeDevice(false);
-        mAdapter.clear();
     }
 
 
@@ -181,6 +126,7 @@ public class AddActivity extends BaseActivity  {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Utils.hideSoftKeyboard(mContext, edt_name);
     }
 
     //********************************************************************************
@@ -209,16 +155,16 @@ public class AddActivity extends BaseActivity  {
         onBackPressed();
     }
 
-    /**
-     * 타이틀 검색 버튼 클릭 시
-     */
-    @OnClick(R.id.img_search)
-    public void onClickImgSearch() {
-        // 리스트 업데이트
-        initListView();
-        // 스캔하기
-        scanLeDevice(true);
-    }
+//    /**
+//     * 타이틀 검색 버튼 클릭 시
+//     */
+//    @OnClick(R.id.img_search)
+//    public void onClickImgSearch() {
+//        // 리스트 업데이트
+//        initListView();
+//        // 스캔하기
+//        scanLeDevice(true);
+//    }
     @OnClick(R.id.btn_question)
     public void onClickBubble() {
 
@@ -227,27 +173,27 @@ public class AddActivity extends BaseActivity  {
     }
 
 
-    @OnItemClick(R.id.list_sensor)
-    public void onListSensorItemClick(int position) {
-        mAdapter.setSelected(position);
-        BluetoothDevice device = mAdapter.getItem(position);
-        if (device != null) {
-            edt_name.setEnabled(false);
-            edt_Wear_name.setEnabled(true);
-
-            radio_lost.setEnabled(true);
-            radio_steal.setEnabled(true);
-
-            // 프로그래스 팝업띄우기 만들기
-
-            //
-
-            edt_name.setText(device.getName());
-            edt_name.setSelection(device.getName().length());
-            edt_name.requestFocus();
-            Utils.showSoftKeyboard(mContext, edt_name);
-        }
-    }
+//    @OnItemClick(R.id.list_sensor)
+//    public void onListSensorItemClick(int position) {
+//        mAdapter.setSelected(position);
+//        BluetoothDevice device = mAdapter.getItem(position);
+//        if (device != null) {
+//            edt_name.setEnabled(false);
+//            edt_Wear_name.setEnabled(true);
+//
+//            radio_lost.setEnabled(true);
+//            radio_steal.setEnabled(true);
+//
+//            // 프로그래스 팝업띄우기 만들기
+//
+//            //
+//
+//            edt_name.setText(device.getName());
+//            edt_name.setSelection(device.getName().length());
+//            edt_name.requestFocus();
+//            Utils.showSoftKeyboard(mContext, edt_name);
+//        }
+//    }
 
     @OnClick(R.id.del_name)
     public void onClickDelName() {
@@ -272,11 +218,6 @@ public class AddActivity extends BaseActivity  {
 
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
-        BluetoothDevice device = mAdapter.getSelected();
-        if (device == null) {
-            Toast.makeText(mContext, getString(R.string.msg_check_device), Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         String name = edt_name.getText().toString();
         String wear_name = edt_Wear_name.getText().toString();
@@ -299,10 +240,15 @@ public class AddActivity extends BaseActivity  {
             }
         }
 
-        String wallet = "gg";
+        int radioButtonID = rg_wallet.getCheckedRadioButtonId();
+        int cover = R.drawable.purse_01;
+        switch (radioButtonID) {
+            case R.id.radio_brown: cover = 0; break;
+            case R.id.radio_green: cover = 1; break;
+            case R.id.radio_purple: cover = 2; break;
+        }
 
-        addSensor(device, name, wear_name, phone, mode, rssi,wallet);
-
+        addSensor(name, wear_name, cover, phone, mode, rssi);
     }
 
 
@@ -315,11 +261,18 @@ public class AddActivity extends BaseActivity  {
      */
     private void initView() {
 
-
         initTitle();
 
-        initListView();
+        radio_lost.setEnabled(true);
+        radio_steal.setEnabled(true);
 
+        edt_phone.setText(getPhoneNumber());
+
+        edt_name.setText(mSensor.getName());
+        edt_Wear_name.setText(mSensor.getWearname());
+        edt_Wear_name.setSelection(mSensor.getWearname().length());
+
+        radio_brwon.setChecked(true);
 
         // seekbar 체인지리스너
         seekbar_dimming.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -340,25 +293,11 @@ public class AddActivity extends BaseActivity  {
             }
         });
 
-//        edt_name.addTextChangedListener(new TextWatcher() {
-//            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-//            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                del_name.setVisibility(s.length()==0? View.GONE:View.VISIBLE);
-//            }
-//            @Override public void afterTextChanged(Editable s) { }
-//        });
-//
-//        edt_phone.addTextChangedListener(new TextWatcher() {
-//            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-//            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                del_phone.setVisibility(s.length()==0? View.GONE:View.VISIBLE);
-//            }
-//            @Override public void afterTextChanged(Editable s) { }
-//        });
-
-        edt_phone.setEnabled(false);
         layout_rssi.setVisibility(View.INVISIBLE);
         delete_layout.setVisibility(View.GONE);
+
+        edt_Wear_name.requestFocus();
+        Utils.showSoftKeyboard(mContext, edt_Wear_name);
 
     }
 
@@ -366,117 +305,41 @@ public class AddActivity extends BaseActivity  {
         v_titlebar.setTitleVisible(View.VISIBLE);
         v_titlebar.setTitle(getString(R.string.title_register));
         v_titlebar.setBackVisible(View.VISIBLE);
-        v_titlebar.setSearchVisible(View.VISIBLE);
-    }
-
-
-    /**
-     * 리스트뷰 Adapter 세팅
-     */
-    private void initListView() {
-        mAdapter = new SensorAdapter(mContext);
-        list_sensor.setAdapter(mAdapter);
-
-
-        txt_empty.setVisibility(View.VISIBLE);
-        txt_empty.setText(getString(R.string.start_detect_sensor));
-        list_sensor.setVisibility(View.GONE);
     }
 
 
     /**
      * 센서 추가하기 - 메시지 확인 후 추가
-     * @param device
      * @param name
      * @param phone
      * @param mode
      * @param rssi
      */
-    private void addSensor(final BluetoothDevice device, final String name, final String wearName, final String phone, final int mode, final int rssi,final String wallet) {
+    private void addSensor(final String name, final String wearName, final int cover, final String phone, final int mode, final int rssi) {
         Utils.showPopupDlg(this, getString(R.string.title_confirm_register), getString(R.string.msg_confirm_register),
                 getResources().getString(R.string.ok), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(Const.SENSOR_ID, device.getAddress());
+                        intent.putExtra(Const.SENSOR_ID, mSensor.getId());
                         intent.putExtra(Const.SENSOR_NAME, name);
                         intent.putExtra(Const.WEAR_NAME, wearName);
+                        intent.putExtra(Const.WEAR_COVER, cover);
                         intent.putExtra(Const.PHONE_NUMBER, phone);
                         intent.putExtra(Const.ACTION_MODE, mode);
                         intent.putExtra(Const.RSSI, rssi);
-                        intent.putExtra(Const.WALLET_COLOR, wallet);
                         setResult(Const.RESULT_CODE_OF_SENSOR_ADDED, intent);
                         finish();
                     }
                 }, getResources().getString(R.string.cancel), null, null);
     }
 
-    /**
-     * 센서 감지 스캔하기
-     * @param enable
-     */
-    private void scanLeDevice(final boolean enable) {
-        if (enable) {
-            handleStart.sendEmptyMessageDelayed(0, 10000);
-            mScanning = true;
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
-            v_titlebar.setSearchImg(R.drawable.anim_search);
-        } else {
-            mScanning = false;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            v_titlebar.setSearchImg(R.drawable.top_search_nor);
-        }
-    }
+    private String getPhoneNumber() {
+        TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-    /*
-     *  Handler
-     */
-    private Handler handleStart = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            scanLeDevice(false);
-            if (mAdapter == null || mAdapter.getCount() == 0) {
-                txt_empty.setText(getString(R.string.no_detect_sensor));
-            }
-        }
-    };
-
-    // Device scan callback.
-    private BluetoothAdapter.LeScanCallback mLeScanCallback =
-            new BluetoothAdapter.LeScanCallback() {
-
-                @Override
-                public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // HeyTong 단말기만 추가 대상으로 보여준다
-                            String sensorName = device.getName();
-                            if (sensorName == null) {
-                                return;
-                            }
-
-                            if (sensorName == null || (!sensorName.startsWith("HeyT") && !sensorName.startsWith("EHITAG"))) {
-                                Log.w(TAG, "This is not a HeyTong Sensor : " + sensorName);
-                                return;
-                            }
-
-                            Log.w(TAG, "Add Sensor : " + sensorName);
-                            mAdapter.addDevice(device);
-
-                            // 하나라도 보이면 리스트가 보여야 한다.
-                            if (mAdapter.getCount() > 0) {
-                                txt_empty.setVisibility(View.GONE);
-                                list_sensor.setVisibility(View.VISIBLE);
-                            }
-
-                        }
-                    });
-                }
-            };
-    private String getPhoneNumber(TelephonyManager telManager) {
         String phoneNumber = "";
         try {
+
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) !=
                     PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
@@ -492,5 +355,4 @@ public class AddActivity extends BaseActivity  {
 
         return phoneNumber;
     }
-
 }

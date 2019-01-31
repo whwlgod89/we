@@ -79,7 +79,7 @@ public class Sensor implements Serializable {
     }
 
     // AddSensor 에서 센서 추가
-    public Sensor(Context context, String sensorId, String sensorName,String wearName,String phoneNumber, int actionMode, int rssi) {
+    public Sensor(Context context, String sensorId, String sensorName, String wearName, int cover, String phoneNumber, int actionMode, int rssi) {
         this.mContext = context;
         final BluetoothManager bluetoothManager = (BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -95,6 +95,7 @@ public class Sensor implements Serializable {
         mSensor.setId(sensorId);
         mSensor.setName(sensorName);
         mSensor.setWearname(wearName);
+        mSensor.setCover(cover);
         mSensor.setPhone(phoneNumber);
         mSensor.setMode(actionMode);
         mSensor.setRssi(rssi);
@@ -114,11 +115,12 @@ public class Sensor implements Serializable {
         mScanned = false;
     }
 
-    public Sensor(String sensorId, String sensorName, String wearName,String phoneNumber, int actionMode, double latitude, double longitude, int batLevel) {
+    public Sensor(String sensorId, String sensorName, String wearName, int cover, String phoneNumber, int actionMode, double latitude, double longitude, int batLevel) {
         mSensor = new SensorInfo();
         mSensor.setId(sensorId);
         mSensor.setName(sensorName);
         mSensor.setWearname(wearName);
+        mSensor.setCover(cover);
         mSensor.setPhone(phoneNumber);
         mSensor.setMode(actionMode);
 
@@ -135,6 +137,7 @@ public class Sensor implements Serializable {
     public String getSensorId() { return mSensor.getId(); }
     public String getSensorName() { return mSensor.getName(); }
     public String getWearname(){return mSensor.getWearname();}
+    public int getCover(){return mSensor.getCover();}
     public String getPhoneNumber() { return mSensor.getPhone(); }
     public int getActionMode() { return mSensor.getMode(); }
     public int getConnectState() { return mSensor.getState(); }

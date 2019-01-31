@@ -9,6 +9,7 @@ import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresPermission;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -140,8 +141,6 @@ public class Utils {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
-
 
     /**
      * 디바이스의 넓이 가져오기

@@ -37,7 +37,7 @@ public class WearApp extends Application {
         ULog.i(TAG, "onCreateApp. Application Started. App=" + this  + " ...............");
 
         // DB 생성
-        mDB = new SensorDatabase(getApplicationContext(), "HeyTong.db", null, 5);
+        mDB = new SensorDatabase(getApplicationContext(), "HeyTong.db", null, 6);
         // 모든 센서 정보 가져오기
         loadSensors();
         if (mAllSensors.size()>0){
@@ -64,8 +64,8 @@ public class WearApp extends Application {
      * @param actionMode    설정 모드
      * @param rssi          rssi 값 - 도난 모드에서
      */
-    public void addSensor(String sensorId, String sensorName, String wearName,String phoneNumber, int actionMode, int rssi) {
-        SensorInfo info = new SensorInfo(sensorId, sensorName,wearName,phoneNumber, actionMode, rssi);
+    public void addSensor(String sensorId, String sensorName, String wearName, int cover, String phoneNumber, int actionMode, int rssi) {
+        SensorInfo info = new SensorInfo(sensorId, sensorName, wearName, cover, phoneNumber, actionMode, rssi);
         Sensor sensor = new Sensor(info);
         insertSensor(sensor);           // 등록된 센서 목록 관리 DB에 추가
         mAllSensors.add(sensor);        // 센서 목록 관리 메모리에 추가 (처음 실행시에 DB 에서 로드)

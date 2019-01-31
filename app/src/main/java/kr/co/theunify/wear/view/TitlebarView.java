@@ -140,24 +140,35 @@ public class TitlebarView extends LinearLayout {
 		img_search.setVisibility(visible);
 	}
 
-	public void setSearchImg(final int res) {
+	public void startSearch() {
+		img_search.setBackgroundResource(R.drawable.anim_search);
+		final AnimationDrawable drawable = (AnimationDrawable) img_search.getBackground();
 
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				img_search.setBackgroundResource(res);
-			}
-		},3500);
-
-		/*animationDrawable = (AnimationDrawable) img_search.getBackground();
-		img_search.post(new Runnable() {
-            @Override
-            public void run() {
-                animationDrawable.start();
-                animationDrawable.stop();
-            }
-        });*/
+		drawable.start();
 	}
+
+	public void stopSearch() {
+		img_search.setBackgroundResource(R.drawable.top_search_icon);
+	}
+
+//	public void setSearchImg(final int res) {
+//
+//		new Handler().postDelayed(new Runnable() {
+//			@Override
+//			public void run() {
+//				img_search.setBackgroundResource(res);
+//			}
+//		},3500);
+//
+//		/*animationDrawable = (AnimationDrawable) img_search.getBackground();
+//		img_search.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                animationDrawable.start();
+//                animationDrawable.stop();
+//            }
+//        });*/
+//	}
 
 	public void setSettingVisible(int visible) {
 		img_setting.setVisibility(visible);

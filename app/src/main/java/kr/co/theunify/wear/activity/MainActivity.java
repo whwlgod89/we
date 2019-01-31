@@ -368,7 +368,7 @@ public class MainActivity extends BaseActivity {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-            mDlgDisconnected = Utils.showPopupDlg(this, "도난 경보", "[" + sensorName + "] 센서와\n연결이 약해졌습니다.",
+            mDlgDisconnected = Utils.showPopupDlg(this, "도난 경보", "[" + sensorName + "] 웨어와\n연결이 약해졌습니다.",
                     getString(R.string.ok), null, "", null, null);
             mDlgDisconnected.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
@@ -416,11 +416,12 @@ public class MainActivity extends BaseActivity {
                 String sensorId = data.getStringExtra(Const.SENSOR_ID);
                 String sensorName = data.getStringExtra(Const.SENSOR_NAME);
                 String walletName = data.getStringExtra(Const.WEAR_NAME);
+                int cover = data.getIntExtra(Const.WEAR_COVER, R.drawable.purse_01);
                 String phoneNumber = data.getStringExtra(Const.PHONE_NUMBER);
                 int actionMode = data.getIntExtra(Const.ACTION_MODE, Const.ACTION_MODE_LOSS);
                 int rssi = data.getIntExtra(Const.RSSI, 100);
 
-                mApp.addSensor(sensorId, sensorName, walletName, phoneNumber,actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
+                mApp.addSensor(sensorId, sensorName, walletName, cover, phoneNumber,actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
 
                 // 센서의 위치를 추가한 것으확인한다.
                 mApp.setCurSensor(mApp.getSensorCount()-1);
@@ -473,7 +474,7 @@ public class MainActivity extends BaseActivity {
 //            showAddSensor(false);       // Show/Hide Widgets for Add Sensor
         } else {
             Intent i = new Intent();
-            i.setClass(this, AddActivity.class);
+            i.setClass(this, WearListActivity.class);
             startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
         }
     }
@@ -488,26 +489,32 @@ public class MainActivity extends BaseActivity {
 
     @OnClick({R.id.btn_find, R.id.btn_location, R.id.btn_setting,R.id.btn_instruction} )
     public void onClickOption(View v) {
-        Intent i = new Intent();
+
         switch (v.getId())
         {
-            case R.id.btn_find:
+            case R.id.btn_find: {
                 mApp.getCurSensor().findSensor();
                 break;
-
-            case R.id.btn_location:
+            }
+            case R.id.btn_location: {
                 // 지도 화면으로 이동한다. - 구글 지도
+                Intent i = new Intent();
                 i.setClass(this, MapActivity.class);
                 startActivity(i);
                 break;
-            case  R.id.btn_setting:
+            }
+            case  R.id.btn_setting: {
+                Intent i = new Intent();
                 i.setClass(this, ModifyActivity.class);
                 startActivityForResult(i, Const.REQUEST_CODE_OF_MODIFY_SENSOR);
                 break;
-            case R.id.btn_instruction:
-                i.setClass(this,InstructionActivity.class);
+            }
+            case R.id.btn_instruction: {
+                Intent i = new Intent();
+                i.setClass(this, InstructionActivity.class);
                 startActivity(i);
                 break;
+            }
                 // remove 를 지우고 사용방법을 추가
         }
      /*

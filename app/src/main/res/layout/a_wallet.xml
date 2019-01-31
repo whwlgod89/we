@@ -18,33 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/px160" />
 
-        <LinearLayout
-            android:id="@+id/layout_list"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#ececec"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txt_empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:lineSpacingExtra="@dimen/px10"
-                android:text="@string/no_detect_sensor"
-                android:textSize="@dimen/px50" />
-
-            <ListView
-                android:id="@+id/list_sensor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ececec"
-                android:divider="#adadad"
-                android:dividerHeight="@dimen/px1" />
-
-        </LinearLayout>
-
         <!--지갑 정보 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,14 +102,13 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:enabled="false"
                         android:hint="@string/hint_wear_name"
                         android:inputType="text"
                         android:maxLength="15"
                         android:textSize="@dimen/px50" />
 
                     <ImageView
-                        android:id="@+id/del_name"
+                        android:id="@+id/del_wear_name"
                         android:layout_width="@dimen/px100"
                         android:layout_height="@dimen/px100"
                         android:background="@drawable/btn_delete"
@@ -176,7 +148,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:enabled="false"
                         android:hint="@string/hint_phone_number"
                         android:inputType="phone"
                         android:maxLength="16"
@@ -242,8 +213,8 @@
 
                     <ImageView
                         android:id="@+id/btn_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/px148"
+                        android:layout_height="@dimen/px148"
                         android:layout_weight="1"
                         app:srcCompat="@drawable/description" />
                 </LinearLayout>
@@ -383,21 +354,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/purse_00" />
+                        app:srcCompat="@drawable/purse_01" />
 
                     <ImageView
                         android:id="@+id/imageView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/purse_01" />
+                        app:srcCompat="@drawable/purse_02" />
 
                     <ImageView
                         android:id="@+id/imageView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/purse_02" />
+                        app:srcCompat="@drawable/purse_03" />
                 </LinearLayout>
 
             </LinearLayout>

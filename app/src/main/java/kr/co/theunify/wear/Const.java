@@ -37,6 +37,7 @@ public class Const {
     public static final String SENSOR_ID = "SENSOR_ID";
     public static final String SENSOR_NAME = "SENSOR_NAME";
     public static final String WEAR_NAME = "WEAR_NAME";
+    public static final String WEAR_COVER = "WEAR_COVER";
     public static final String PHONE_NUMBER = "PHONE_NUMBER";
     public static final String ACTION_MODE = "ACTION_MODE";
     public static final String RSSI = "THEFT_RSSI";
@@ -68,6 +69,4 @@ public class Const {
     public static final int THEFT_LEVEL_MID = -85;
     public static final int THEFT_LEVEL_HIGH = -100;
 
-    //wallet color
-    public static final String WALLET_COLOR ="WALLET_COLOR";
 }

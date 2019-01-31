@@ -41,32 +41,26 @@ public class ModifyActivity extends BaseActivity {
     //  Layout Member Variable
     //********************************************************************************
 
-    @BindView(R.id.v_titlebar)
-    TitlebarView v_titlebar;
+    @BindView(R.id.v_titlebar)          TitlebarView v_titlebar;
 
-    @BindView(R.id.layout_list)
-    LinearLayout layout_list;
-    @BindView(R.id.edt_name)
-    EditText edt_name;
-    @BindView(R.id.edt_Wear_name)
-    EditText edt_Wear_name;
-    @BindView(R.id.edt_phone)
-    EditText edt_phone;
-    @BindView(R.id.rg_mode)
-    RadioGroup rg_mode;
-    @BindView(R.id.radio_lost)
-    RadioButton radio_lost;
-    @BindView(R.id.radio_steal)
-    RadioButton radio_steal;
+    @BindView(R.id.edt_name)            EditText edt_name;
+    @BindView(R.id.edt_Wear_name)       EditText edt_Wear_name;
+    @BindView(R.id.edt_phone)           EditText edt_phone;
+    @BindView(R.id.rg_mode)             RadioGroup rg_mode;
+    @BindView(R.id.radio_lost)          RadioButton radio_lost;
+    @BindView(R.id.radio_steal)         RadioButton radio_steal;
 
-    @BindView(R.id.layout_rssi)
-    LinearLayout layout_rssi;
-    @BindView(R.id.seekbar_dimming)
-    SeekBar seekbar_dimming;
+    @BindView(R.id.layout_rssi)         LinearLayout layout_rssi;
+    @BindView(R.id.seekbar_dimming)     SeekBar seekbar_dimming;
 
-    @BindView(R.id.btn_add)
-    TextView btn_add;
-    @BindView(R.id.delete_layout)   LinearLayout delete_layout;
+    //  지갑선택
+    @BindView(R.id.rg_wallet)       RadioGroup rg_wallet;
+    @BindView(R.id.radio_brown)     RadioButton radio_brwon;
+    @BindView(R.id.radio_green)     RadioButton radio_green;
+    @BindView(R.id.radio_purple)    RadioButton radio_purple;
+
+    @BindView(R.id.btn_add)             TextView btn_add;
+    @BindView(R.id.delete_layout)       LinearLayout delete_layout;
 
     //********************************************************************************
     //  Member Variable
@@ -77,6 +71,7 @@ public class ModifyActivity extends BaseActivity {
     private WearApp mApp = null;
     private Sensor mSensor;
     private CommonDialog mBubble;
+
     //********************************************************************************
     //  LifeCycle Functions
     //********************************************************************************
@@ -94,26 +89,20 @@ public class ModifyActivity extends BaseActivity {
         initView();
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
-
     }
-
 
     @Override
     public void onPause() {
         super.onPause();
-
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -146,10 +135,10 @@ public class ModifyActivity extends BaseActivity {
 
     @OnClick(R.id.btn_question)
     public void onClickBubble() {
-
         mBubble = Utils.showPopupDlg(this, "", "",
                 getString(R.string.ok), null, "", null, null);
     }
+
     @OnClick(R.id.delete_layout)
     public void onClickDelete(){
         Utils.showPopupDlg(this, getString(R.string.remove_title), getString(R.string.remove_message),
@@ -168,8 +157,6 @@ public class ModifyActivity extends BaseActivity {
 
                     }
                 }, getResources().getString(R.string.cancel), null, null);
-
-
     }
 
     @OnClick(R.id.btn_add)
@@ -177,16 +164,12 @@ public class ModifyActivity extends BaseActivity {
 
         String name = edt_name.getText().toString();
         String wearname = edt_Wear_name.getText().toString();
-        if (UString.isEmpty(name)) {
+        if (UString.isEmpty(wearname)) {
             Toast.makeText(mContext, getString(R.string.msg_check_name), Toast.LENGTH_SHORT).show();
             return;
         }
 
         String phone = edt_phone.getText().toString();
-//        if (UString.isEmpty(phone)) {
-//            Toast.makeText(mContext, "전화번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 
         int mode = (rg_mode.getCheckedRadioButtonId() == R.id.radio_lost) ? Const.ACTION_MODE_LOSS : Const.ACTION_MODE_THEFT;
         int rssi = Const.THEFT_LEVEL_HIGH;
@@ -200,14 +183,17 @@ public class ModifyActivity extends BaseActivity {
                 rssi = Const.THEFT_LEVEL_HIGH;
             }
         }
-        if(TextUtils.isEmpty(wearname) || wearname ==""){
-            wearname = String.valueOf(getText(R.string.null_wearName));
+
+        int radioButtonID = rg_wallet.getCheckedRadioButtonId();
+        int cover = R.drawable.purse_01;
+        switch (radioButtonID) {
+            case R.id.radio_brown: cover = 0; break;
+            case R.id.radio_green: cover = 1; break;
+            case R.id.radio_purple: cover = 2; break;
         }
 
-        modifySensor(name, wearname,phone, mode, rssi);
-
+        modifySensor(name, wearname, cover, phone, mode, rssi);
     }
-
 
     //********************************************************************************
     //  User Define Functions
@@ -219,10 +205,10 @@ public class ModifyActivity extends BaseActivity {
     private void initView() {
         initTitle();
 
-        layout_list.setVisibility(View.GONE);
         btn_add.setText(getResources().getString(R.string.modify));
 
         edt_name.setText(mSensor.getSensorName());
+        edt_Wear_name.setText(mSensor.getWearname());
         edt_phone.setText(mSensor.getPhoneNumber());
         if (mSensor.getActionMode() == Const.ACTION_MODE_LOSS) {
             layout_rssi.setVisibility(View.INVISIBLE);
@@ -239,14 +225,20 @@ public class ModifyActivity extends BaseActivity {
             } else {
                 seekbar_dimming.setProgress(2);
             }
-
         }
 
-        edt_name.setEnabled(false);
-        edt_Wear_name.setEnabled(true);
-        edt_phone.setEnabled(false);
+        switch (mSensor.getCover()) {
+            case 0: radio_brwon.setChecked(true); break;
+            case 1: radio_green.setChecked(true); break;
+            case 2: radio_purple.setChecked(true); break;
+            default: radio_brwon.setChecked(true); break;
+        }
+
         radio_lost.setEnabled(true);
         radio_steal.setEnabled(true);
+
+        edt_Wear_name.requestFocus();
+        Utils.showSoftKeyboard(mContext, edt_Wear_name);
     }
 
     private void initTitle() {
@@ -255,7 +247,7 @@ public class ModifyActivity extends BaseActivity {
         v_titlebar.setBackVisible(View.VISIBLE);
     }
 
-    private void modifySensor(final String name, final String wearnName,final String phone, final int mode, final int rssi) {
+    private void modifySensor(final String name, final String wearnName, final int cover, final String phone, final int mode, final int rssi) {
         Utils.showPopupDlg(this, getString(R.string.title_confirm_modify), getString(R.string.msg_confirm_modify),
                 getResources().getString(R.string.ok), new View.OnClickListener() {
                     @Override
@@ -263,6 +255,7 @@ public class ModifyActivity extends BaseActivity {
                         mSensor.getInfo().setName(name);
                         mSensor.getInfo().setPhone(phone);
                         mSensor.getInfo().setWearname(wearnName);
+                        mSensor.getInfo().setCover(cover);
                         mSensor.getInfo().setMode(mode);
                         mSensor.getInfo().setRssi(rssi);
                         mApp.updateSensor(mSensor);
@@ -273,23 +266,4 @@ public class ModifyActivity extends BaseActivity {
                 }, getResources().getString(R.string.cancel), null, null);
     }
 
-    private String getPhoneNumber(TelephonyManager telManager) {
-        String phoneNumber = "";
-        try {
-
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) !=
-                    PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS)
-                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-            }
-            String tmpPhoneNumber = telManager.getLine1Number();
-            phoneNumber = tmpPhoneNumber.replace("+82", "0");
-
-        } catch (Exception e) {
-            phoneNumber = "";
-        }
-
-        return phoneNumber;
-    }
 }
