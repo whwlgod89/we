@@ -69,32 +69,10 @@ public class SettingActivity extends BaseActivity {
             addPreferencesFromResource(R.xml.pref_settings);
 
             // 현재 설정값 표시 및 설정값 변경 표시 핸들러 연결
-            bindPreferenceSummaryToValue(findPreference("pref_key_alarm_disconnected"));
             bindPreferenceSummaryToValue(findPreference("pref_key_alarm_find_phone"));
             bindPreferenceSummaryToValue(findPreference("pref_key_alarm_duration"));
 
             // 앱 재시작 처리
-
-
-           /* Preference appRestart = findPreference("pref_key_app_control_restart");
-            appRestart.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    final Context context = getActivity();
-
-                    ((BaseActivity)getActivity()).showAlertPopup("", getString(R.string.pref_confirm_app_control_restart),
-                            getResources().getString(R.string.ok), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    ULog.i(TAG, "RESTART..." + getActivity().getLocalClassName());
-                                    Const.mRestartApp = true;
-                                    getActivity().setResult(Const.RESULT_CODE_OF_RESTART_APP);
-                                    getActivity().finish();
-                                }
-                            }, getString(R.string.cancel));
-                    return true;
-                }
-            });*/
 
             // 앱 종료 처리
             Preference appFinish = findPreference("pref_key_app_control_finish");
@@ -115,8 +93,6 @@ public class SettingActivity extends BaseActivity {
                     return true;
                 }
             });
-
-            // 도움말 선택시 브라우저 연결하고 설정은 종료
 
         }
 

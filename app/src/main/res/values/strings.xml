@@ -113,6 +113,8 @@
     <string name="pref_title_alarm_vibrate">Vibrate</string>
     <string name="pref_summary_alarm_vibrate">Use vibrate together on alarm.</string>
     <string name="pref_title_alarm_duration">Duration</string>
+    <string name="pref_summary_proximity_alarm_allowed">Alarm is sounded when reconnecting</string>
+
     <string-array name="pref_alarm_duration_titles">
         <item>10 seconds</item>
         <item>20 seconds</item>
@@ -124,6 +126,8 @@
         <item>30</item>
     </string-array>
 
+
+    <string name="pref_title_proximity_alarm_allowed">Proximity alarm allowed</string>
     <string name="pref_title_app_control_category">App Control</string>
     <string name="pref_title_start_on_boot">Start Wear on Boot</string>
     <string name="pref_summary_start_on_boot">Auto execute Wear App on phone boot.</string>
@@ -133,11 +137,10 @@
     <string name="pref_title_app_control_finish">Finish App</string>
     <string name="pref_summary_app_control_finish">Finish app completely including service.</string>
     <string name="pref_confirm_app_control_finish">Are you sure to finish Wear?</string>
+    <string name="pref_show_app_Information">App Information</string>
 
     <string name="pref_app_control_restart">Restart app.</string>
     <string name="pref_app_control_finish">Finish app.</string>
-
-    <string name="pref_title_show_app_Information">App Information</string>
     <string name="pref_title_show_guide">Wear Guide</string>
     <string name="pref_summary_show_guide">Open Wear Guide Web Page</string>
 

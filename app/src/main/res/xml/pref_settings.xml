@@ -8,19 +8,10 @@
             android:summary="@string/pref_summary_alarm_vibrate"
             android:title="@string/pref_title_alarm_vibrate" />
         <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:defaultValue="true"
-            android:key="switch_preference_1"
-            android:summary="@string/pref_summary_alarm_vibrate"
-            android:title="@string/pref_title_alarm_vibrate" />
-        <RingtonePreference
-            android:key="pref_key_alarm_disconnected"
-            android:title="@string/pref_title_alarm_disconnected"
-            android:ringtoneType="alarm"
-            android:showDefault="true"
-            android:showSilent="true"
-            android:defaultValue="content://settings/system/alarm_alert" />
+            android:key="pref_proximity_alarm_allowed"
+            android:summary="@string/pref_summary_proximity_alarm_allowed"
+            android:title="@string/pref_title_proximity_alarm_allowed" />
         <RingtonePreference
             android:key="pref_key_alarm_find_phone"
             android:title="@string/pref_title_alarm_find_phone"
@@ -53,14 +44,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_show_guide_category"
-        android:title="@string/pref_title_show_app_Information">
-        <SwitchPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="true"
-            android:key="switch_preference_1"
-            android:summary="@string/pref_summary_alarm_vibrate"
-            android:title="@string/pref_title_alarm_vibrate" />
-    </PreferenceCategory>
+        android:key="pref_show_app_Information"
+        android:title="@string/pref_show_app_Information"></PreferenceCategory>
 </PreferenceScreen>

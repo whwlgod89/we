@@ -128,7 +128,6 @@ public class SensorService extends Service {
     public boolean stopService(Intent name) {
         mBtAdapter.stopLeScan(mLeScanCallback);
         return super.stopService(name);
-
     }
 
     private BluetoothManager mBtManager = null;
