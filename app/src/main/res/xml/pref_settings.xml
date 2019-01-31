@@ -7,13 +7,11 @@
             android:key="pref_key_alarm_vibrate"
             android:summary="@string/pref_summary_alarm_vibrate"
             android:title="@string/pref_title_alarm_vibrate" />
-        <RingtonePreference
-            android:key="pref_key_alarm_disconnected"
-            android:title="@string/pref_title_alarm_disconnected"
-            android:ringtoneType="alarm"
-            android:showDefault="true"
-            android:showSilent="true"
-            android:defaultValue="content://settings/system/alarm_alert" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_proximity_alarm_allowed"
+            android:summary="@string/pref_summary_proximity_alarm_allowed"
+            android:title="@string/pref_title_proximity_alarm_allowed" />
         <RingtonePreference
             android:key="pref_key_alarm_find_phone"
             android:title="@string/pref_title_alarm_find_phone"
@@ -46,15 +44,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_show_guide_category"
-        android:title="@string/pref_title_show_guide_category">
-        <Preference
-            android:key="pref_key_show_guide"
-            android:summary="@string/pref_summary_show_guide"
-            android:title="@string/pref_title_show_guide">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="http://heytong.com/?page_id=425" />
-        </Preference>
-    </PreferenceCategory>
+        android:key="pref_show_app_Information"
+        android:title="@string/pref_show_app_Information"></PreferenceCategory>
 </PreferenceScreen>

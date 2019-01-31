@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.LayoutInflater;
 
+import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 
 import android.widget.LinearLayout;
@@ -30,6 +31,8 @@ import java.util.ResourceBundle;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import kr.co.theunify.wear.activity.MainActivity;
+import kr.co.theunify.wear.activity.SettingActivity;
 
 public class TitlebarView extends LinearLayout {
 
@@ -103,7 +106,6 @@ public class TitlebarView extends LinearLayout {
 
 	@OnClick(R.id.img_setting)
 	public void onClickImgSetting() {
-
 
 	}
 

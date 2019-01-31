@@ -115,6 +115,10 @@
     <string name="pref_title_alarm_vibrate">진동</string>
     <string name="pref_summary_alarm_vibrate">알람이 울릴 때 진동을 함께 사용합니다.</string>
     <string name="pref_title_alarm_duration">알림 시간</string>
+
+    <string name="pref_title_proximity_alarm_allowed">근접 알람 허용</string>
+    <string name="pref_summary_proximity_alarm_allowed">웨어 재 접속 시, 알람을 울립니다</string>
+
     <string-array name="pref_alarm_duration_titles">
         <item>10 초</item>
         <item>20 초</item>
@@ -125,6 +129,8 @@
         <item>20</item>
         <item>30</item>
     </string-array>
+
+
 
     <string name="pref_title_app_control_category">App 제어</string>
     <string name="pref_title_start_on_boot">App 자동 시작</string>
@@ -139,7 +145,7 @@
     <string name="pref_app_control_restart">App을 다시 시작합니다.</string>
     <string name="pref_app_control_finish">App을 완전히 종료합니다.</string>
 
-    <string name="pref_title_show_guide_category">도움말</string>
+    <string name="pref_show_app_Information">App 정보</string>
     <string name="pref_title_show_guide">사용 방법 안내</string>
     <string name="pref_summary_show_guide">Wear 사용 안내 웹 페이지를 엽니다.</string>
 

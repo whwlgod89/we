@@ -49,7 +49,6 @@ public class WearListActivity extends BaseActivity {
     @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;
     @BindView(R.id.txt_empty)       TextView txt_empty;
     @BindView(R.id.list_sensor)     ListView list_sensor;
-    @BindView(R.id.result)          TextView result;
 
 
     //********************************************************************************
