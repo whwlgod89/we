@@ -75,7 +75,7 @@ public class MainPagerFragment extends Fragment {
                 }
                 iv_wallet.setBackgroundResource(resource);
             } else {
-                iv_wallet.setBackgroundResource(R.drawable.purse_03);
+                iv_wallet.setBackgroundResource(R.drawable.sample_img_01_disconm);
             }
         }
 

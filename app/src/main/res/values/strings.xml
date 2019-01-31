@@ -137,7 +137,7 @@
     <string name="pref_app_control_restart">Restart app.</string>
     <string name="pref_app_control_finish">Finish app.</string>
 
-    <string name="pref_title_show_guide_category">Help</string>
+    <string name="pref_title_show_app_Information">App Information</string>
     <string name="pref_title_show_guide">Wear Guide</string>
     <string name="pref_summary_show_guide">Open Wear Guide Web Page</string>
 

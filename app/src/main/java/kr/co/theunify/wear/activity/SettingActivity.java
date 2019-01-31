@@ -74,7 +74,9 @@ public class SettingActivity extends BaseActivity {
             bindPreferenceSummaryToValue(findPreference("pref_key_alarm_duration"));
 
             // 앱 재시작 처리
-            Preference appRestart = findPreference("pref_key_app_control_restart");
+
+
+           /* Preference appRestart = findPreference("pref_key_app_control_restart");
             appRestart.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -92,7 +94,7 @@ public class SettingActivity extends BaseActivity {
                             }, getString(R.string.cancel));
                     return true;
                 }
-            });
+            });*/
 
             // 앱 종료 처리
             Preference appFinish = findPreference("pref_key_app_control_finish");
@@ -115,16 +117,7 @@ public class SettingActivity extends BaseActivity {
             });
 
             // 도움말 선택시 브라우저 연결하고 설정은 종료
-            Preference appHelp = findPreference("pref_key_show_guide");
-            appHelp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://heytong.com/?page_id=425"));
-                    startActivity(browserIntent);
-                    getActivity().finish();
-                    return true;
-                }
-            });
+
         }
 
         private static void bindPreferenceSummaryToValue(Preference preference) {

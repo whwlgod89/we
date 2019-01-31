@@ -473,7 +473,7 @@ public class MainActivity extends BaseActivity {
 //            showAddSensor(false);       // Show/Hide Widgets for Add Sensor
         } else {
             Intent i = new Intent();
-            i.setClass(this, AddActivity.class);
+            i.setClass(this, WearListActivity.class);
             startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
         }
     }
@@ -481,8 +481,8 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.img_setting)
     public void onClickImgSetting() {
         Intent intent = new Intent();
-        intent.setClass(this, SettingActivity.class);
-        startActivityForResult(intent, Const.REQUEST_CODE_OF_APP_SETTINGS);
+        intent.setClass(mContext, SettingActivity.class);
+        ((MainActivity) mContext).startActivityForResult(intent, Const.REQUEST_CODE_OF_APP_SETTINGS);
 
     }
 
@@ -510,31 +510,7 @@ public class MainActivity extends BaseActivity {
                 break;
                 // remove 를 지우고 사용방법을 추가
         }
-     /*
-        if (v.getId() == R.id.btn_find) {
-            mApp.getCurSensor().findSensor();
-        } else if (v.getId() == R.id.btn_location) {
-            // 지도 화면으로 이동한다. - 구글 지도
-            Intent i = new Intent();
-            i.setClass(this, MapActivity.class);
-            startActivity(i);
-        } else if (v.getId() == R.id.btn_remove) {
-            // 삭제
-            Utils.showPopupDlg(this, getString(R.string.remove_title), getString(R.string.remove_message),
-                    getResources().getString(R.string.ok), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // 센서 삭제
-                            mApp.removeSensor();
-                            // 화면 업데이트
-                            initView();
-                        }
-                    }, getResources().getString(R.string.cancel), null, null);
-        } else if (v.getId() == R.id.btn_setting) {
-            Intent i = new Intent();
-            i.setClass(this, ModifyActivity.class);
-            startActivityForResult(i, Const.REQUEST_CODE_OF_MODIFY_SENSOR);
-        }*/
+
 
     }
 

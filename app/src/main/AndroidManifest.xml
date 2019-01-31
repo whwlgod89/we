@@ -67,7 +67,10 @@
 
 
         <activity android:name=".activity.InstructionActivity"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="unspecified"
+            android:theme="@style/Transparent"
+            />
 
 
         <meta-data
