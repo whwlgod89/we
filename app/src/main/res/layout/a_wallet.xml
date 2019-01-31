@@ -214,7 +214,7 @@
                     <ImageView
                         android:id="@+id/btn_info"
                         android:layout_width="@dimen/px148"
-                        android:layout_height="@dimen/px148"
+                        android:layout_height="@dimen/px150"
                         android:layout_weight="1"
                         app:srcCompat="@drawable/description" />
                 </LinearLayout>

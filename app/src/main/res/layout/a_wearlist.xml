@@ -43,30 +43,55 @@
                 android:dividerHeight="@dimen/px1" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/result"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="@dimen/px350"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/btn_close"
-                android:layout_width="@dimen/px500"
-                android:layout_height="@dimen/px120"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/px100"
-                android:layout_marginTop="@dimen/px40"
-                android:layout_marginRight="@dimen/px100"
-                android:layout_marginBottom="@dimen/px100"
-                android:background="@drawable/selector_btn_add_sensor"
-                android:gravity="center"
-                android:text="@string/btn_close"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/px50" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px50"
+                    android:layout_marginLeft="@dimen/px40"
+                    android:layout_marginTop="@dimen/px40"
+                    android:text="@string/brief_description1"
+                    android:textSize="@dimen/ps12" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/px40"
+                    android:layout_marginTop="@dimen/px40"
+                    android:text="@string/brief_description2"
+                    android:textSize="@dimen/ps12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/btn_close"
+                    android:layout_width="@dimen/px500"
+                    android:layout_height="@dimen/px120"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/px100"
+                    android:layout_marginTop="@dimen/px40"
+                    android:layout_marginRight="@dimen/px100"
+                    android:layout_marginBottom="@dimen/px100"
+                    android:background="@drawable/selector_btn_add_sensor"
+                    android:gravity="center"
+                    android:text="@string/btn_close"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/px50" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

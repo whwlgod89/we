@@ -365,6 +365,56 @@ public class SensorService extends Service {
         return (mSensorList.size() > 0) ? true : false;
     }
 
+    //Reconnected Alarm
+    public void starAlarm3(boolean reconnected){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        mAlarmVibrate = settings.getBoolean("pref_key_alarm_vibrate", false);
+        String strDuration = settings.getString("pref_key_alarm_duration", "10");
+        int alarmDuration = Integer.parseInt(strDuration);
+        mAlarmLoopCount = alarmDuration / 10;
+        mAlarmPlayCount = 0;
+        String strAlarm;
+        if(reconnected) {
+            strAlarm = settings.getString("pref_key_alarm_reconnected", "FAIL");   // "Silent");
+        }
+        else {
+            strAlarm = settings.getString("pref_key_alarm_find_phone", "FAIL");     // "Silent");
+        }
+
+        ULog.i(TAG, "Alarm Sound=" + strAlarm);
+
+        // 알람이 None이 아닌지 확인하여 진행한다.
+        if(strAlarm == null || strAlarm.equals("")) {
+            mAlarmSound = false;
+        }
+        else {
+            mAlarmSound = true;
+
+            if(strAlarm.equals("FAIL")) {
+                mAlarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            }
+            else {
+                mAlarmUri = Uri.parse(strAlarm);
+            }
+            mediaPlayer = MediaPlayer.create(this, mAlarmUri);
+        }
+        ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
+
+        if(mAlarmSound || mAlarmVibrate) {
+            if(mAlarmSound) {
+                beforeAudioVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
+            }
+            mApp.setAlarmState(true);
+            mAlarmTimer.start();
+        }
+
+
+    }
+
+    //disconnected alaram
     public void startAlarm2(boolean disconnected) {
         ULog.i(TAG,"startAlarm2()");
 
@@ -432,7 +482,6 @@ public class SensorService extends Service {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-
         if(mAlarmVibrate) {
             mVibe.cancel();
         }
@@ -466,7 +515,9 @@ public class SensorService extends Service {
         mAlarmHowTo = 1;    //=================================================
         mAlarmHowLong = 10;
         mAlarmHowOften = 3;
+
         //switch(Integer.valueOf(settings.getString("KEY_PHONE_ALARM","1"))) {
+
         switch(mAlarmHowTo) {
             case 0:
                 bSoundEn = true;

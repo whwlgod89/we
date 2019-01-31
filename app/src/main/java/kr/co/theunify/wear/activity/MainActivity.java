@@ -90,6 +90,7 @@ public class MainActivity extends BaseActivity {
     private Sensor mSensor;
     private CommonDialog mDlgFindPhone;           // 센서에서 폰 찾기 다이얼로그
     private boolean mDlgFindPhoneOn = false;     // 센서에서 폰 찾기 다이얼로그 표시 여부 (알람 종료 후 종료?)
+    private boolean mDlgConnected;
     private CommonDialog mDlgDisconnected;        // 센서 연결 끊김 다이얼로그
     private boolean mDlgDisconnectedOn = false;  // 센서 연결 끊김 다이얼로그 표시 여부 (알람 종료 후 유지, 사용자 확인 종료)
 

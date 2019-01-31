@@ -153,8 +153,6 @@ public class ModifyActivity extends BaseActivity {
                         Intent intent = new Intent(mContext, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mContext.startActivity(intent);
-
-
                     }
                 }, getResources().getString(R.string.cancel), null, null);
     }

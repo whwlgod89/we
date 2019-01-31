@@ -68,11 +68,14 @@
     <string name="sensor_id">지갑 ID:</string>
     <string name="sensor_name">일련 번호:</string>
     <string name="wear_name">웨어 이름:</string>
+
     <string name="my_wallet">나의 지갑</string>
     <string name="phone_no">전화 번호:</string>
     <string name="action_mode">동작 모드:</string>
     <string name="action_loss">분실 방지</string>
     <string name="select_wear">웨어 선택 : </string>
+    <string name="brief_description1">● 선택 시, 2~3초 후 웨어에서 접속음 발생.</string>
+    <string name="brief_description2">웨어의 버튼을 누르면 소리가 멈춥니다.</string>
     <string name="action_theft">도난 방지</string>
     <string name="register">등록</string>
     <string name="modify">수정 완료</string>
@@ -103,6 +106,7 @@
     <string name="ask_bring_phonenumber">요청</string>
     <string name="ask_phone">폰번호를 가져와도 됩니까?</string>
     <string name="title_activity_settings">설정</string>
+    <string name="titlebar_manual">Wear 설명서</string>
     <string name="null_wearName">헤이통</string>
 
     <!-- Strings related to Settings -->
@@ -141,6 +145,9 @@
     <string name="pref_title_app_control_finish">App 종료</string>
     <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.</string>
     <string name="pref_confirm_app_control_finish">App을 완전히 종료하시겠습니까?</string>
+    <string name="pref_version"> "버 전 " &#160; "  <font size="15" color="#ff0000"> " 1.2.2v "</font></string>
+    <string name="pref_producer"> " 제작사 " &#160; " (주)더유니파이" </string>
+
 
     <string name="pref_app_control_restart">App을 다시 시작합니다.</string>
     <string name="pref_app_control_finish">App을 완전히 종료합니다.</string>
