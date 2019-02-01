@@ -69,6 +69,12 @@
         <activity android:name=".activity.InstructionActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <!--<activity android:name=".activity.InstructionActivity"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="unspecified"-->
+            <!--android:theme="@style/Transparent"-->
+            <!--/>-->
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
