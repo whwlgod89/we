@@ -69,9 +69,9 @@ public class SettingActivity extends BaseActivity {
             addPreferencesFromResource(R.xml.pref_settings);
 
             // 현재 설정값 표시 및 설정값 변경 표시 핸들러 연결
-            bindPreferenceSummaryToValue(findPreference("pref_key_alarm_disconnected"));
             bindPreferenceSummaryToValue(findPreference("pref_key_alarm_find_phone"));
             bindPreferenceSummaryToValue(findPreference("pref_key_alarm_duration"));
+         //   bindPreferenceSummaryToValue(findPreference("pref_alarm_connected"));
 
             // 앱 재시작 처리
 

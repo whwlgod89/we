@@ -1,4 +1,5 @@
-﻿<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+﻿<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key="pref_key_alarm_category"
         android:title="@string/pref_title_alarm_category">
@@ -42,8 +43,21 @@
             android:summary="@string/pref_summary_app_control_finish"
             android:title="@string/pref_title_app_control_finish" />
     </PreferenceCategory>
+    <Preference
+        android:key=""
+        android:summary="@string/pref_show_app_Information"
+        />
+    <EditTextPreference
+        android:key="edit_text_preference_1"
+        android:title="@string/pref_version"
+        android:selectable="false"
+        android:persistent="false"
+        />
+    <EditTextPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/pref_producer" />
 
-    <PreferenceCategory
-        android:key="pref_show_app_Information"
-        android:title="@string/pref_show_app_Information"></PreferenceCategory>
 </PreferenceScreen>

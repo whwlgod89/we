@@ -2561,5 +2561,7 @@
     <dimen name="px2558">639.50dp</dimen>
     <dimen name="px2559">639.75dp</dimen>
     <dimen name="px2560">640.00dp</dimen>
+    <dimen name="ps12">12.00sp</dimen>
+    <dimen name ="ps20">20.00sp</dimen>
 
 </resources>

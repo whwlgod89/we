@@ -302,7 +302,6 @@ public class WearApp extends Application {
     public void startAlarm2(boolean detected) {
         mService.startAlarm2(detected);
     }
-    public void stopAlarm2() {
-        mService.stopAlarm2();
+    public void stopAlarm2() { mService.stopAlarm2();
     }
 }
