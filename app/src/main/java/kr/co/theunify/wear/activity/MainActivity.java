@@ -25,6 +25,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -185,6 +187,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 입력 intent 타입 확인
+     * @param intent
+     */
     private void CheckIntent(Intent intent) {
         if (null != intent) {
             Bundle extras = intent.getExtras();
@@ -198,6 +204,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 입력 정보로 데이터 확인하기
+     * @param sensorName
+     */
     private void onCreateByIntent(final String sensorName)  {
 
         ULog.i(TAG, "onCreateByIntent(): Sensor=" + sensorName + ", ActionType=" + mActionType);
@@ -648,11 +658,14 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 배터리 상태 표시하기
+     */
     private void updateBattery() {
         Sensor sensor = mApp.getCurSensor();
         if (sensor != null) {
             int level = sensor.getBatteryLevel();
-            ULog.i(TAG, "updateBattery:" + level);
+            ULog.w(TAG, "updateBattery:" + level);
             if (level == 100) {
                 img_battery.setBackgroundResource(R.drawable.ic_b5);
             } else if (level >= 75) {
@@ -661,8 +674,12 @@ public class MainActivity extends BaseActivity {
                 img_battery.setBackgroundResource(R.drawable.ic_b3);
             } else if (level >= 25) {
                 img_battery.setBackgroundResource(R.drawable.ic_b2);
+                Animation myFadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.battery);
+                img_battery.startAnimation(myFadeInAnimation);
             } else {
                 img_battery.setBackgroundResource(R.drawable.ic_b1);
+                Animation myFadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.battery);
+                img_battery.startAnimation(myFadeInAnimation);
             }
         }
     }
