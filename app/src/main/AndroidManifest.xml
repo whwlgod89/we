@@ -51,7 +51,9 @@
             android:name=".activity.SettingActivity"
             android:label="@string/title_setting"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".activity.MapActivity"
             android:label="@string/title_devices"
@@ -89,6 +91,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".service.AutoStartService"
+            android:enabled="true"
+            android:exported="false"
+            android:label="AutoStartService">
+            <intent-filter>
+                <action android:name="AutoStartService"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 
