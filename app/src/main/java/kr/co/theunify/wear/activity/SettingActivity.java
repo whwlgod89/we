@@ -17,20 +17,52 @@ import android.preference.RingtonePreference;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.utils.ULog;
+import kr.co.theunify.wear.utils.Utils;
+import kr.co.theunify.wear.view.TitlebarView;
 
 public class SettingActivity extends BaseActivity {
+
     private static final String TAG = "[" + SettingActivity.class.getSimpleName() + "]";
+
+    //********************************************************************************
+    //  Layout Member Variable
+    //********************************************************************************
+
+    @BindView(R.id.v_titlebar)  TitlebarView v_titlebar;
+
+    @BindView(R.id.content)     LinearLayout content;
+    @BindView(R.id.tv_version)    TextView tv_version;
+
+
+    //********************************************************************************
+    //  Member Variable
+    //********************************************************************************
+
+    private Context mCotext;
+
+
+    //********************************************************************************
+    //  LifeCycle Functions
+    //********************************************************************************
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.a_setting);
+        mCotext = this;
+        ButterKnife.bind(this);
 
-        // Display the fragment as the main content.
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment()).commit();
+        initView();
     }
 
     @Override
@@ -58,6 +90,43 @@ public class SettingActivity extends BaseActivity {
         setResult(Activity.RESULT_CANCELED);
         super.onBackPressed();
     }
+
+    //********************************************************************************
+    //  Override Event Functions
+    //********************************************************************************
+
+    /**
+     * 뒤로 이동 버튼 클릭 시
+     */
+    @OnClick(R.id.img_back)
+    public void onClickImgBack() {
+        onBackPressed();
+    }
+
+
+    //********************************************************************************
+    //  User Define Functions
+    //********************************************************************************
+
+    /**
+     * 사용자 뷰 초기화
+     */
+    private void initView() {
+        initTitle();
+
+        tv_version.setText(Utils.getVersionName(mCotext));
+
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction().replace(R.id.content, new PrefsFragment()).commit();
+    }
+
+    private void initTitle() {
+        v_titlebar.setTitleVisible(View.VISIBLE);
+        v_titlebar.setTitle(getString(R.string.title_setting));
+        v_titlebar.setBackVisible(View.VISIBLE);
+    }
+
+
 
     public static class PrefsFragment extends PreferenceFragment {
 

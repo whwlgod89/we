@@ -1,5 +1,4 @@
-﻿<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+﻿<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key="pref_key_alarm_category"
         android:title="@string/pref_title_alarm_category">
@@ -14,20 +13,20 @@
             android:summary="@string/pref_summary_proximity_alarm_allowed"
             android:title="@string/pref_title_proximity_alarm_allowed" />
         <RingtonePreference
+            android:defaultValue="content://settings/system/alarm_alert"
             android:key="pref_key_alarm_find_phone"
-            android:title="@string/pref_title_alarm_find_phone"
             android:ringtoneType="alarm"
             android:showDefault="true"
             android:showSilent="true"
-            android:defaultValue="content://settings/system/alarm_alert" />
+            android:title="@string/pref_title_alarm_find_phone" />
         <ListPreference
-            android:key="pref_key_alarm_duration"
-	        android:title="@string/pref_title_alarm_duration"
             android:defaultValue="30"
             android:entries="@array/pref_alarm_duration_titles"
             android:entryValues="@array/pref_alarm_duration_values"
+            android:key="pref_key_alarm_duration"
             android:negativeButtonText="@null"
-            android:positiveButtonText="@null" />
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_alarm_duration" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -43,21 +42,15 @@
             android:summary="@string/pref_summary_app_control_finish"
             android:title="@string/pref_title_app_control_finish" />
     </PreferenceCategory>
-    <Preference
-        android:key=""
-        android:summary="@string/pref_show_app_Information"
-        />
-    <EditTextPreference
-        android:key="edit_text_preference_1"
-        android:title="@string/pref_version"
-        android:selectable="false"
-        android:persistent="false"
-        />
-    <EditTextPreference
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:persistent="false"
-        android:selectable="false"
-        android:title="@string/pref_producer" />
+
+    <!--<PreferenceCategory-->
+        <!--android:key="pref_key_app_version"-->
+        <!--android:title="@string/pref_show_app_Information">-->
+        <!--<Preference-->
+            <!--android:key="pref_key_app_control_finish"-->
+            <!--android:title="@string/pref_version"-->
+            <!--android:summary="@string/pref_producer" />-->
+    <!--</PreferenceCategory>-->
+
 
 </PreferenceScreen>

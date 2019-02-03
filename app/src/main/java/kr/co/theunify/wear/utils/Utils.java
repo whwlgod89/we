@@ -262,4 +262,19 @@ public class Utils {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return pxValue / metrics.density;
     }
+
+    /**
+     * 버전 번호 확인
+     * @param context parent context
+     * @return String 버전 번호
+     */
+    public static String getVersionName(Context context) {
+        try {
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pi.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "1.0";
+    }
 }

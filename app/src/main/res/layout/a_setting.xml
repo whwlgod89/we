@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <kr.co.theunify.wear.view.TitlebarView
+        android:id="@+id/v_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px160" />
+
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:addStatesFromChildren="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingEnd="0dip" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/px50">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_show_app_Information"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/px38"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/px200"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_version_title"
+                android:textColor="#333841"
+                android:textSize="@dimen/px42" />
+
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_company_name"
+                android:textColor="#333841"
+                android:textSize="@dimen/px42" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/px200"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_company_title"
+                android:textColor="#333841"
+                android:textSize="@dimen/px42" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_company_name"
+                android:textColor="#333841"
+                android:textSize="@dimen/px42" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
