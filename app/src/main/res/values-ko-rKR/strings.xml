@@ -108,6 +108,10 @@
     <string name="title_activity_settings">설정</string>
     <string name="titlebar_manual">Wear 설명서</string>
     <string name="null_wearName">헤이통</string>
+    <string name="wear_mode_help_lost_title">분실방지 모드</string>
+    <string name="wear_mode_help_lost_body">스마트폰과 지갑의 거리가 20~30m 이상 거리가 멀어지면 분실로 인식하여 스마트폰과 지갑에서 알람이 발생하여 분실을 예방 합니다.</string>
+    <string name="wear_mode_help_steal_title">도난 방지 모드</string>
+    <string name="wear_mode_help_steal_body">스마트폰과 지갑의 거리가 1~5m 이상 거리가 멀어지면 도난으로 인식하여 스마트폰과 지갑에서 알람이 발생하여 도난을 예방 할수 있습니다.</string>
 
     <!-- Strings related to Settings -->
     <string name="title_setting">설정</string>
@@ -145,8 +149,9 @@
     <string name="pref_title_app_control_finish">App 종료</string>
     <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.</string>
     <string name="pref_confirm_app_control_finish">App을 완전히 종료하시겠습니까?</string>
-    <string name="pref_version"> "버 전 " &#160; "  <font size="15" color="#ff0000"> " 1.2.2v "</font></string>
-    <string name="pref_producer"> " 제작사 " &#160; " (주)더유니파이" </string>
+    <string name="pref_version_title">버 전</string>
+    <string name="pref_company_title">제작사</string>
+    <string name="pref_company_name">(주)더유니파이</string>
 
 
     <string name="pref_app_control_restart">App을 다시 시작합니다.</string>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="@dimen/px800"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_popup"
+        android:orientation="vertical"
+        android:padding="@dimen/px40">
+
+        <LinearLayout
+            android:id="@+id/layout_help"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:padding="@dimen/px10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wear_mode_help_lost_title"
+                android:textColor="#333841"
+                android:textSize="@dimen/px48"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px20"
+                android:text="@string/wear_mode_help_lost_body"
+                android:textColor="#333841"
+                android:textSize="@dimen/px46" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px40"
+                android:text="@string/wear_mode_help_steal_title"
+                android:textColor="#333841"
+                android:textSize="@dimen/px48"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px20"
+                android:text="@string/wear_mode_help_steal_body"
+                android:textColor="#333841"
+                android:textSize="@dimen/px46" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px160"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/px20">
+
+
+            <kr.co.theunify.wear.view.FontTextView
+                android:id="@+id/txt_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/px10"
+                android:layout_marginRight="@dimen/px10"
+                android:layout_weight="1"
+                android:background="@drawable/selector_popup_ok"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/btn_close"
+                android:textColor="@drawable/selector_popup_ok_txt"
+                android:textSize="@dimen/px46"
+                app:clickable="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

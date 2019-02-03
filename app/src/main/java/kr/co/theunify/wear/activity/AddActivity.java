@@ -26,6 +26,7 @@ import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.data.SensorInfo;
 import kr.co.theunify.wear.dialog.CommonDialog;
+import kr.co.theunify.wear.dialog.HelpDialog;
 import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.utils.UString;
 import kr.co.theunify.wear.utils.Utils;
@@ -76,15 +77,11 @@ public class AddActivity extends BaseActivity  {
     @BindView(R.id.radio_green)     RadioButton radio_green;
     @BindView(R.id.radio_purple)    RadioButton radio_purple;
 
-
-
-
     //********************************************************************************
     //  Member Variable
     //********************************************************************************
 
     private Context mContext;
-    private CommonDialog mBubble;
 
     private SensorInfo mSensor;
 
@@ -155,45 +152,10 @@ public class AddActivity extends BaseActivity  {
         onBackPressed();
     }
 
-//    /**
-//     * 타이틀 검색 버튼 클릭 시
-//     */
-//    @OnClick(R.id.img_search)
-//    public void onClickImgSearch() {
-//        // 리스트 업데이트
-//        initListView();
-//        // 스캔하기
-//        scanLeDevice(true);
-//    }
     @OnClick(R.id.btn_question)
     public void onClickBubble() {
-
-        mBubble = Utils.showPopupDlg(this, "", "",
-                getString(R.string.ok), null, "", null, null);
+        HelpDialog helpDialog = new HelpDialog(mContext);
     }
-
-
-//    @OnItemClick(R.id.list_sensor)
-//    public void onListSensorItemClick(int position) {
-//        mAdapter.setSelected(position);
-//        BluetoothDevice device = mAdapter.getItem(position);
-//        if (device != null) {
-//            edt_name.setEnabled(false);
-//            edt_Wear_name.setEnabled(true);
-//
-//            radio_lost.setEnabled(true);
-//            radio_steal.setEnabled(true);
-//
-//            // 프로그래스 팝업띄우기 만들기
-//
-//            //
-//
-//            edt_name.setText(device.getName());
-//            edt_name.setSelection(device.getName().length());
-//            edt_name.requestFocus();
-//            Utils.showSoftKeyboard(mContext, edt_name);
-//        }
-//    }
 
     @OnClick(R.id.del_name)
     public void onClickDelName() {

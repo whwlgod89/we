@@ -24,6 +24,7 @@ import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.WearApp;
 import kr.co.theunify.wear.dialog.CommonDialog;
+import kr.co.theunify.wear.dialog.HelpDialog;
 import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.utils.UString;
 import kr.co.theunify.wear.utils.Utils;
@@ -70,7 +71,6 @@ public class ModifyActivity extends BaseActivity {
 
     private WearApp mApp = null;
     private Sensor mSensor;
-    private CommonDialog mBubble;
 
     //********************************************************************************
     //  LifeCycle Functions
@@ -135,8 +135,7 @@ public class ModifyActivity extends BaseActivity {
 
     @OnClick(R.id.btn_question)
     public void onClickBubble() {
-        mBubble = Utils.showPopupDlg(this, "", "",
-                getString(R.string.ok), null, "", null, null);
+        HelpDialog helpDialog = new HelpDialog(mContext);
     }
 
     @OnClick(R.id.delete_layout)
