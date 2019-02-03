@@ -211,6 +211,7 @@ public class WearListActivity extends BaseActivity {
         initTitle();
 
         initListView();
+
         scanLeDevice(true);
     }
 
@@ -242,6 +243,8 @@ public class WearListActivity extends BaseActivity {
         if (!isFinishing()) {
             mProgress = new ProgressDialog(mContext);
             mProgress.setMessage(msg);
+            mProgress.setCancelable(false);
+            mProgress.setCanceledOnTouchOutside(false);
             mProgress.show();
         }
     }
@@ -261,14 +264,15 @@ public class WearListActivity extends BaseActivity {
      */
     private void scanLeDevice(final boolean enable) {
         if (enable) {
+            mAdapter.removeAllDevice();
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
             v_titlebar.startSearch();
+            mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
             mScanning = false;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
             v_titlebar.stopSearch();
+            mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
     }
 
@@ -302,7 +306,7 @@ public class WearListActivity extends BaseActivity {
                             }
 
                             if(sensorName == null || (!sensorName.startsWith("HeyT") && !sensorName.startsWith("EHITAG"))) {
-                                Log.w(TAG, "This is not a HeyTong Sensor : " + sensorName);
+                                Log.w(TAG, "This is not a Wear Sensor : " + sensorName);
                                 return;
                             }
 
