@@ -99,6 +99,8 @@ public class MainActivity extends BaseActivity {
     private LocationManager mLocManager = null;     // 연결이 끊겼을 때 위치 확보.
     private LocationListener mLocListener = null;
 
+    private Animation batteryAnimation;
+
     //********************************************************************************
     //  LifeCycle Functions
     //********************************************************************************
@@ -112,6 +114,8 @@ public class MainActivity extends BaseActivity {
 
         mApp = (WearApp) getApplication();
         mService = mApp.getService();
+
+        batteryAnimation = AnimationUtils.loadAnimation(mContext, R.anim.battery);
 
         initView();
 
@@ -434,7 +438,7 @@ public class MainActivity extends BaseActivity {
 
                 mApp.addSensor(sensorId, sensorName, walletName, cover, phoneNumber,actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
 
-                // 센서의 위치를 추가한 것으확인한다.
+                // 센서의 위치를 추가한 것을 확인한다.
                 mApp.setCurSensor(mApp.getSensorCount()-1);
 
                 initView();
@@ -571,6 +575,7 @@ public class MainActivity extends BaseActivity {
         }
 
         updateAddSensor();
+
     }
 
     /**
@@ -668,18 +673,32 @@ public class MainActivity extends BaseActivity {
             ULog.w(TAG, "updateBattery:" + level);
             if (level == 100) {
                 img_battery.setBackgroundResource(R.drawable.ic_b5);
+                if (batteryAnimation.hasStarted()) {
+                    img_battery.clearAnimation();
+                    img_battery.setAlpha(1.0f);
+                }
             } else if (level >= 75) {
                 img_battery.setBackgroundResource(R.drawable.ic_b4);
+                if (batteryAnimation.hasStarted()) {
+                    img_battery.clearAnimation();
+                    img_battery.setAlpha(1.0f);
+                }
             } else if (level >=50) {
                 img_battery.setBackgroundResource(R.drawable.ic_b3);
+                if (batteryAnimation.hasStarted()) {
+                    img_battery.clearAnimation();
+                    img_battery.setAlpha(1.0f);
+                }
             } else if (level >= 25) {
                 img_battery.setBackgroundResource(R.drawable.ic_b2);
-                Animation myFadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.battery);
-                img_battery.startAnimation(myFadeInAnimation);
+                if ( !batteryAnimation.hasStarted() ) {
+                    img_battery.startAnimation(batteryAnimation);
+                }
             } else {
                 img_battery.setBackgroundResource(R.drawable.ic_b1);
-                Animation myFadeInAnimation = AnimationUtils.loadAnimation(mContext, R.anim.battery);
-                img_battery.startAnimation(myFadeInAnimation);
+                if ( !batteryAnimation.hasStarted() ) {
+                    img_battery.startAnimation(batteryAnimation);
+                }
             }
         }
     }
