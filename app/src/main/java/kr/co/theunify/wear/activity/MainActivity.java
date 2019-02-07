@@ -15,6 +15,9 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -229,13 +232,7 @@ public class MainActivity extends BaseActivity {
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
             mDlgDisconnected = Utils.showPopupDlg(this, "", "[" + sensorName + "] " + getString(R.string.alert_msg_lost_sensor),
-                    getString(R.string.ok), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    },
-                    "", null, null);
+                    getString(R.string.ok), null, "", null, null);
             mDlgDisconnected.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -830,6 +827,18 @@ public class MainActivity extends BaseActivity {
                             mDlgDisconnectedOn = false;
                             mApp.stopAlarm2();
                         }
+
+                        // 근접 알람 허용 시
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
+                        boolean proximityAlarm = settings.getBoolean("pref_proximity_alarm_allowed", false);
+                        if (proximityAlarm) {
+                            Uri uri = RingtoneManager.getActualDefaultRingtoneUri(getApplicationContext(), RingtoneManager.TYPE_NOTIFICATION);
+                            Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
+                            ringtone.play();
+
+                            Toast.makeText(MainActivity.this, "[" + sensor.getSensorName() + "] " + getString(R.string.alert_msg_connect_sensor), Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
             }

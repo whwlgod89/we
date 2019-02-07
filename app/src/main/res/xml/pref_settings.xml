@@ -12,6 +12,11 @@
             android:key="pref_proximity_alarm_allowed"
             android:summary="@string/pref_summary_proximity_alarm_allowed"
             android:title="@string/pref_title_proximity_alarm_allowed" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_sound_alarm_allowed"
+            android:summary="@string/pref_summary_sound_alarm_allowed"
+            android:title="@string/pref_title_sound_alarm_allowed" />
         <RingtonePreference
             android:defaultValue="content://settings/system/alarm_alert"
             android:key="pref_key_alarm_find_phone"

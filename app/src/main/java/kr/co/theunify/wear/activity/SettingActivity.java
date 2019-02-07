@@ -114,7 +114,7 @@ public class SettingActivity extends BaseActivity {
     private void initView() {
         initTitle();
 
-        tv_version.setText(Utils.getVersionName(mCotext));
+        tv_version.setText("v"+Utils.getVersionName(mCotext));
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefsFragment()).commit();

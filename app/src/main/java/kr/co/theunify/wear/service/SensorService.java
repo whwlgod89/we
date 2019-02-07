@@ -66,6 +66,7 @@ public class SensorService extends Service {
     //BO: Alarm (Sound + Vibrate)
     private boolean mAlarmVibrate = false;
     private boolean mAlarmSound = false;
+    private boolean mAlarmMustSound = false;        // 소리전용모드
     private int mAlarmLoopCount = 0;
     private int mAlarmPlayCount = 0;
     private Uri mAlarmUri;
@@ -368,6 +369,7 @@ public class SensorService extends Service {
     //Reconnected Alarm
     public void starAlarm3(boolean reconnected){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
         mAlarmVibrate = settings.getBoolean("pref_key_alarm_vibrate", false);
         String strDuration = settings.getString("pref_key_alarm_duration", "10");
         int alarmDuration = Integer.parseInt(strDuration);
@@ -423,7 +425,11 @@ public class SensorService extends Service {
             return;
         }
 
+        // 오디오 모드 확인
+        int currentAudioMode = audioManager.getRingerMode();
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        mAlarmMustSound = settings.getBoolean("pref_key_sound_alarm_allowed", true);
         mAlarmVibrate = settings.getBoolean("pref_key_alarm_vibrate", false);
         String strDuration = settings.getString("pref_key_alarm_duration", "10");
         int alarmDuration = Integer.parseInt(strDuration);
@@ -443,8 +449,7 @@ public class SensorService extends Service {
         // 알람이 None이 아닌지 확인하여 진행한다.
         if(strAlarm == null || strAlarm.equals("")) {
             mAlarmSound = false;
-        }
-        else {
+        } else {
             mAlarmSound = true;
 
             if(strAlarm.equals("FAIL")) {
@@ -458,7 +463,8 @@ public class SensorService extends Service {
         ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
 
         if(mAlarmSound || mAlarmVibrate) {
-            if(mAlarmSound) {
+            // 사운드 모드이거나, 강제 소리모드 인 경우
+            if(mAlarmSound && (mAlarmMustSound || currentAudioMode == AudioManager.RINGER_MODE_NORMAL)) {
                 beforeAudioVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
                 mediaPlayer.setLooping(true);

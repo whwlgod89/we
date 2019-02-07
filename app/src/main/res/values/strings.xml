@@ -101,14 +101,15 @@
     <string name="no_detect_sensor">Not Detect Sensor\nPlease, Retry Again</string>
     <string name="btn_register">Register Complete</string>
     <string name="btn_close">Close</string>
+    <string name="btn_confirm">Confirm</string>
 
     <string name="title_activity_settings">Settings</string>
     <string name="titlebar_manual">Wear manual</string>
     <string name="null_wearName">Wear</string>
-    <string name="wear_mode_help_lost_title">분실방지 모드</string>
-    <string name="wear_mode_help_lost_body">스마트폰과 지갑의 거리가 20~30m 이상 거리가 멀어지면 분실로 인식하여 스마트폰과 지갑에서 알람이 발생하여 분실을 예방 합니다.</string>
-    <string name="wear_mode_help_steal_title">도난 방지 모드</string>
-    <string name="wear_mode_help_steal_body">스마트폰과 지갑의 거리가 1~5m 이상 거리가 멀어지면 도난으로 인식하여 스마트폰과 지갑에서 알람이 발생하여 도난을 예방 할수 있습니다.</string>
+    <string name="wear_mode_help_lost_title">분실 방지</string>
+    <string name="wear_mode_help_lost_body">거리가 멀어졌거나, 신호가 약해졌을 때 알람을 발생하여 분실을 방지한다.(주변 환경에 따라 거리값은 변동됨)</string>
+    <string name="wear_mode_help_steal_title">도난 방지</string>
+    <string name="wear_mode_help_steal_body">사용자가 특정거리 값을 지정하여 해당 거리에 도달했을 때 알람을 발생하여 도난 여부를 즉각 확인한다.</string>
 
     <!-- Strings related to Settings -->
     <string name="title_setting">Settings</string>
@@ -121,6 +122,9 @@
     <string name="pref_summary_alarm_vibrate">Use vibrate together on alarm.</string>
     <string name="pref_title_alarm_duration">Duration</string>
     <string name="pref_summary_proximity_alarm_allowed">Alarm is sounded when reconnecting</string>
+
+    <string name="pref_title_sound_alarm_allowed">Sound Mode</string>
+    <string name="pref_summary_sound_alarm_allowed">Alert Sound</string>
 
     <string-array name="pref_alarm_duration_titles">
         <item>10 seconds</item>
@@ -139,10 +143,10 @@
     <string name="pref_title_start_on_boot">Start Wear on Boot</string>
     <string name="pref_summary_start_on_boot">Auto execute Wear App on phone boot.</string>
     <string name="pref_title_app_control_restart">Restart App</string>
-    <string name="pref_summary_app_control_restart">Restart app including service.</string>
+    <string name="pref_summary_app_control_restart">Restart app including service.\n(Alarm is sounded when reconnecting)</string>
     <string name="pref_confirm_app_control_restart">Are you sure to restart Wear?</string>
     <string name="pref_title_app_control_finish">Finish App</string>
-    <string name="pref_summary_app_control_finish">Finish app completely including service.</string>
+    <string name="pref_summary_app_control_finish">Finish app completely including service.\n(Alarm is sounded when reconnecting)</string>
     <string name="pref_confirm_app_control_finish">Are you sure to finish Wear?</string>
     <string name="pref_show_app_Information">App Information</string>
     <string name="pref_version_title">버 전</string>
@@ -157,6 +161,7 @@
     <string name="title_activity_sensor_info">Sensor Information</string>
 
     <string name="alert_msg_lost_sensor">Disconnected Sensor</string>
+    <string name="alert_msg_connect_sensor">Connected Sensor</string>
     <string name="alert_msg_find_sensor">Find From Sensor</string>
 
     <!--  <string name="alert_msg_bubble">How to Use</string> -->

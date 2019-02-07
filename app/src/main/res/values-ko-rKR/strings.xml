@@ -50,6 +50,7 @@
     <string name="register_sensor">지갑 등록</string>
     <string name="btn_register">등록 완료</string>
     <string name="btn_close">닫 기</string>
+    <string name="btn_confirm">확 인</string>
 
     <!-- Widgets in Sensor Activity -->
     <string name="search_wear">웨어 검색</string>
@@ -108,10 +109,10 @@
     <string name="title_activity_settings">설정</string>
     <string name="titlebar_manual">Wear 설명서</string>
     <string name="null_wearName">헤이통</string>
-    <string name="wear_mode_help_lost_title">분실방지 모드</string>
-    <string name="wear_mode_help_lost_body">스마트폰과 지갑의 거리가 20~30m 이상 거리가 멀어지면 분실로 인식하여 스마트폰과 지갑에서 알람이 발생하여 분실을 예방 합니다.</string>
-    <string name="wear_mode_help_steal_title">도난 방지 모드</string>
-    <string name="wear_mode_help_steal_body">스마트폰과 지갑의 거리가 1~5m 이상 거리가 멀어지면 도난으로 인식하여 스마트폰과 지갑에서 알람이 발생하여 도난을 예방 할수 있습니다.</string>
+    <string name="wear_mode_help_lost_title">분실 방지</string>
+    <string name="wear_mode_help_lost_body">거리가 멀어졌거나, 신호가 약해졌을 때 알람을 발생하여 분실을 방지한다.\n(주변 환경에 따라 거리값은 변동됨)</string>
+    <string name="wear_mode_help_steal_title">도난 방지</string>
+    <string name="wear_mode_help_steal_body">사용자가 특정거리 값을 지정하여 해당 거리에 도달했을 때 알람을 발생하여 도난 여부를 즉각 확인한다.</string>
 
     <!-- Strings related to Settings -->
     <string name="title_setting">설정</string>
@@ -126,6 +127,9 @@
 
     <string name="pref_title_proximity_alarm_allowed">근접 알람 허용</string>
     <string name="pref_summary_proximity_alarm_allowed">웨어 재 접속 시, 알람을 울립니다</string>
+
+    <string name="pref_title_sound_alarm_allowed">소리 전용 모드</string>
+    <string name="pref_summary_sound_alarm_allowed">휴대폰 설정에 상관없이 소리로 알람 발생</string>
 
     <string-array name="pref_alarm_duration_titles">
         <item>10 초</item>
@@ -144,10 +148,10 @@
     <string name="pref_title_start_on_boot">App 자동 시작</string>
     <string name="pref_summary_start_on_boot">핸드폰 부팅할 때 App을 자동으로 시작합니다.</string>
     <string name="pref_title_app_control_restart">App 재시작</string>
-    <string name="pref_summary_app_control_restart">서비스를 포함하여 App을 다시 시작합니다.</string>
+    <string name="pref_summary_app_control_restart">서비스를 포함하여 App을 다시 시작합니다.\n(연결된 웨어들의 접속 끊김 알람이 발생합니다.)</string>
     <string name="pref_confirm_app_control_restart">App을 다시 시작하시겠습니까?</string>
     <string name="pref_title_app_control_finish">App 종료</string>
-    <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.</string>
+    <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.\n(연결된 웨어들의 접속 끊김 알람이 발생합니다.)</string>
     <string name="pref_confirm_app_control_finish">App을 완전히 종료하시겠습니까?</string>
     <string name="pref_version_title">버 전</string>
     <string name="pref_company_title">제작사</string>
@@ -165,6 +169,7 @@
 
 
     <string name="alert_msg_lost_sensor">웨어와 연결이 끊어졌습니다.</string>
+    <string name="alert_msg_connect_sensor">웨어와 연결 되었습니다.</string>
     <string name="alert_msg_find_sensor">웨어에서 휴대폰을 찾습니다.</string>
 
 </resources>
