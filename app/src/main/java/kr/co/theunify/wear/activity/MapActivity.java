@@ -176,7 +176,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
 
     private void initTitle() {
         v_titlebar.setTitleVisible(View.VISIBLE);
-        v_titlebar.setTitle(mSensor.getSensorName());
+        v_titlebar.setTitle(mSensor.getWearname());
         v_titlebar.setBackVisible(View.VISIBLE);
     }
 

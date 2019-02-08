@@ -836,7 +836,7 @@ public class MainActivity extends BaseActivity {
                             Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
                             ringtone.play();
 
-                            Toast.makeText(MainActivity.this, "[" + sensor.getSensorName() + "] " + getString(R.string.alert_msg_connect_sensor), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "[" + sensor.getWearname() + "] " + getString(R.string.alert_msg_connect_sensor), Toast.LENGTH_SHORT).show();
                         }
 
                     }
