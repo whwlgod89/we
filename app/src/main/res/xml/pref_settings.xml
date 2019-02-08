@@ -48,13 +48,23 @@
             android:title="@string/pref_title_app_control_finish" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_show_app_Information">
+        <Preference
+            android:key="pref_key_app_version"
+            android:summary="v1.0.1"
+            android:title="@string/pref_version_title" />
+
+        <Preference
+            android:title="@string/pref_company_title" />
+
+    </PreferenceCategory>
     <!--<PreferenceCategory-->
-        <!--android:key="pref_key_app_version"-->
-        <!--android:title="@string/pref_show_app_Information">-->
-        <!--<Preference-->
-            <!--android:key="pref_key_app_control_finish"-->
-            <!--android:title="@string/pref_version"-->
-            <!--android:summary="@string/pref_producer" />-->
+    <!--android:key="pref_key_app_version"-->
+    <!--android:title="@string/pref_show_app_Information">-->
+    <!--<Preference-->
+    <!--android:key="pref_key_app_control_finish"-->
+    <!--android:title="@string/pref_version"-->
+    <!--android:summary="@string/pref_producer" />-->
     <!--</PreferenceCategory>-->
 
 

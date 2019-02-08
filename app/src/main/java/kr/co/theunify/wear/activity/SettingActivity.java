@@ -1,10 +1,7 @@
 package kr.co.theunify.wear.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -18,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,8 +36,6 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.v_titlebar)  TitlebarView v_titlebar;
 
     @BindView(R.id.content)     LinearLayout content;
-    @BindView(R.id.tv_version)    TextView tv_version;
-
 
     //********************************************************************************
     //  Member Variable
@@ -49,6 +43,7 @@ public class SettingActivity extends BaseActivity {
 
     private Context mCotext;
 
+    private static  String mAppVersion;
 
     //********************************************************************************
     //  LifeCycle Functions
@@ -114,7 +109,7 @@ public class SettingActivity extends BaseActivity {
     private void initView() {
         initTitle();
 
-        tv_version.setText("v"+Utils.getVersionName(mCotext));
+        mAppVersion = "v"+Utils.getVersionName(mCotext);
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(R.id.content, new PrefsFragment()).commit();
@@ -136,6 +131,10 @@ public class SettingActivity extends BaseActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.pref_settings);
+
+            // display version info
+            Preference versionPref =  findPreference("pref_key_app_version");
+            versionPref.setSummary( mAppVersion);
 
             // 현재 설정값 표시 및 설정값 변경 표시 핸들러 연결
             bindPreferenceSummaryToValue(findPreference("pref_key_alarm_find_phone"));

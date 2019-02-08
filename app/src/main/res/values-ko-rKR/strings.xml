@@ -154,8 +154,7 @@
     <string name="pref_summary_app_control_finish">서비스를 포함하여 App을 완전히 종료합니다.\n(연결된 웨어들의 접속 끊김 알람이 발생합니다.)</string>
     <string name="pref_confirm_app_control_finish">App을 완전히 종료하시겠습니까?</string>
     <string name="pref_version_title">버 전</string>
-    <string name="pref_company_title">제작사</string>
-    <string name="pref_company_name">(주)더유니파이</string>
+    <string name="pref_company_title">제작사\t\t(주)더유니파이</string>
 
 
     <string name="pref_app_control_restart">App을 다시 시작합니다.</string>

@@ -150,8 +150,7 @@
     <string name="pref_confirm_app_control_finish">Are you sure to finish Wear?</string>
     <string name="pref_show_app_Information">App Information</string>
     <string name="pref_version_title">버 전</string>
-    <string name="pref_company_title">제작사</string>
-    <string name="pref_company_name">(주)더유니파이</string>
+    <string name="pref_company_title">제작사\t\t(주)더유니파이</string>
 
     <string name="pref_app_control_restart">Restart app.</string>
     <string name="pref_app_control_finish">Finish app.</string>
