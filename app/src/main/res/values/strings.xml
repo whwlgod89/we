@@ -8,18 +8,18 @@
     <string name="external_storage">External Storage</string>
     <string name="storage_required">You have to allow to access external storage to use custom alarms.</string>
 
-    <string name="error_bluetooth_not_enabled">블루투스 활성화가 필요합니다.\n블루투스를 켜고 다시 시작해 주세요.</string>
-    <string name="error_grant_permission">권한 승인 후 이용이 가능합니다.</string>
+    <string name="error_bluetooth_not_enabled">Bluetooth activation is required.\nPlease turn on Bluetooth and start again.</string>
+    <string name="error_grant_permission">Permission is available after authorization.</string>
 
     <!-- Widgets in Main Activity -->
     <string name="title_main">WEAR</string>
     <string name="title_sensor_full">Sensor Count</string>
     <string name="msg_sensor_full">You can use max 5 sensors</string>
-    <string name="btn_find_sensor">웨어 찾기</string>
-    <string name="btn_location_sensor">웨어 위치</string>
-    <string name="btn_modify_sensor">웨어 수정</string>
-    <string name="btn_info_sensor">사용법</string>
-    <string name="btn_add_sensor">내 웨어 추가</string>
+    <string name="btn_find_sensor">Finding Wear</string>
+    <string name="btn_location_sensor">Wear location</string>
+    <string name="btn_modify_sensor">Modify wear</string>
+    <string name="btn_info_sensor">Instructions</string>
+    <string name="btn_add_sensor">Add my wear</string>
 
     <string name="no_add_sensor">No Added Sensor\nPlease, add Sensor</string>
 
@@ -100,16 +100,16 @@
     <string name="start_detect_sensor">Detecting Sensor</string>
     <string name="no_detect_sensor">Not Detect Sensor\nPlease, Retry Again</string>
     <string name="btn_register">Register Complete</string>
-    <string name="btn_close">Close</string>
+    <string name="btn_close">Select Complete</string>
     <string name="btn_confirm">Confirm</string>
 
     <string name="title_activity_settings">Settings</string>
     <string name="titlebar_manual">Wear manual</string>
     <string name="null_wearName">Wear</string>
-    <string name="wear_mode_help_lost_title">분실 방지</string>
-    <string name="wear_mode_help_lost_body">거리가 멀어졌거나, 신호가 약해졌을 때 알람을 발생하여 분실을 방지한다.(주변 환경에 따라 거리값은 변동됨)</string>
-    <string name="wear_mode_help_steal_title">도난 방지</string>
-    <string name="wear_mode_help_steal_body">사용자가 특정거리 값을 지정하여 해당 거리에 도달했을 때 알람을 발생하여 도난 여부를 즉각 확인한다.</string>
+    <string name="wear_mode_help_lost_title">Preventing Lost</string>
+    <string name="wear_mode_help_lost_body">An alarm is generated when the distance is disturbed or when the signal becomes weak. (The distance value varies depending on the surrounding environment.)</string>
+    <string name="wear_mode_help_steal_title">Theft prevention</string>
+    <string name="wear_mode_help_steal_body">When a user specifies a specific distance value and reaches the distance, an alarm is generated and the user immediately confirms the theft.</string>
 
     <!-- Strings related to Settings -->
     <string name="title_setting">Settings</string>
@@ -189,5 +189,11 @@
     <string name="preventing_Lost_summary">Preventing Lost</string>
     <string name="theft_prevention">Theft prevention</string>
     <string name="theft_prevention_summary">When the user specifies a value of a specific distance \nAn alarm is generated when the distance is reached, \nConfirm immediately whether it is stolen or not.</string>
+    <string name="hardware_specification">Wear specification</string>
+    <string name="hardware_specification_summary1">Communication : Bluetooth 5.0</string>
+    <string name="hardware_specification_summary2">Constant pressure : 3.7 V 200mAh Li-Polymer</string>
+    <string name="hardware_specification_summary3">Charging : Wireless 1 to 2 hours</string>
+    <string name="hardware_specification_summary4">Standby : about 20 days(When fully charged)</string>
+    <string name="Copyright">Copyright 2019 TheUnify Corp</string>
 
 </resources>
