@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/wear_mode_help_lost_title"
                 android:textColor="#333841"
-                android:textSize="@dimen/px48"
+                android:textSize="@dimen/px55"
                 android:textStyle="bold" />
 
             <TextView
@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/px40"
                 android:text="@string/wear_mode_help_steal_title"
                 android:textColor="#333841"
-                android:textSize="@dimen/px48"
+                android:textSize="@dimen/px55"
                 android:textStyle="bold" />
 
             <TextView
