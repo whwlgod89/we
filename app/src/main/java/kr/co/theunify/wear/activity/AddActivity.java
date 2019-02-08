@@ -229,11 +229,12 @@ public class AddActivity extends BaseActivity  {
         radio_steal.setEnabled(true);
 
         edt_phone.setText(getPhoneNumber());
-
+        edt_phone.setEnabled(false);
+        
         edt_name.setText(mSensor.getName());
         edt_Wear_name.setText(mSensor.getWearname());
         edt_Wear_name.setSelection(mSensor.getWearname().length());
-
+        edt_Wear_name.setText("");
         radio_brwon.setChecked(true);
 
         // seekbar 체인지리스너
