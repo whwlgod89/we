@@ -166,4 +166,29 @@
 
     <!--  <string name="alert_msg_bubble">How to Use</string> -->
 
+    <string name="Power_On">Power ON</string>
+    <string name="Power_On_summary">Press button for 1 second, \n5 monophonic sounds</string>
+    <string name="Power_Off">Power OFF</string>
+    <string name="Power_Off_summary">If you press the button of the software for 5 seconds, \n5 times after the 4th monophonic sound \n(a short beep sounds on the mobile phone)</string>
+    <string name="Charge_start">Start charging</string>
+    <string name="Charge_start_summary">Two singles</string>
+    <string name="Charge_status">Charge termination/completion</string>
+    <string name="Charge_status_summary">One single occurrence</string>
+    <string name="secession_of_wear">Secession of wear</string>
+    <string name="secession_of_wear_summary">4 monophonic occurrences \n(disconnected beep on mobile phone)</string>
+    <string name="disconnection">Disconnected</string>
+    <string name="disconnection_summary">5 mono occurrences \n(disconnected beeps on phone)</string>
+    <string name="Search_for_wear">Finding Wear</string>
+    <string name="Search_for_wear_summary">4 monophonic occurrences \n(Sound is interrupted when the button is pressed)</string>
+    <string name="Find_a_cell_phone">Find a cell phone</string>
+    <string name="Find_a_cell_phone_summary">Pressing the button twice per second \n Searching on your phone</string>
+    <string name="confirm">Confirm</string>
+    <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+    <string name="pref_sound_only">Sound only mode</string>
+    <string name="pref_sound_only_summary">Sound only mode</string>
+    <string name="preventing_Lost">Preventing Lost</string>
+    <string name="preventing_Lost_summary">Preventing Lost</string>
+    <string name="theft_prevention">Theft prevention</string>
+    <string name="theft_prevention_summary">When the user specifies a value of a specific distance \nAn alarm is generated when the distance is reached, \nConfirm immediately whether it is stolen or not.</string>
+
 </resources>

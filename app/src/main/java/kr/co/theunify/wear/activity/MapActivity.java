@@ -45,7 +45,7 @@ import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.view.TitlebarView;
 
 /**
- * 지갑 위치 확인 화면
+ *  위치 확인 화면
  */
 public class MapActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 

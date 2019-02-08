@@ -62,7 +62,7 @@ public class SensorInfo implements Serializable {
     private String id;           // Bluetooth Device Address
     private String name;         // 기본 Device Name
     private String wearname;     // 사용자가 입력한 이름
-    private int cover;           // 지갑 껍데기 커버
+    private int cover;           //  껍데기 커버
     private String phone;        // User Defined Phone Number
     private int mode;            // User Defined Action Mode (Prevent Loss=0, Theft=1)
     private int rssi;                  // User Defined RSSI Value (75, 85, 100)

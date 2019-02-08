@@ -1,25 +1,40 @@
 package kr.co.theunify.wear.activity;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.widget.TextView;
 
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import kr.co.theunify.wear.R;
 
-public class InstructionActivity extends AppCompatActivity {
+public class InstructionActivity extends BaseActivity {
+
+
+    @BindView(R.id.btn_instruction)
+    TextView btn_confirm;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_instruction);
- /*       getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.a_instruction);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.titlebar));
-        getSupportActionBar().setTitle(R.string.titlebar_manual);*/
+
 
     }
+
+    @OnClick(R.id.btn_confirm)
+    public void confirm(View v) {
+        {
+            onBackPressed();
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
+
+
 }

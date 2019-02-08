@@ -59,7 +59,7 @@ public class WearApp extends Application {
      * 센서 추가하기
      * @param sensorId      address
      * @param sensorName    지정한 이름
-     * @param wearName      지갑이름
+     * @param wearName      이름
      * @param phoneNumber   전화번호
      * @param actionMode    설정 모드
      * @param rssi          rssi 값 - 도난 모드에서

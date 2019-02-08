@@ -1,19 +1,346 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/titlebar"
-    android:minHeight="?attr/actionBarSize"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".activity.InstructionActivity">
 
-    <TextView
-        android:id="@+id/toolbar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/titlebar_manual"
-        android:textSize="@dimen/px40" />
 
-</android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <android.support.v7.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px160"
+                    android:background="@color/titlebar"
+                    android:minHeight="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/titlebar_manual"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/ps20"
+                        android:textStyle="bold" />
+
+                </android.support.v7.widget.Toolbar>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+
+                    -
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <!--전화번호 최대 길이 15 +82 10-3313-2956-->
+
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Power_On"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/Power_On_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <!--전화번호 최대 길이 15 +82 10-3313-2956-->
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Power_Off"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/Power_Off_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <!--전화번호 최대 길이 15 +82 10-3313-2956-->
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Charge_start"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/Charge_start_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <!--전화번호 최대 길이 15 +82 10-3313-2956-->
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Charge_status"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/Charge_status_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/secession_of_wear"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/secession_of_wear_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <!--전화번호 최대 길이 15 +82 10-3313-2956-->
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/disconnection"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/disconnection_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <!--전화번호 최대 길이 15 +82 10-3313-2956-->
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/disconnection"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold"
+                            tools:text="@string/Search_for_wear" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/Search_for_wear_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Find_a_cell_phone"
+                            android:textSize="@dimen/ps18"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/Find_a_cell_phone_summary"
+                            android:textSize="@dimen/ps12" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/px20"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/btn_confirm"
+                            android:layout_width="@dimen/px500"
+                            android:layout_height="@dimen/px120"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/px100"
+                            android:layout_marginTop="@dimen/px40"
+                            android:layout_marginRight="@dimen/px100"
+                            android:layout_marginBottom="@dimen/px40"
+                            android:background="@drawable/selector_btn_add_sensor"
+                            android:gravity="center"
+                            android:onClick="confirm"
+                            android:text="@string/confirm"
+                            android:textColor="#ffffff"
+                            android:textSize="@dimen/px50" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>
