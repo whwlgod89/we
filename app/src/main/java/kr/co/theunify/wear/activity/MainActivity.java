@@ -218,7 +218,11 @@ public class MainActivity extends BaseActivity {
     private void onCreateByIntent(final String sensorName)  {
 
         ULog.i(TAG, "onCreateByIntent(): Sensor=" + sensorName + ", ActionType=" + mActionType);
-
+        String wearName = sensorName;
+        Sensor eventSensor = mApp.getSensor(sensorName);
+        if (eventSensor != null) {
+            wearName = eventSensor.getWearname();
+        }
 
         if(mActionType.equals(Const.ACTION_GATT_CONNECTED)) {
             ULog.i(TAG, "onCreateByIntent() - ACTION_GATT_CONNECTED");
@@ -231,7 +235,7 @@ public class MainActivity extends BaseActivity {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-            mDlgDisconnected = Utils.showPopupDlg(this, "", "[" + sensorName + "] " + getString(R.string.alert_msg_lost_sensor),
+            mDlgDisconnected = Utils.showPopupDlg(this, "", "[" + wearName + "] " + getString(R.string.alert_msg_lost_sensor),
                     getString(R.string.ok), null, "", null, null);
             mDlgDisconnected.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
@@ -348,7 +352,7 @@ public class MainActivity extends BaseActivity {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-            mDlgFindPhone = Utils.showPopupDlg(this, "", "[" + sensorName + "] " + getString(R.string.alert_msg_find_sensor),
+            mDlgFindPhone = Utils.showPopupDlg(this, "", "[" + wearName + "] " + getString(R.string.alert_msg_find_sensor),
                     getString(R.string.ok), null, "", null, null);
             mDlgFindPhone.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
@@ -380,7 +384,7 @@ public class MainActivity extends BaseActivity {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-            mDlgDisconnected = Utils.showPopupDlg(this, "도난 경보", "[" + sensorName + "] 웨어와\n연결이 약해졌습니다.",
+            mDlgDisconnected = Utils.showPopupDlg(this, "도난 경보", "[" + wearName + "] 웨어와\n연결이 약해졌습니다.",
                     getString(R.string.ok), null, "", null, null);
             mDlgDisconnected.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
