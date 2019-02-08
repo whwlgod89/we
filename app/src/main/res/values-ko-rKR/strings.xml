@@ -49,7 +49,7 @@
 
     <string name="register_sensor"> 등록</string>
     <string name="btn_register">등록 완료</string>
-    <string name="btn_close">닫 기</string>
+    <string name="btn_close">선택 완료</string>
     <string name="btn_confirm">확 인</string>
 
     <!-- Widgets in Sensor Activity -->
@@ -81,8 +81,8 @@
     <string name="register">등록</string>
     <string name="modify">수정 완료</string>
     <string name="edit_wallet">적용</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
+    <string name="ok">예</string>
+    <string name="cancel">아니요</string>
     <string name="msg_check_device">먼저 선택해 주세요.</string>
     <string name="msg_check_name">웨어 이름을 입력하세요</string>
     <string name="msg_check_phone">전화 번호를 입력하세요</string>
@@ -175,9 +175,9 @@
 
 
     <string name="Power_On">전원 ON</string>
-    <string name="Power_On_summary">웨어의 버튼을 1초동안 누르면,\n단음 5회 발생</string>
+    <string name="Power_On_summary">웨어의 버튼을 1초동안 누름,\n단음 5회 발생</string>
     <string name="Power_Off">전원 OFF</string>
-    <string name="Power_Off_summary">웨어의 버튼을 5초 누르면,\n단음 4회 이후 5회쨰 긴음 발생\n(휴대폰에서 끊김 알림음 발생)</string>
+    <string name="Power_Off_summary">웨어의 버튼을 5초 누름,\n단음 4회 이후 5회쨰 긴음 발생\n(휴대폰에서 끊김 알림음 발생)</string>
     <string name="Charge_start">충전 시작</string>
     <string name="Charge_start_summary">단음 2회 발생</string>
     <string name="Charge_status">충전 종료/완료</string>
@@ -198,5 +198,11 @@
     <string name="preventing_Lost_summary">거리가 멀어졌거나, 신호가 약해졌을 때\n알람을 발생하여 분실을 방지한다.\n(주변환경에 따라 거리값은 변동됨)</string>
     <string name="theft_prevention">도난 방지</string>
     <string name="theft_prevention_summary">사용자가 특정거리 값을 지정하여\n해당 거리에 도달했을 때 알람을 발생하여\n도난 여부를 즉각 확인한다.</string>
+    <string name="hardware_specification">웨어 사양</string>
+    <string name="hardware_specification_summary1">통신 : Bluetooth 5.0</string>
+    <string name="hardware_specification_summary2">정압 : 3.7V 100mAh Li-Polymer</string>
+    <string name="hardware_specification_summary3">충전 : 무선 1~2시간</string>
+    <string name="hardware_specification_summary4">대기 : 약 20일(완충 시)</string>
+    <string name="Copyright">Copyright 2019 TheUnify Corp</string>
 
 </resources>
