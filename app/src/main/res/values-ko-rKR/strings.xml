@@ -88,7 +88,7 @@
     <string name="msg_check_phone">전화 번호를 입력하세요</string>
     <string name="title_confirm_register">등록</string>
     <string name="msg_confirm_register">웨어를 추가합니까?</string>
-    <string name="title_confirm_modify">수정</string>
+    <string name="title_confirm_modify">웨어 수정</string>
     <string name="msg_confirm_modify">웨어를 수정합니까?</string>
     <string name="msg_sensor_modified">수정하였습니다.</string>
     <string name="lb_connect_state">연결 상태:</string>
@@ -107,7 +107,7 @@
     <string name="ask_bring_phonenumber">요청</string>
     <string name="ask_phone">폰번호를 가져와도 됩니까?</string>
     <string name="title_activity_settings">설정</string>
-    <string name="titlebar_manual">Wear 설명서</string>
+    <string name="titlebar_manual">Wear 사용법</string>
     <string name="null_wearName">헤이통</string>
     <string name="wear_mode_help_lost_title">분실 방지</string>
     <string name="wear_mode_help_lost_body">거리가 멀어졌거나, 신호가 약해졌을 때 알람을 발생하여 분실을 방지한다.\n(주변 환경에 따라 거리값은 변동됨)</string>
@@ -200,7 +200,7 @@
     <string name="theft_prevention_summary">사용자가 특정거리 값을 지정하여\n해당 거리에 도달했을 때 알람을 발생하여\n도난 여부를 즉각 확인한다.</string>
     <string name="hardware_specification">웨어 사양</string>
     <string name="hardware_specification_summary1">통신 : Bluetooth 5.0</string>
-    <string name="hardware_specification_summary2">정압 : 3.7V 100mAh Li-Polymer</string>
+    <string name="hardware_specification_summary2">정압 : 3.7V 200mAh Li-Polymer</string>
     <string name="hardware_specification_summary3">충전 : 무선 1~2시간</string>
     <string name="hardware_specification_summary4">대기 : 약 20일(완충 시)</string>
     <string name="Copyright">Copyright 2019 TheUnify Corp</string>
