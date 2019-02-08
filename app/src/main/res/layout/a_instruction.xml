@@ -80,7 +80,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/Power_On"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold" />
 
                         <TextView
@@ -89,7 +89,7 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/Power_On_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
@@ -113,7 +113,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/Power_Off"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold" />
 
                         <TextView
@@ -122,7 +122,7 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/Power_Off_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
@@ -146,7 +146,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/Charge_start"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold" />
 
                         <TextView
@@ -155,7 +155,7 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/Charge_start_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
@@ -179,7 +179,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/Charge_status"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold" />
 
                         <TextView
@@ -188,7 +188,7 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/Charge_status_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
@@ -208,7 +208,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/secession_of_wear"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold" />
 
                         <TextView
@@ -217,7 +217,7 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/secession_of_wear_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
@@ -240,7 +240,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/disconnection"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold" />
 
                         <TextView
@@ -249,7 +249,7 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/disconnection_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
@@ -272,7 +272,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/disconnection"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold"
                             tools:text="@string/Search_for_wear" />
 
@@ -282,7 +282,7 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/Search_for_wear_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
@@ -302,7 +302,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/Find_a_cell_phone"
-                            android:textSize="@dimen/ps18"
+                            android:textSize="@dimen/px46"
                             android:textStyle="bold" />
 
                         <TextView
@@ -311,10 +311,64 @@
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="@dimen/px20"
                             android:text="@string/Find_a_cell_phone_summary"
-                            android:textSize="@dimen/ps12" />
+                            android:textSize="@dimen/px38" />
 
                     </LinearLayout>
 
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hardware_specification"
+                            android:textSize="@dimen/px46"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/hardware_specification_summary1"
+                            android:textSize="@dimen/px38" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/hardware_specification_summary2"
+                            android:textSize="@dimen/px38" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/hardware_specification_summary3"
+                            android:textSize="@dimen/px38" />
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="@dimen/px20"
+                            android:text="@string/hardware_specification_summary4"
+                            android:textSize="@dimen/px38" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
