@@ -110,9 +110,9 @@
     <string name="titlebar_manual">Wear 사용법</string>
     <string name="null_wearName">헤이통</string>
     <string name="wear_mode_help_lost_title">분실 방지</string>
-    <string name="wear_mode_help_lost_body">거리가 멀어졌거나, 신호가 약해졌을 때 알람을 발생하여 분실을 방지한다.\n(주변 환경에 따라 거리값은 변동됨)</string>
+    <string name="wear_mode_help_lost_body">거리가 멀어졌거나, 신호가 약해졌을 때\n알람을 발생하여 분실을 방지합니다.\n(주변환경에 따라 거리값은 변동됨)</string>
     <string name="wear_mode_help_steal_title">도난 방지</string>
-    <string name="wear_mode_help_steal_body">사용자가 특정거리 값을 지정하여 해당 거리에 도달했을 때 알람을 발생하여 도난 여부를 즉각 확인한다.</string>
+    <string name="wear_mode_help_steal_body">사용자가 특정거리 값을 지정하여 해당 거리에 도달했을 때 알람을 발생하여 도난 여부를 즉각 확인합니다.</string>
 
     <!-- Strings related to Settings -->
     <string name="title_setting">설정</string>
@@ -195,9 +195,9 @@
     <string name="pref_sound_only">소리 전용 모드</string>
     <string name="pref_sound_only_summary">휴대폰 설정에 상관없이 소리로 알람 발생</string>
     <string name="preventing_Lost">분실 방지</string>
-    <string name="preventing_Lost_summary">거리가 멀어졌거나, 신호가 약해졌을 때\n알람을 발생하여 분실을 방지한다.\n(주변환경에 따라 거리값은 변동됨)</string>
+    <string name="preventing_Lost_summary">거리가 멀어졌거나, 신호가 약해졌을 때\n알람을 발생하여 분실을 방지합니다.\n(주변환경에 따라 거리값은 변동됨)</string>
     <string name="theft_prevention">도난 방지</string>
-    <string name="theft_prevention_summary">사용자가 특정거리 값을 지정하여\n해당 거리에 도달했을 때 알람을 발생하여\n도난 여부를 즉각 확인한다.</string>
+    <string name="theft_prevention_summary">사용자가 특정거리 값을 지정하여\n해당 거리에 도달했을 때 알람을 발생하여\n도난 여부를 즉각 확인합니다.</string>
     <string name="hardware_specification">웨어 사양</string>
     <string name="hardware_specification_summary1">통신 : Bluetooth 5.0</string>
     <string name="hardware_specification_summary2">정압 : 3.7V 200mAh Li-Polymer</string>

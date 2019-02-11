@@ -49,7 +49,7 @@ public class WearListActivity extends BaseActivity {
     @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;
     @BindView(R.id.txt_empty)       TextView txt_empty;
     @BindView(R.id.list_sensor)     ListView list_sensor;
-
+    @BindView(R.id.btn_close)       TextView btn_close;
 
     //********************************************************************************
     //  Member Variable
@@ -172,9 +172,17 @@ public class WearListActivity extends BaseActivity {
     /**
      * 뒤로 이동 버튼 클릭 시
      */
-    @OnClick({R.id.img_back, R.id.btn_close})
+    @OnClick(R.id.img_back)
     public void onClickImgBack() {
         onBackPressed();
+    }
+    @OnClick(R.id.btn_close)
+    public void onClickSelectComplete()
+    {
+        Intent i = new Intent();
+        i.setClass(WearListActivity.this, AddActivity.class);
+        i.putExtra("wear", mSelectedSensor);
+        startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
     }
 
     /**
@@ -208,10 +216,9 @@ public class WearListActivity extends BaseActivity {
 
     private void initView() {
 
+
         initTitle();
-
         initListView();
-
         scanLeDevice(true);
     }
 
@@ -234,6 +241,8 @@ public class WearListActivity extends BaseActivity {
         txt_empty.setText(getString(R.string.start_detect_sensor));
         list_sensor.setVisibility(View.GONE);
     }
+
+
 
     /**
      * 프로그래스 보이기
@@ -268,10 +277,14 @@ public class WearListActivity extends BaseActivity {
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
             v_titlebar.startSearch();
+            btn_close.setEnabled(false);
+            btn_close.setBackgroundResource(R.drawable.selector_btn_non_add_sensor);
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
             mScanning = false;
             v_titlebar.stopSearch();
+            btn_close.setEnabled(true);   //버튼 활성화
+            btn_close.setBackgroundResource(R.drawable.selector_btn_add_sensor);
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
     }
@@ -383,13 +396,7 @@ public class WearListActivity extends BaseActivity {
                 ULog.w(TAG,"ID: "+ mSelectedSensor.getId() + " Connected to GATT server.");
                 // 연결했으니 바로 끊는다.
                 disconnect();
-
                 // 알림음 울렸으니 추가화면으로 이동한다.
-                Intent i = new Intent();
-                i.setClass(WearListActivity.this, AddActivity.class);
-                i.putExtra("wear", mSelectedSensor);
-                startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
-
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 hideProgress();
                 ULog.w(TAG,"ID: " + mSelectedSensor.getId() + " Disconnected from GATT server.");
