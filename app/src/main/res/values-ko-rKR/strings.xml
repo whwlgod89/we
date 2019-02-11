@@ -86,10 +86,10 @@
     <string name="msg_check_device">먼저 선택해 주세요.</string>
     <string name="msg_check_name">웨어 이름을 입력하세요</string>
     <string name="msg_check_phone">전화 번호를 입력하세요</string>
-    <string name="title_confirm_register">등록</string>
-    <string name="msg_confirm_register">웨어를 추가합니까?</string>
+    <string name="title_confirm_register">웨어 등록</string>
+    <string name="msg_confirm_register">웨어를 추가합니다</string>
     <string name="title_confirm_modify">웨어 수정</string>
-    <string name="msg_confirm_modify">웨어를 수정합니까?</string>
+    <string name="msg_confirm_modify">웨어를 수정합니다</string>
     <string name="msg_sensor_modified">수정하였습니다.</string>
     <string name="lb_connect_state">연결 상태:</string>
     <string name="connect_state_on">연결됨</string>
@@ -105,7 +105,7 @@
     <string name="start_detect_sensor">검색중입니다.</string>
     <string name="no_detect_sensor">검색된 웨어가 없습니다.\n검색버튼을 눌러 다시 검색해 주세요.</string>
     <string name="ask_bring_phonenumber">요청</string>
-    <string name="ask_phone">폰번호를 가져와도 됩니까?</string>
+    <string name="ask_phone">폰번호를 가져옵니다</string>
     <string name="title_activity_settings">설정</string>
     <string name="titlebar_manual">Wear 사용법</string>
     <string name="null_wearName">헤이통</string>
