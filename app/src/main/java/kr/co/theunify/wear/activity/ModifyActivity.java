@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -62,6 +63,9 @@ public class ModifyActivity extends BaseActivity {
 
     @BindView(R.id.btn_add)             TextView btn_add;
     @BindView(R.id.delete_layout)       LinearLayout delete_layout;
+    @BindView(R.id.bg_brown)            ImageView bg_brown;
+    @BindView(R.id.bg_green)            ImageView bg_green;
+    @BindView(R.id.bg_purple)           ImageView bg_orange;
 
     //********************************************************************************
     //  Member Variable
@@ -155,7 +159,25 @@ public class ModifyActivity extends BaseActivity {
                     }
                 }, getResources().getString(R.string.cancel), null, null);
     }
+    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple})
+    public void onSelectwear(View v)
+    {
+        switch (v.getId()) {
+            case R.id.bg_brown:
+                radio_brwon.setChecked(true);
 
+                break;
+            case R.id.bg_purple:
+                radio_purple.setChecked(true);
+
+                break;
+
+            case R.id.bg_green:
+                radio_green.setChecked(true);
+
+                break;
+        }
+    }
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
 
@@ -207,6 +229,7 @@ public class ModifyActivity extends BaseActivity {
         edt_name.setText(mSensor.getSensorName());
         edt_Wear_name.setText(mSensor.getWearname());
         edt_phone.setText(mSensor.getPhoneNumber());
+        edt_phone.setEnabled(false);
         if (mSensor.getActionMode() == Const.ACTION_MODE_LOSS) {
             layout_rssi.setVisibility(View.INVISIBLE);
             rg_mode.check(R.id.radio_lost);

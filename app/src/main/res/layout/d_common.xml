@@ -18,7 +18,7 @@
             android:layout_marginLeft="@dimen/px50"
             android:layout_marginTop="@dimen/px10"
             android:text="Good!"
-            android:textColor="#333841"
+            android:textColor="@color/titlecolor"
             android:textSize="@dimen/px60"
             android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
             android:paddingTop="@dimen/px60"
             android:paddingBottom="@dimen/px60"
             android:text="Good!"
-            android:textColor="#333841"
+            android:textColor="@color/context"
             android:textSize="@dimen/px46" />
 
         <LinearLayout

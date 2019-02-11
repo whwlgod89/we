@@ -5,4 +5,8 @@
     <color name="colorAccent">#d81b60</color>
     <color name="transparent">#1A000000</color>
     <color name="titlebar">#b32de4</color>
+    <color name="copyright">#ffffff</color>
+    <color name="titlecolor">#202020</color>
+    <color name="context">#737373</color>
+
 </resources>

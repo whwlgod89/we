@@ -69,7 +69,7 @@
     <string name="ask_bring_phonenumber">Request</string>
     <string name="ask_phone">Could I Bring Your Phone Number?</string>
     <string name="select_wear">Select Wear : </string>
-    <string name="brief_description1">● When selected, the software will generate a connection tone after 2 ~ 3 seconds.</string>
+    <string name="brief_description1">When selected, the software will generate a connection \ntone after 2 ~ 3 seconds.</string>
     <string name="brief_description2">Sound stops when you press the button.</string>
     <string name="action_loss">Prevent Loss</string>
     <string name="action_theft">Prevent Theft</string>
@@ -149,8 +149,8 @@
     <string name="pref_summary_app_control_finish">Finish app completely including service.\n(Alarm is sounded when reconnecting)</string>
     <string name="pref_confirm_app_control_finish">Are you sure to finish Wear?</string>
     <string name="pref_show_app_Information">App Information</string>
-    <string name="pref_version_title">버 전</string>
-    <string name="pref_company_title">제작사\t\t(주)더유니파이</string>
+    <string name="pref_version_title">Version</string>
+    <string name="pref_company_title">Producer\t\t TheUnify Co., Ltd.</string>
 
     <string name="pref_app_control_restart">Restart app.</string>
     <string name="pref_app_control_finish">Finish app.</string>
