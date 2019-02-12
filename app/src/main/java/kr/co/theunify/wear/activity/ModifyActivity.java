@@ -72,7 +72,6 @@ public class ModifyActivity extends BaseActivity {
     //********************************************************************************
 
     private Context mContext;
-
     private WearApp mApp = null;
     private Sensor mSensor;
 
@@ -159,28 +158,19 @@ public class ModifyActivity extends BaseActivity {
                     }
                 }, getResources().getString(R.string.cancel), null, null);
     }
-    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple})
-    public void onSelectwear(View v)
-    {
+    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple,R.id.radio_green,R.id.radio_purple,R.id.radio_brown})
+    public void onSelectwear(View v) {
         switch (v.getId()) {
-            case R.id.bg_brown:
-                radio_brwon.setChecked(true);
-
-                break;
+            case R.id.bg_brown :
+            case R.id.radio_brown:{ radio_brwon.setChecked(true);radio_green.setChecked(false);radio_purple.setChecked(false);break;}
             case R.id.bg_purple:
-                radio_purple.setChecked(true);
-
-                break;
-
+            case R.id.radio_purple:{ radio_purple.setChecked(true);radio_brwon.setChecked(false);radio_green.setChecked(false);break;}
             case R.id.bg_green:
-                radio_green.setChecked(true);
-
-                break;
+            case R.id.radio_green:{ radio_green.setChecked(true);radio_purple.setChecked(false);radio_brwon.setChecked(false);break;}
         }
     }
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
-
         String name = edt_name.getText().toString();
         String wearname = edt_Wear_name.getText().toString();
         if (UString.isEmpty(wearname)) {
@@ -189,7 +179,6 @@ public class ModifyActivity extends BaseActivity {
         }
 
         String phone = edt_phone.getText().toString();
-
         int mode = (rg_mode.getCheckedRadioButtonId() == R.id.radio_lost) ? Const.ACTION_MODE_LOSS : Const.ACTION_MODE_THEFT;
         int rssi = Const.THEFT_LEVEL_HIGH;
         if (mode == Const.ACTION_MODE_THEFT) {
