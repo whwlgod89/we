@@ -97,11 +97,12 @@ public class AddActivity extends BaseActivity {
     @BindView(R.id.radio_purple)
     RadioButton radio_purple;
     @BindView(R.id.bg_brown)
-    ImageView bg_brown;
+    LinearLayout bg_brown;
     @BindView(R.id.bg_green)
-    ImageView bg_green;
+    LinearLayout bg_green;
     @BindView(R.id.bg_purple)
-    ImageView bg_orange;
+    LinearLayout bg_orange;
+
 
     //********************************************************************************
     //  Member Variable

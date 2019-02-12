@@ -63,9 +63,10 @@ public class ModifyActivity extends BaseActivity {
 
     @BindView(R.id.btn_add)             TextView btn_add;
     @BindView(R.id.delete_layout)       LinearLayout delete_layout;
-    @BindView(R.id.bg_brown)            ImageView bg_brown;
-    @BindView(R.id.bg_green)            ImageView bg_green;
-    @BindView(R.id.bg_purple)           ImageView bg_orange;
+    @BindView(R.id.bg_brown)            LinearLayout bg_brown;
+    @BindView(R.id.bg_green)            LinearLayout bg_green;
+    @BindView(R.id.bg_purple)           LinearLayout bg_orange;
+
 
     //********************************************************************************
     //  Member Variable

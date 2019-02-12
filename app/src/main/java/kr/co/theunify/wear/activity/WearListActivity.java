@@ -15,7 +15,7 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
-import android.support.annotation.UiThread;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,9 +31,7 @@ import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.adapter.SensorAdapter;
 import kr.co.theunify.wear.data.SensorInfo;
-import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.utils.ULog;
-import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
 
 public class WearListActivity extends BaseActivity {
@@ -179,10 +177,10 @@ public class WearListActivity extends BaseActivity {
     @OnClick(R.id.btn_close)
     public void onClickSelectComplete()
     {
-        Intent i = new Intent();
-        i.setClass(WearListActivity.this, AddActivity.class);
-        i.putExtra("wear", mSelectedSensor);
-        startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
+            Intent i = new Intent();
+            i.setClass(WearListActivity.this, AddActivity.class);
+            i.putExtra("wear", mSelectedSensor);
+            startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
     }
 
     /**
@@ -203,6 +201,8 @@ public class WearListActivity extends BaseActivity {
         if (device != null) {
 //          // 센서 정보 추가하고, 알림 울리기 시작
             mSelectedSensor = new SensorInfo(device.getAddress(), device.getName(), device.getName(), R.drawable.purse_01, "", Const.ACTION_MODE_LOSS, 100);
+            btn_close.setEnabled(true);   //버튼 활성화
+            btn_close.setBackgroundResource(R.drawable.selector_btn_add_sensor);
            if (connect() ) {
                showProgress("웨어 확인 중입니다.");
            }
@@ -220,6 +220,8 @@ public class WearListActivity extends BaseActivity {
         initTitle();
         initListView();
         scanLeDevice(true);
+        btn_close.setEnabled(false);
+        btn_close.setBackgroundResource(R.drawable.selector_btn_non_add_sensor);
     }
 
     private void initTitle() {
@@ -277,14 +279,11 @@ public class WearListActivity extends BaseActivity {
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
             v_titlebar.startSearch();
-            btn_close.setEnabled(false);
-            btn_close.setBackgroundResource(R.drawable.selector_btn_non_add_sensor);
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
             mScanning = false;
             v_titlebar.stopSearch();
-            btn_close.setEnabled(true);   //버튼 활성화
-            btn_close.setBackgroundResource(R.drawable.selector_btn_add_sensor);
+
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
     }

@@ -12,7 +12,7 @@
 
     <string name="error_bluetooth_not_enabled">블루투스 활성화가 필요합니다.\n블루투스를 켜고 다시 시작해 주세요.</string>
     <string name="error_grant_permission">권한 승인 후 이용이 가능합니다.</string>
-
+    <string name="error_none_select_device">웨어를 선택하지 않으셧습니다.</string>
     <!-- Widgets in Main Activity -->
     <string name="title_main">WEAR</string>
     <string name="title_sensor_full">개수 제한</string>

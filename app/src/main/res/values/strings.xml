@@ -10,6 +10,7 @@
 
     <string name="error_bluetooth_not_enabled">Bluetooth activation is required.\nPlease turn on Bluetooth and start again.</string>
     <string name="error_grant_permission">Permission is available after authorization.</string>
+    <string name="error_none_select_device">Please Select the Wear</string>
 
     <!-- Widgets in Main Activity -->
     <string name="title_main">WEAR</string>
