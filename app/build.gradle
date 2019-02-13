@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'wear'
             keyPassword 'theunify'
-            storeFile file('C:/Users/Administrator/AndroidStudioProjects/Wear_Android/app/src/main/wear_keystore.jks')
+            storeFile file('/main/wear_keystore.jks')
             storePassword 'wear123'
         }
     }
