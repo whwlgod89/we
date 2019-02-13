@@ -210,7 +210,7 @@ public class AddActivity extends BaseActivity {
 
         String name = edt_name.getText().toString();
         String wear_name = edt_Wear_name.getText().toString();
-        if (UString.isEmpty(name)) {
+        if (UString.isEmpty(wear_name)) {
             Toast.makeText(mContext, getString(R.string.msg_check_name), Toast.LENGTH_SHORT).show();
             return;
         }
