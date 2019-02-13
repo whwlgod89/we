@@ -112,7 +112,7 @@ public class WearListActivity extends BaseActivity {
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         //mSensorList.requestFocus();
-
+        btn_close.setEnabled(false);
         scanLeDevice(true);
     }
 
@@ -174,13 +174,16 @@ public class WearListActivity extends BaseActivity {
     public void onClickImgBack() {
         onBackPressed();
     }
+
+    /**
+     * 선택완료 버튼 클릭 시
+     */
     @OnClick(R.id.btn_close)
-    public void onClickSelectComplete()
-    {
-            Intent i = new Intent();
-            i.setClass(WearListActivity.this, AddActivity.class);
-            i.putExtra("wear", mSelectedSensor);
-            startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
+    public void onClickSelectComplete() {
+        Intent i = new Intent();
+        i.setClass(WearListActivity.this, AddActivity.class);
+        i.putExtra("wear", mSelectedSensor);
+        startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
     }
 
     /**
@@ -278,8 +281,6 @@ public class WearListActivity extends BaseActivity {
             mAdapter.removeAllDevice();
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
-            btn_close.setEnabled(false);
-
             v_titlebar.startSearch();
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
