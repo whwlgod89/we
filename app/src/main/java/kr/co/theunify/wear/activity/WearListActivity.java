@@ -278,6 +278,8 @@ public class WearListActivity extends BaseActivity {
             mAdapter.removeAllDevice();
             handleStart.sendEmptyMessageDelayed(0, 10000);
             mScanning = true;
+            btn_close.setEnabled(false);
+
             v_titlebar.startSearch();
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
