@@ -103,6 +103,7 @@
                 <action android:name="AutoStartService"/>
             </intent-filter>
             <intent-filter>
+                <action android:name="kr.co.theunify.wear.service.SEND_BROAD_CAST"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"  android:priority="900"/>
             </intent-filter>
         </receiver>

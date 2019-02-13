@@ -101,7 +101,7 @@ public class SensorService extends Service {
 //        }
 
         mRingtoneMgr = new RingtoneManager(getApplicationContext());
-        mediaPlayer = MediaPlayer.create(this,RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
+        mediaPlayer = MediaPlayer.create(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         mVibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -205,6 +205,9 @@ public class SensorService extends Service {
         unregisterReceiver(mReceiver);
         mServiceStarted = false;
         ULog.i(TAG, "Service Destroyed");
+
+//        Intent broadcastIntent = new Intent("kr.co.theunify.wear.service.SEND_BROAD_CAST");
+//        sendBroadcast(broadcastIntent);
     }
 
     @Override
