@@ -63,16 +63,16 @@ public class ModifyActivity extends BaseActivity {
 
     @BindView(R.id.btn_add)             TextView btn_add;
     @BindView(R.id.delete_layout)       LinearLayout delete_layout;
-    @BindView(R.id.bg_brown)            ImageView bg_brown;
-    @BindView(R.id.bg_green)            ImageView bg_green;
-    @BindView(R.id.bg_purple)           ImageView bg_orange;
+    @BindView(R.id.bg_brown)            LinearLayout bg_brown;
+    @BindView(R.id.bg_green)            LinearLayout bg_green;
+    @BindView(R.id.bg_purple)           LinearLayout bg_orange;
+
 
     //********************************************************************************
     //  Member Variable
     //********************************************************************************
 
     private Context mContext;
-
     private WearApp mApp = null;
     private Sensor mSensor;
 
@@ -159,28 +159,19 @@ public class ModifyActivity extends BaseActivity {
                     }
                 }, getResources().getString(R.string.cancel), null, null);
     }
-    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple})
-    public void onSelectwear(View v)
-    {
+    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple,R.id.radio_green,R.id.radio_purple,R.id.radio_brown})
+    public void onSelectwear(View v) {
         switch (v.getId()) {
-            case R.id.bg_brown:
-                radio_brwon.setChecked(true);
-
-                break;
+            case R.id.bg_brown :
+            case R.id.radio_brown:{ radio_brwon.setChecked(true);radio_green.setChecked(false);radio_purple.setChecked(false);break;}
             case R.id.bg_purple:
-                radio_purple.setChecked(true);
-
-                break;
-
+            case R.id.radio_purple:{ radio_purple.setChecked(true);radio_brwon.setChecked(false);radio_green.setChecked(false);break;}
             case R.id.bg_green:
-                radio_green.setChecked(true);
-
-                break;
+            case R.id.radio_green:{ radio_green.setChecked(true);radio_purple.setChecked(false);radio_brwon.setChecked(false);break;}
         }
     }
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
-
         String name = edt_name.getText().toString();
         String wearname = edt_Wear_name.getText().toString();
         if (UString.isEmpty(wearname)) {
@@ -189,7 +180,6 @@ public class ModifyActivity extends BaseActivity {
         }
 
         String phone = edt_phone.getText().toString();
-
         int mode = (rg_mode.getCheckedRadioButtonId() == R.id.radio_lost) ? Const.ACTION_MODE_LOSS : Const.ACTION_MODE_THEFT;
         int rssi = Const.THEFT_LEVEL_HIGH;
         if (mode == Const.ACTION_MODE_THEFT) {

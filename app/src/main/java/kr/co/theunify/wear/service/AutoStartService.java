@@ -32,7 +32,7 @@ public class AutoStartService extends BroadcastReceiver {
 
             if(bAutoStart1) {
                 Log.e(TAG, "Start SensorService...");
-                context.startService(new Intent(context, SensorService.class));
+                context.startForegroundService(new Intent(context, SensorService.class));
             }
         }
     }

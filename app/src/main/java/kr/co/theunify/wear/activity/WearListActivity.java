@@ -15,7 +15,7 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
-import android.support.annotation.UiThread;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,9 +31,7 @@ import kr.co.theunify.wear.Const;
 import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.adapter.SensorAdapter;
 import kr.co.theunify.wear.data.SensorInfo;
-import kr.co.theunify.wear.sensor.Sensor;
 import kr.co.theunify.wear.utils.ULog;
-import kr.co.theunify.wear.utils.Utils;
 import kr.co.theunify.wear.view.TitlebarView;
 
 public class WearListActivity extends BaseActivity {
@@ -49,7 +47,7 @@ public class WearListActivity extends BaseActivity {
     @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;
     @BindView(R.id.txt_empty)       TextView txt_empty;
     @BindView(R.id.list_sensor)     ListView list_sensor;
-
+    @BindView(R.id.btn_close)       TextView btn_close;
 
     //********************************************************************************
     //  Member Variable
@@ -172,9 +170,17 @@ public class WearListActivity extends BaseActivity {
     /**
      * 뒤로 이동 버튼 클릭 시
      */
-    @OnClick({R.id.img_back, R.id.btn_close})
+    @OnClick(R.id.img_back)
     public void onClickImgBack() {
         onBackPressed();
+    }
+    @OnClick(R.id.btn_close)
+    public void onClickSelectComplete()
+    {
+            Intent i = new Intent();
+            i.setClass(WearListActivity.this, AddActivity.class);
+            i.putExtra("wear", mSelectedSensor);
+            startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
     }
 
     /**
@@ -195,6 +201,8 @@ public class WearListActivity extends BaseActivity {
         if (device != null) {
 //          // 센서 정보 추가하고, 알림 울리기 시작
             mSelectedSensor = new SensorInfo(device.getAddress(), device.getName(), device.getName(), R.drawable.purse_01, "", Const.ACTION_MODE_LOSS, 100);
+            btn_close.setEnabled(true);   //버튼 활성화
+            btn_close.setBackgroundResource(R.drawable.selector_btn_add_sensor);
            if (connect() ) {
                showProgress("웨어 확인 중입니다.");
            }
@@ -208,11 +216,12 @@ public class WearListActivity extends BaseActivity {
 
     private void initView() {
 
+
         initTitle();
-
         initListView();
-
         scanLeDevice(true);
+        btn_close.setEnabled(false);
+        btn_close.setBackgroundResource(R.drawable.selector_btn_non_add_sensor);
     }
 
     private void initTitle() {
@@ -234,6 +243,8 @@ public class WearListActivity extends BaseActivity {
         txt_empty.setText(getString(R.string.start_detect_sensor));
         list_sensor.setVisibility(View.GONE);
     }
+
+
 
     /**
      * 프로그래스 보이기
@@ -272,6 +283,7 @@ public class WearListActivity extends BaseActivity {
         } else {
             mScanning = false;
             v_titlebar.stopSearch();
+
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
     }
@@ -383,13 +395,7 @@ public class WearListActivity extends BaseActivity {
                 ULog.w(TAG,"ID: "+ mSelectedSensor.getId() + " Connected to GATT server.");
                 // 연결했으니 바로 끊는다.
                 disconnect();
-
                 // 알림음 울렸으니 추가화면으로 이동한다.
-                Intent i = new Intent();
-                i.setClass(WearListActivity.this, AddActivity.class);
-                i.putExtra("wear", mSelectedSensor);
-                startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
-
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 hideProgress();
                 ULog.w(TAG,"ID: " + mSelectedSensor.getId() + " Disconnected from GATT server.");

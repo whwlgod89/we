@@ -97,11 +97,12 @@ public class AddActivity extends BaseActivity {
     @BindView(R.id.radio_purple)
     RadioButton radio_purple;
     @BindView(R.id.bg_brown)
-    ImageView bg_brown;
+    LinearLayout bg_brown;
     @BindView(R.id.bg_green)
-    ImageView bg_green;
+    LinearLayout bg_green;
     @BindView(R.id.bg_purple)
-    ImageView bg_orange;
+    LinearLayout bg_orange;
+
 
     //********************************************************************************
     //  Member Variable
@@ -302,23 +303,15 @@ public class AddActivity extends BaseActivity {
         v_titlebar.setBackVisible(View.VISIBLE);
     }
 
-    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple})
-    public void onSelectwear(View v)
-    {
+    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple,R.id.radio_green,R.id.radio_purple,R.id.radio_brown})
+    public void onSelectwear(View v) {
         switch (v.getId()) {
-            case R.id.bg_brown:
-                radio_brwon.setChecked(true);
-
-                break;
+            case R.id.bg_brown :
+            case R.id.radio_brown:{ radio_brwon.setChecked(true);radio_green.setChecked(false);radio_purple.setChecked(false);break;}
             case R.id.bg_purple:
-                radio_purple.setChecked(true);
-
-                break;
-
+            case R.id.radio_purple:{ radio_purple.setChecked(true);radio_brwon.setChecked(false);radio_green.setChecked(false);break;}
             case R.id.bg_green:
-                radio_green.setChecked(true);
-
-                break;
+            case R.id.radio_green:{ radio_green.setChecked(true);radio_purple.setChecked(false);radio_brwon.setChecked(false);break;}
         }
     }
 

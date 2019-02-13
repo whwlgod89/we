@@ -73,7 +73,6 @@
                             android:visibility="gone" />
 
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -318,57 +317,100 @@
                             android:orientation="horizontal">
 
 
-                            <RadioButton
-                                android:id="@+id/radio_brown"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+                            <LinearLayout
+                                android:id="@+id/bg_brown"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:gravity="center" />
+                                android:orientation="vertical">
 
-                            <RadioButton
-                                android:id="@+id/radio_green"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                android:gravity="center" />
+                                <RadioButton
+                                    android:id="@+id/radio_brown"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center" />
 
-                            <RadioButton
-                                android:id="@+id/radio_purple"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/selector_wallet_select_btn"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        app:srcCompat="@drawable/purse_01" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/bg_green"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:gravity="center" />
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/radio_green"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/selector_wallet_select_btn"
+                                    android:orientation="vertical">>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        app:srcCompat="@drawable/purse_02" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/bg_purple"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/radio_purple"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/selector_wallet_select_btn"
+                                    android:orientation="vertical">>
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        app:srcCompat="@drawable/purse_03" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
                         </RadioGroup>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/bg_brown"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/purse_01" />
-
-                        <ImageView
-                            android:id="@+id/bg_green"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/purse_02" />
-
-                        <ImageView
-                            android:id="@+id/bg_purple"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/purse_03" />
                     </LinearLayout>
 
                 </LinearLayout>
