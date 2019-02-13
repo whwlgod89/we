@@ -173,6 +173,7 @@ public class ModifyActivity extends BaseActivity {
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
         String name = edt_name.getText().toString();
+
         String wearname = edt_Wear_name.getText().toString();
         if (UString.isEmpty(wearname)) {
             Toast.makeText(mContext, getString(R.string.msg_check_name), Toast.LENGTH_SHORT).show();

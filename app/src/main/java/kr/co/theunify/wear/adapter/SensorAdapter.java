@@ -92,6 +92,7 @@ public class SensorAdapter extends BaseAdapter {
 
 	public void removeAllDevice() {
 		mList = null;
+		selectedPos = -1;
 		notifyDataSetChanged();
 	}
 

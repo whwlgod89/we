@@ -112,7 +112,7 @@ public class WearListActivity extends BaseActivity {
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         //mSensorList.requestFocus();
-
+        setButtonEnable(false);
         scanLeDevice(true);
     }
 
@@ -174,13 +174,16 @@ public class WearListActivity extends BaseActivity {
     public void onClickImgBack() {
         onBackPressed();
     }
+
+    /**
+     * 선택완료 버튼 클릭 시
+     */
     @OnClick(R.id.btn_close)
-    public void onClickSelectComplete()
-    {
-            Intent i = new Intent();
-            i.setClass(WearListActivity.this, AddActivity.class);
-            i.putExtra("wear", mSelectedSensor);
-            startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
+    public void onClickSelectComplete() {
+        Intent i = new Intent();
+        i.setClass(WearListActivity.this, AddActivity.class);
+        i.putExtra("wear", mSelectedSensor);
+        startActivityForResult(i, Const.REQUEST_CODE_OF_ADD_SENSOR);
     }
 
     /**
@@ -201,11 +204,11 @@ public class WearListActivity extends BaseActivity {
         if (device != null) {
 //          // 센서 정보 추가하고, 알림 울리기 시작
             mSelectedSensor = new SensorInfo(device.getAddress(), device.getName(), device.getName(), R.drawable.purse_01, "", Const.ACTION_MODE_LOSS, 100);
-            btn_close.setEnabled(true);   //버튼 활성화
-            btn_close.setBackgroundResource(R.drawable.selector_btn_add_sensor);
-           if (connect() ) {
-               showProgress("웨어 확인 중입니다.");
-           }
+            // 버튼 활성화
+            setButtonEnable(true);
+            if (connect() ) {
+                showProgress("웨어 확인 중입니다.");
+            }
         }
     }
 
@@ -220,8 +223,7 @@ public class WearListActivity extends BaseActivity {
         initTitle();
         initListView();
         scanLeDevice(true);
-        btn_close.setEnabled(false);
-        btn_close.setBackgroundResource(R.drawable.selector_btn_non_add_sensor);
+        setButtonEnable(false);
     }
 
     private void initTitle() {
@@ -266,6 +268,16 @@ public class WearListActivity extends BaseActivity {
     public void hideProgress() {
         if (mProgress != null) {
             mProgress.dismiss();
+        }
+    }
+
+    private void setButtonEnable(boolean enable) {
+        if (enable) {
+            btn_close.setEnabled(true);   //버튼 활성화
+            btn_close.setBackgroundResource(R.drawable.selector_btn_add_sensor);
+        } else {
+            btn_close.setEnabled(false);
+            btn_close.setBackgroundResource(R.drawable.selector_btn_non_add_sensor);
         }
     }
 
@@ -350,7 +362,7 @@ public class WearListActivity extends BaseActivity {
             return false;
         }
 
-       final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mSelectedSensor.getId());
+        final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(mSelectedSensor.getId());
         if (device == null) {
             ULog.w(TAG, "ID:" + mSelectedSensor.getId() + " Device not found.  Unable to connect.");
             return false;
