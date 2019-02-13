@@ -23,7 +23,7 @@ public class AutoStartService extends BroadcastReceiver {
             SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(context);
             logstr = "Default=" + pref1.toString();
 
-            boolean bAutoStart1 = pref1.getBoolean("pref_key_start_on_boot", false);
+            boolean bAutoStart1 = pref1.getBoolean("pref_key_start_on_boot", true);
             logstr = logstr + ", Default=" + bAutoStart1 ;
 
             Toast.makeText(context, logstr, Toast.LENGTH_LONG);
