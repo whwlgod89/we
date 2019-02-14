@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -461,7 +462,7 @@ public class MainActivity extends BaseActivity {
                 initView();
             }
         }
-         if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
+        if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
             // 재시작
             if(resultCode == Const.RESULT_CODE_OF_RESTART_APP) {
                 Toast.makeText(MainActivity.this, getString(R.string.pref_app_control_restart), Toast.LENGTH_SHORT).show();
@@ -531,7 +532,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(i);
                 break;
             }
-                // remove 를 지우고 사용방법을 추가
+            // remove 를 지우고 사용방법을 추가
         }
 
 
@@ -741,6 +742,11 @@ public class MainActivity extends BaseActivity {
     private void service_init() {
         // 서비스 바인드
         Intent bindIntent = new Intent(this, SensorService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(bindIntent);
+        } else {
+            startService(bindIntent);
+        }
         startService(bindIntent);
         bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
         // Broadcast 등록
@@ -806,7 +812,7 @@ public class MainActivity extends BaseActivity {
             if (action.equals(Const.ACTION_SENSOR_BATTERY)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                       // ULog.i(TAG, "Broadcast Receiver. Action=" + action);
+                        // ULog.i(TAG, "Broadcast Receiver. Action=" + action);
                         updateBattery();
                     }
                 });
