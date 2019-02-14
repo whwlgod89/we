@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,10 +33,18 @@ public class AutoStartService extends BroadcastReceiver {
 
             if(bAutoStart1) {
                 Log.e(TAG, "Start SensorService...");
-                context.startService(new Intent(context, SensorService.class));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(new Intent(context, SensorService.class));
+                } else {
+                    context.startService(new Intent(context, SensorService.class));
+                }
             }
         } else if(intent.getAction().equals("kr.co.theunify.wear.service.SEND_BROAD_CAST")) {
-            context.startService(new Intent(context, SensorService.class));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(new Intent(context, SensorService.class));
+            } else {
+                context.startService(new Intent(context, SensorService.class));
+            }
         }
     }
 }
