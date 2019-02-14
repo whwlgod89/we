@@ -193,13 +193,13 @@ public class ModifyActivity extends BaseActivity {
                 rssi = Const.THEFT_LEVEL_HIGH;
             }
         }
-
-        int radioButtonID = rg_wallet.getCheckedRadioButtonId();
         int cover = R.drawable.purse_01;
-        switch (radioButtonID) {
-            case R.id.radio_brown: cover = 0; break;
-            case R.id.radio_green: cover = 1; break;
-            case R.id.radio_purple: cover = 2; break;
+        if (radio_brwon.isChecked()){
+            cover = 0;
+        }else if (radio_green.isChecked()){
+            cover = 1;
+        }else if(radio_purple.isChecked()){
+            cover = 2;
         }
 
         modifySensor(name, wearname, cover, phone, mode, rssi);

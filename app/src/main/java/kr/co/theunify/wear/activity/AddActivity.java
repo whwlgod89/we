@@ -45,20 +45,15 @@ public class AddActivity extends BaseActivity {
     //  Layout Member Variable
     //********************************************************************************
 
-    @BindView(R.id.v_titlebar)
-    TitlebarView v_titlebar;
+    @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;
 
     // 이름 입력
-    @BindView(R.id.edt_name)
-    EditText edt_name;
-    @BindView(R.id.edt_Wear_name)
-    EditText edt_Wear_name;
-    @BindView(R.id.del_name)
-    ImageView del_name;
+    @BindView(R.id.edt_name)        EditText edt_name;
+    @BindView(R.id.edt_Wear_name)   EditText edt_Wear_name;
+    @BindView(R.id.del_name)        ImageView del_name;
 
     // 전화번호 입력
-    @BindView(R.id.edt_phone)
-    EditText edt_phone;
+    @BindView(R.id.edt_phone)       EditText edt_phone;
     @BindView(R.id.del_phone)
     ImageView del_phone;
 
@@ -230,20 +225,15 @@ public class AddActivity extends BaseActivity {
             }
         }
 
-        int radioButtonID = rg_wallet.getCheckedRadioButtonId();
         int cover = R.drawable.purse_01;
-        switch (radioButtonID) {
-            case R.id.radio_brown:
-                cover = 0;
-                break;
-            case R.id.radio_green:
-                cover = 1;
-                break;
-            case R.id.radio_purple:
-                cover = 2;
-                break;
-        }
 
+        if (radio_brwon.isChecked()){
+            cover = 0;
+        }else if (radio_green.isChecked()){
+            cover = 1;
+        }else if(radio_purple.isChecked()){
+            cover = 2;
+        }
         addSensor(name, wear_name, cover, phone, mode, rssi);
     }
 
@@ -304,15 +294,30 @@ public class AddActivity extends BaseActivity {
         v_titlebar.setBackVisible(View.VISIBLE);
     }
 
-    @OnClick({R.id.bg_brown,R.id.bg_green,R.id.bg_purple,R.id.radio_green,R.id.radio_purple,R.id.radio_brown})
+    @OnClick({R.id.bg_brown, R.id.bg_green, R.id.bg_purple, R.id.radio_green, R.id.radio_purple, R.id.radio_brown})
     public void onSelectwear(View v) {
         switch (v.getId()) {
-            case R.id.bg_brown :
-            case R.id.radio_brown:{ radio_brwon.setChecked(true);radio_green.setChecked(false);radio_purple.setChecked(false);break;}
+            case R.id.bg_brown:
+            case R.id.radio_brown: {
+                radio_brwon.setChecked(true);
+                radio_green.setChecked(false);
+                radio_purple.setChecked(false);
+                break;
+            }
             case R.id.bg_purple:
-            case R.id.radio_purple:{ radio_purple.setChecked(true);radio_brwon.setChecked(false);radio_green.setChecked(false);break;}
+            case R.id.radio_purple: {
+                radio_purple.setChecked(true);
+                radio_brwon.setChecked(false);
+                radio_green.setChecked(false);
+                break;
+            }
             case R.id.bg_green:
-            case R.id.radio_green:{ radio_green.setChecked(true);radio_purple.setChecked(false);radio_brwon.setChecked(false);break;}
+            case R.id.radio_green: {
+                radio_green.setChecked(true);
+                radio_purple.setChecked(false);
+                radio_brwon.setChecked(false);
+                break;
+            }
         }
     }
 
@@ -324,6 +329,7 @@ public class AddActivity extends BaseActivity {
      * @param mode
      * @param rssi
      */
+
     private void addSensor(final String name, final String wearName, final int cover, final String phone, final int mode, final int rssi) {
         Utils.showPopupDlg(this, getString(R.string.title_confirm_register), getString(R.string.msg_confirm_register),
                 getResources().getString(R.string.ok), new View.OnClickListener() {
