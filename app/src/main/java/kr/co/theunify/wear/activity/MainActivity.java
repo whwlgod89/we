@@ -462,7 +462,7 @@ public class MainActivity extends BaseActivity {
                 initView();
             }
         }
-         if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
+        if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
             // 재시작
             if(resultCode == Const.RESULT_CODE_OF_RESTART_APP) {
                 Toast.makeText(MainActivity.this, getString(R.string.pref_app_control_restart), Toast.LENGTH_SHORT).show();
@@ -532,7 +532,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(i);
                 break;
             }
-                // remove 를 지우고 사용방법을 추가
+            // remove 를 지우고 사용방법을 추가
         }
 
 
@@ -812,7 +812,7 @@ public class MainActivity extends BaseActivity {
             if (action.equals(Const.ACTION_SENSOR_BATTERY)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                       // ULog.i(TAG, "Broadcast Receiver. Action=" + action);
+                        // ULog.i(TAG, "Broadcast Receiver. Action=" + action);
                         updateBattery();
                     }
                 });
