@@ -7,12 +7,14 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -80,6 +82,15 @@ public class SplashActivity extends BaseActivity {
 
             ULog.i(TAG, "BT Adapter is not enabled. (onResume)");
             return;
+        }
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!settings.contains("pref_key_alarm_vibrate")) {
+            SharedPreferences.Editor prefEditor = settings.edit();
+            prefEditor.putBoolean("pref_key_alarm_vibrate", true);
+            prefEditor.putBoolean("pref_proximity_alarm_allowed", true);
+            prefEditor.putBoolean("pref_key_sound_alarm_allowed", true);
+            prefEditor.commit();
         }
 
         processCheckPermissionAndAppReg();
