@@ -225,7 +225,7 @@ public class AddActivity extends BaseActivity {
             }
         }
 
-        int cover = R.drawable.purse_01;
+        int cover = 0;
 
         if (radio_brwon.isChecked()){
             cover = 0;

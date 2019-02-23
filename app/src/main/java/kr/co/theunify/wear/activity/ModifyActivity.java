@@ -248,8 +248,6 @@ public class ModifyActivity extends BaseActivity {
         radio_lost.setEnabled(true);
         radio_steal.setEnabled(true);
 
-        edt_Wear_name.requestFocus();
-        Utils.showSoftKeyboard(mContext, edt_Wear_name);
     }
 
     private void initTitle() {
