@@ -1,5 +1,8 @@
 package kr.co.theunify.wear.service;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -15,6 +18,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -22,6 +26,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -30,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import kr.co.theunify.wear.Const;
+import kr.co.theunify.wear.R;
 import kr.co.theunify.wear.WearApp;
 import kr.co.theunify.wear.activity.MainActivity;
 import kr.co.theunify.wear.sensor.Sensor;
@@ -37,6 +43,9 @@ import kr.co.theunify.wear.utils.ULog;
 
 public class SensorService extends Service {
     private final static String TAG = "[" + SensorService.class.getSimpleName() + "]";
+
+    private static final String NOTI_CHANNEL_ID = "kr.co.theunify.wear.service";
+
     private WearApp mApp;
     //private SensorDatabase mDB;
 
@@ -214,32 +223,41 @@ public class SensorService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 실행 중에 앱이 서비스를 다시 호출하는 경우 실행된다.
         ULog.i(TAG, "Service onStartCommand...");
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel channel = new NotificationChannel(NOTI_CHANNEL_ID,
+                    getResources().getString(R.string.app_name),
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+            Notification notification = new NotificationCompat.Builder(this, NOTI_CHANNEL_ID)
+                    .setContentTitle(getResources().getString(R.string.app_name))
+                    .setContentText("Show WEAR").build();
+
+            startForeground(1, notification);
+        }
         return super.onStartCommand(intent, flags, startId);
 
-/*
-		// 상단에 Notification 띄우기 및 App-List에서 종료시에 Service 종료 안되도록 하는 테스트 코드
-        Intent notificationIntent = new Intent(getApplicationContext(), MyActivity.class);
-        notificationIntent.setAction(C.ACTION_MAIN);  // A string containing the action name
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent contentPendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+//        Intent mainIntent = new Intent(this, MainActivity.class);
+//        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pi = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationChannel serviceChannel = new NotificationChannel(NOTI_CHANNEL_ID, getResources().getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT );
+//            NotificationManager manager = getSystemService(NotificationManager.class);
+//            manager.createNotificationChannel(serviceChannel);
+//        }
+//
+//        Notification noti = new NotificationCompat.Builder(this, NOTI_CHANNEL_ID)
+//                .setContentTitle(getResources().getString(R.string.app_name))
+//                .setContentText("앱으로 돌아가기")
+//                .setContentIntent(pi)
+//                .build();
+//
+//        startForeground(1, noti);
 
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.my_icon);
+//        return START_NOT_STICKY;
 
-        Notification notification = new NotificationCompat.Builder(this)
-                .setContentTitle(getResources().getString(R.string.app_name))
-                .setTicker(getResources().getString(R.string.app_name))
-                .setContentText(getResources().getString(R.string.my_string))
-                .setSmallIcon(R.drawable.my_icon)
-                .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
-                .setContentIntent(contentPendingIntent)
-                .setOngoing(true)
-//                .setDeleteIntent(contentPendingIntent)  // if needed
-                .build();
-        notification.flags = notification.flags | Notification.FLAG_NO_CLEAR;     // NO_CLEAR makes the notification stay when the user performs a "delete all" command
-        startForeground(NOTIFICATION_ID, notification);
-
-        return START_STICKY;
-*/
     }
 
     private final IBinder mBinder = new LocalBinder();
@@ -432,7 +450,7 @@ public class SensorService extends Service {
         int currentAudioMode = audioManager.getRingerMode();
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        mAlarmMustSound = settings.getBoolean("pref_key_sound_alarm_allowed", true);
+        mAlarmMustSound = settings.getBoolean("pref_key_sound_alarm_allowed", false);
         mAlarmVibrate = settings.getBoolean("pref_key_alarm_vibrate", false);
         String strDuration = settings.getString("pref_key_alarm_duration", "10");
         int alarmDuration = Integer.parseInt(strDuration);

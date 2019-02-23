@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -97,14 +98,15 @@
         <receiver
             android:name=".service.AutoStartService"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:label="AutoStartService">
             <intent-filter>
-                <action android:name="AutoStartService"/>
-            </intent-filter>
-            <intent-filter>
                 <action android:name="kr.co.theunify.wear.service.SEND_BROAD_CAST"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"  android:priority="900"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.REBOOT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <!--For HTC devices-->
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
 
