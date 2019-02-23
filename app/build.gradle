@@ -14,8 +14,8 @@ android {
         applicationId "kr.co.theunify.wear"
         minSdkVersion 18
         targetSdkVersion 27
-        versionCode 6
-        versionName "1.0.4"
+        versionCode 7
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         lintOptions {
             checkReleaseBuilds false
