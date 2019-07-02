@@ -76,8 +76,8 @@ public class SensorService extends Service {
     private boolean mAlarmVibrate = false;
     private boolean mAlarmSound = false;
     private boolean mAlarmMustSound = false;        // 소리전용모드
-    private int mAlarmLoopCount = 0;
-    private int mAlarmPlayCount = 0;
+//    private int mAlarmLoopCount = 0;
+//    private int mAlarmPlayCount = 0;
     private Uri mAlarmUri;
     private Handler hAlarm;
 
@@ -223,20 +223,53 @@ public class SensorService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 실행 중에 앱이 서비스를 다시 호출하는 경우 실행된다.
         ULog.i(TAG, "Service onStartCommand...");
-        if (Build.VERSION.SDK_INT >= 26) {
-            NotificationChannel channel = new NotificationChannel(NOTI_CHANNEL_ID,
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pi = PendingIntent.getActivities(this, 0, new Intent[] {
+                mainIntent,
+        }, PendingIntent.FLAG_UPDATE_CURRENT);  // 무조건 콜 리스트로 간다.
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    NOTI_CHANNEL_ID,
                     getResources().getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
 
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-
-            Notification notification = new NotificationCompat.Builder(this, NOTI_CHANNEL_ID)
-                    .setContentTitle(getResources().getString(R.string.app_name))
-                    .setContentText("Show WEAR").build();
-
-            startForeground(1, notification);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
         }
-        return super.onStartCommand(intent, flags, startId);
+
+        int smallicon = R.mipmap.ic_launcher;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            smallicon = R.drawable.icon_setting;
+        }
+
+        Notification noti = new NotificationCompat.Builder(this, NOTI_CHANNEL_ID)
+                .setContentTitle(getResources().getString(R.string.app_name))
+                .setContentText("Show WEAR")
+                .setSmallIcon(smallicon)
+                .setContentIntent(pi)
+                .build();
+
+        startForeground(1, noti);
+
+        return START_NOT_STICKY;
+
+
+//        if (Build.VERSION.SDK_INT >= 26) {
+//            NotificationChannel channel = new NotificationChannel(NOTI_CHANNEL_ID, getResources().getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
+//
+//            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+//
+//            Notification notification = new NotificationCompat.Builder(this, NOTI_CHANNEL_ID)
+//                    .setContentTitle(getResources().getString(R.string.app_name))
+//                    .setContentText("Show WEAR").build();
+//
+//            startForeground(1, notification);
+//        }
+//
+//        return super.onStartCommand(intent, flags, startId);
 
 //        Intent mainIntent = new Intent(this, MainActivity.class);
 //        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -387,55 +420,55 @@ public class SensorService extends Service {
         return (mSensorList.size() > 0) ? true : false;
     }
 
-    //Reconnected Alarm
-    public void starAlarm3(boolean reconnected){
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        mAlarmVibrate = settings.getBoolean("pref_key_alarm_vibrate", false);
-        String strDuration = settings.getString("pref_key_alarm_duration", "10");
-        int alarmDuration = Integer.parseInt(strDuration);
-        mAlarmLoopCount = alarmDuration / 10;
-        mAlarmPlayCount = 0;
-        String strAlarm;
-        if(reconnected) {
-            strAlarm = settings.getString("pref_key_alarm_reconnected", "FAIL");   // "Silent");
-        }
-        else {
-            strAlarm = settings.getString("pref_key_alarm_find_phone", "FAIL");     // "Silent");
-        }
-
-        ULog.i(TAG, "Alarm Sound=" + strAlarm);
-
-        // 알람이 None이 아닌지 확인하여 진행한다.
-        if(strAlarm == null || strAlarm.equals("")) {
-            mAlarmSound = false;
-        }
-        else {
-            mAlarmSound = true;
-
-            if(strAlarm.equals("FAIL")) {
-                mAlarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            }
-            else {
-                mAlarmUri = Uri.parse(strAlarm);
-            }
-            mediaPlayer = MediaPlayer.create(this, mAlarmUri);
-        }
-        ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
-
-        if(mAlarmSound || mAlarmVibrate) {
-            if(mAlarmSound) {
-                beforeAudioVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
-                mediaPlayer.setLooping(true);
-                mediaPlayer.start();
-            }
-            mApp.setAlarmState(true);
-            mAlarmTimer.start();
-        }
-
-
-    }
+//    //Reconnected Alarm
+//    public void starAlarm3(boolean reconnected){
+//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+//
+//        mAlarmVibrate = settings.getBoolean("pref_key_alarm_vibrate", false);
+//        String strDuration = settings.getString("pref_key_alarm_duration", "10");
+//        int alarmDuration = Integer.parseInt(strDuration);
+//        mAlarmLoopCount = alarmDuration / 10;
+//        mAlarmPlayCount = 0;
+//        String strAlarm;
+//        if(reconnected) {
+//            strAlarm = settings.getString("pref_key_alarm_reconnected", "FAIL");   // "Silent");
+//        }
+//        else {
+//            strAlarm = settings.getString("pref_key_alarm_find_phone", "FAIL");     // "Silent");
+//        }
+//
+//        ULog.i(TAG, "Alarm Sound=" + strAlarm);
+//
+//        // 알람이 None이 아닌지 확인하여 진행한다.
+//        if(strAlarm == null || strAlarm.equals("")) {
+//            mAlarmSound = false;
+//        }
+//        else {
+//            mAlarmSound = true;
+//
+//            if(strAlarm.equals("FAIL")) {
+//                mAlarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//            }
+//            else {
+//                mAlarmUri = Uri.parse(strAlarm);
+//            }
+//            mediaPlayer = MediaPlayer.create(this, mAlarmUri);
+//        }
+//        ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
+//
+//        if(mAlarmSound || mAlarmVibrate) {
+//            if(mAlarmSound) {
+//                beforeAudioVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+//                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),0);
+//                mediaPlayer.setLooping(true);
+//                mediaPlayer.start();
+//            }
+//            mApp.setAlarmState(true);
+//            mAlarmTimer.start();
+//        }
+//
+//
+//    }
 
     //disconnected alaram
     public void startAlarm2(boolean disconnected) {
@@ -454,8 +487,8 @@ public class SensorService extends Service {
         mAlarmVibrate = settings.getBoolean("pref_key_alarm_vibrate", false);
         String strDuration = settings.getString("pref_key_alarm_duration", "10");
         int alarmDuration = Integer.parseInt(strDuration);
-        mAlarmLoopCount = alarmDuration / 10;
-        mAlarmPlayCount = 0;
+//        mAlarmLoopCount = alarmDuration / 10;
+//        mAlarmPlayCount = 0;
 
         String strAlarm;
         if(disconnected) {
@@ -481,7 +514,7 @@ public class SensorService extends Service {
             }
             mediaPlayer = MediaPlayer.create(this, mAlarmUri);
         }
-        ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Count=" + mAlarmLoopCount + "/" + strDuration);
+        ULog.i(TAG, "Alarm=" + mAlarmSound + ", Sound=" + strAlarm + ", Vibrate=" + mAlarmVibrate + ", Duration=" + strDuration);
 
         if(mAlarmSound || mAlarmVibrate) {
             // 사운드 모드이거나, 강제 소리모드 인 경우
@@ -492,14 +525,15 @@ public class SensorService extends Service {
                 mediaPlayer.start();
             }
             mApp.setAlarmState(true);
-            mAlarmTimer.start();
+            // 알림음 시작하기
+            startAlertTimer(alarmDuration);
         }
     }
 
     public void stopAlarm2() {
-        ULog.i(TAG,"stopAlarm2()");
+        ULog.e(TAG,"stopAlarm2()");
 
-        mAlarmTimer.cancel();
+        mAlarmCountTimer.cancel();
         mApp.setAlarmState(false);
         //hAlarm.removeCallbacks(iAlarm);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, beforeAudioVolume,0);
@@ -639,40 +673,41 @@ public class SensorService extends Service {
         }
     }
 
-    // 알람 타이머. 30초를 기본으로 알람 시간만큼 반복 (30초 1번, 1분 2번, 3분 6번), 진동은 1초 울리고, 1초 쉬고.
-    private CountDownTimer mAlarmTimer = new CountDownTimer(1000 * 10, 2000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            if(mAlarmVibrate) {
-                mVibe.vibrate(1000);
-            }
-        }
+    private CountDownTimer mAlarmCountTimer = null;
 
-        // 30초면 한번에 끝나게 되고, 1분이면 2번, 3분이면 6번 30초 카운터를 반복한다.
-        @Override
-        public void onFinish() {
-            if(++mAlarmPlayCount >= mAlarmLoopCount) {
-                // 종료
-                ULog.i(TAG,"Alarm Timer Finished...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
-
-                mApp.setAlarmState(false);
-
-                if(mAlarmSound) {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                    mediaPlayer = null;
-                }
-
+    //start timer function
+    void startAlertTimer(int duration) {
+        mAlarmCountTimer = new CountDownTimer(duration*1000, 2000) {
+            public void onTick(long millisUntilFinished) {
                 if(mAlarmVibrate) {
-                    mVibe.cancel();
+                    mVibe.vibrate(1000);
                 }
             }
-            else {
-                ULog.i(TAG,"Restart Alarm Timer...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
-                this.start();
+            public void onFinish() {
+//                if(++mAlarmPlayCount >= mAlarmLoopCount) {
+                    // 종료
+//                    ULog.i(TAG,"Alarm Timer Finished...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
+
+                    mApp.setAlarmState(false);
+
+                    if(mAlarmSound) {
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                    }
+
+                    if(mAlarmVibrate) {
+                        mVibe.cancel();
+                    }
+//                }
+//                else {
+//                    ULog.i(TAG,"Restart Alarm Timer...." + mAlarmPlayCount + " of " + mAlarmLoopCount);
+//                    this.start();
+//                }
             }
-        }
-    };
+        };
+        mAlarmCountTimer.start();
+    }
 
     private CountDownTimer mVibeTimer = new CountDownTimer(1000*30, 3000) {
         public void onTick(long millisUntilFinished) {
