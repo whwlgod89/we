@@ -11,3 +11,6 @@ key : theunify
 key alias : wear
 key store password : wear123
 
+
+다른 장비가 연결이 끊어졌는데, 접속 이벤트가 날라와서 알림이 사라지는 이슈 있음
+알림음 울리는 것을 센서별로 확인해야 할 듯 함
