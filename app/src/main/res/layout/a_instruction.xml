@@ -389,6 +389,29 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/px40"
+                        android:layout_marginTop="@dimen/px40"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/px20"
+                        android:paddingRight="@dimen/px10">
+
+                        <TextView
+                            android:id="@+id/tx_smartpouch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/px40"
+                            android:gravity="center"
+                            android:text="@string/SmartPouch_Url"
+                            android:textColor="@color/url_color2"
+                            android:textSize="@dimen/px52"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/px20"
                         android:orientation="vertical">
@@ -410,6 +433,8 @@
                             android:textSize="@dimen/px50" />
 
                     </LinearLayout>
+
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

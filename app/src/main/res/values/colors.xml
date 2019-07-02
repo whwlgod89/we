@@ -9,5 +9,7 @@
     <color name="titlecolor">#202020</color>
     <color name="context">#737373</color>
     <color name="none_click">#cccccc</color>
+    <color name="url_color1">#3366BB</color>
+    <color name="url_color2">#306fb9</color>
 
 </resources>

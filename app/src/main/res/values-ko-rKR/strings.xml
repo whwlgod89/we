@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WEAR</string>
+    <string name="app_name">웨어웨어</string>
 
     <!-- Strings in Splash Activity -->
     <string name="BLE_not_supported">BLE가 지원되지 않습니다.</string>
@@ -179,9 +179,9 @@
     <string name="Power_Off">전원 OFF</string>
     <string name="Power_Off_summary">웨어의 버튼을 5초 누름,\n단음 4회 이후 5회쨰 긴음 발생\n(휴대폰에서 끊김 알림음 발생)</string>
     <string name="Charge_start">충전 시작</string>
-    <string name="Charge_start_summary">단음 2회 발생</string>
+    <string name="Charge_start_summary">단음 2회 발생 (제품에 따라 상이함)</string>
     <string name="Charge_status">충전 종료/완료</string>
-    <string name="Charge_status_summary">단음 1회 발생</string>
+    <string name="Charge_status_summary">단음 1회 발생 (제품에 따라 상이함)</string>
     <string name="secession_of_wear">웨어 이탈</string>
     <string name="secession_of_wear_summary">단음 4회 발생\n(휴대폰에서 끊김 알림음 발생)</string>
     <string name="disconnection">연결 끊김</string>
@@ -204,5 +204,7 @@
     <string name="hardware_specification_summary3">충전 : 무선 1~2시간</string>
     <string name="hardware_specification_summary4">대기 : 약 20일(완충 시)</string>
     <string name="Copyright">Copyright 2019 TheUnify Corp</string>
+    <string name="SmartPouch_Url">www.thesmartpouch.com</string>
+    <string name="TheUnify_Url">www.theunify.co.kr</string>
 
 </resources>

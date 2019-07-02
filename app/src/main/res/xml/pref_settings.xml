@@ -55,7 +55,8 @@
             android:summary="v1.0.1"
             android:title="@string/pref_version_title" />
 
-        <Preference android:title="@string/pref_company_title" />
+        <Preference android:title="@string/pref_company_title"
+            android:summary="@string/TheUnify_Url" />
 
     </PreferenceCategory>
     <!--<PreferenceCategory-->

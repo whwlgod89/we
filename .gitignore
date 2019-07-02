@@ -41,3 +41,4 @@ target/
 # cache
 cache.xml
 *.swp
+output.json
