@@ -10,12 +10,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -47,6 +49,9 @@ public class SplashActivity extends BaseActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private Handler handler;
 
+    // GPS 켜기 확인
+    private LocationManager locManager;
+
     //********************************************************************************
     //  LifeCycle Functions
     //********************************************************************************
@@ -58,6 +63,8 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.a_splash);
         mContext = this;
         ButterKnife.bind(this);
+
+        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // selectively disable BLE-related features.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
@@ -131,12 +138,11 @@ public class SplashActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ULog.i(TAG, "onActivityResult()");
         switch (requestCode) {
-            case Const.REQUEST_CODE_OF_ENABLE_BT:
+            case Const.REQUEST_CODE_OF_ENABLE_BT: {
                 if (resultCode == Activity.RESULT_OK) {
                     ULog.i(TAG, "BT Enable Result=OK");
                     processCheckPermissionAndAppReg();
-                }
-                else {
+                } else {
                     ULog.i(TAG, "BT Enable Result=NO");
                     showAlertPopup("", getResources().getString(R.string.error_bluetooth_not_enabled), getResources().getString(R.string.ok), new View.OnClickListener() {
                         @Override
@@ -146,8 +152,25 @@ public class SplashActivity extends BaseActivity {
                     }, "");
                 }
                 break;
+            }
+            case Const.REQUEST_GPS_SETTING: {
+                // GPS가 켜저 있지 않으면 종료
+                if ( !locManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                    showAlertPopup(getString(R.string.app_name), "GPS를 켜고 다시 시작해 주세요.",
+                            "종료", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    finish();
+                                }
+                            }, "");
+                } else {
+                    initView();
+                }
+                break;
+            }
         }
     }
+
 
     private void processCheckPermissionAndAppReg() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -242,6 +265,18 @@ public class SplashActivity extends BaseActivity {
         // 애니메이션 시작하기
         AnimationDrawable drawable = (AnimationDrawable) img_logo.getBackground();
         drawable.start();
+
+        // GPS 켜기 확인
+        if ( !locManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            showAlertPopup(getString(R.string.app_name), "GPS가 켜져 있지 않습니다.\n설정에서 GPS를 켜 주세요.",
+                    getString(R.string.confirm), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), Const.REQUEST_GPS_SETTING);
+                        }
+                    }, "");
+            return;
+        }
 
         // 애니메이션이 1.2초 걸리므로 3회 반복
         handleStart.sendEmptyMessageDelayed(0, 3600);

@@ -15,6 +15,8 @@ public class Const {
 
     // Activity 호출 요청값
     public static final int REQUEST_CODE_OF_ENABLE_BT = 1;
+    public static final int REQUEST_GPS_SETTING = 1111;
+
     public static final int REQUEST_CODE_OF_ACCESS_FINE_LOC = 11;
     public static final int REQUEST_CODE_OF_ACCESS_COARSE_LOC = 12;
     public static final int REQUEST_CODE_OF_READ_EXTERNAL_STORAGE = 21;
