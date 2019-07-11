@@ -105,6 +105,8 @@ public class MainActivity extends BaseActivity {
 
     private Animation batteryAnimation;
 
+    private boolean isRequestGPS = false;       // GPS 설정 요청했는지?
+
     //********************************************************************************
     //  LifeCycle Functions
     //********************************************************************************
@@ -115,6 +117,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.a_main);
         mContext = this;
         ButterKnife.bind(this);
+
+        mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         mApp = (WearApp) getApplication();
         mService = mApp.getService();
@@ -142,6 +146,20 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume(){
         super.onResume();
+
+        mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // 요청하지 않고, 켜져 있지 않으면 켜도록 유도
+        if (!isRequestGPS && !mLocManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            showAlertPopup(getString(R.string.app_name), "GPS가 켜져 있지 않습니다.\n설정에서 GPS를 켜 주세요.",
+                    getString(R.string.confirm), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            isRequestGPS = true;
+                            startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), Const.REQUEST_GPS_SETTING);
+                        }
+                    }, "");
+        }
     }
 
 
@@ -254,7 +272,7 @@ public class MainActivity extends BaseActivity {
             // 연결이 끊어졌을 때의 위치를 확인한다.
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                     ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
                 boolean isGpsEnabled = mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 boolean isNetEnabled = mLocManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                 ULog.i(TAG, "onCreateByIntent(): LocationManager=" + mLocManager + ", GPS=" + isGpsEnabled + ", NET=" + isNetEnabled);
@@ -461,8 +479,7 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this, getString(R.string.msg_sensor_modified), Toast.LENGTH_SHORT).show();
                 initView();
             }
-        }
-        if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
+        } else if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
             // 재시작
             if(resultCode == Const.RESULT_CODE_OF_RESTART_APP) {
                 Toast.makeText(MainActivity.this, getString(R.string.pref_app_control_restart), Toast.LENGTH_SHORT).show();
@@ -476,6 +493,18 @@ public class MainActivity extends BaseActivity {
                 String strAlarm1 = settings.getString("pref_key_alarm_disconnected", "FAIL");
                 String strAlarm2 = settings.getString("pref_key_alarm_find_phone", "FAIL");
                 ULog.i(TAG, "Conn=" + strAlarm1 + ", Find=" + strAlarm2);
+            }
+        } else if (requestCode == Const.REQUEST_GPS_SETTING) {
+            // GPS가 켜저 있지 않으면 종료
+            if ( !mLocManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                showAlertPopup(getString(R.string.app_name), "GPS를 켜고 다시 시작해 주세요.",
+                        "종료", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Const.mFinishApp = true;
+                                finishApp();
+                            }
+                        }, "");
             }
         }
     }
@@ -806,7 +835,7 @@ public class MainActivity extends BaseActivity {
             final String actionType = intent.getStringExtra(Const.EXTRA_ACTION_TYPE);
             //final int position = intent.getIntExtra(Const.EXTRA_ACTION_POSITION, 0);
             final String sensorId = intent.getStringExtra(Const.EXTRA_ACTION_SENSOR_ID);
-            ULog.i(TAG, "MainActivity Broadcast Receiver: Action=" + action + ", Type=" + actionType + ", ID=" + sensorId);
+            //ULog.i(TAG, "MainActivity Broadcast Receiver: Action=" + action + ", Type=" + actionType + ", ID=" + sensorId);
 
             //BO: 배터리 수준 알림. 화면의 배터리 아이콘에 적용
             if (action.equals(Const.ACTION_SENSOR_BATTERY)) {

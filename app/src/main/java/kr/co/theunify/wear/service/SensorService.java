@@ -242,7 +242,7 @@ public class SensorService extends Service {
 
         int smallicon = R.mipmap.ic_launcher;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            smallicon = R.drawable.icon_setting;
+            smallicon = R.drawable.icon_small;
         }
 
         Notification noti = new NotificationCompat.Builder(this, NOTI_CHANNEL_ID)
