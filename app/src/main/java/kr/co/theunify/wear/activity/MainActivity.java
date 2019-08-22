@@ -174,6 +174,8 @@ public class MainActivity extends BaseActivity {
 
         unbindService(mServiceConnection);
 
+
+
         //BO: 아래 코드는 Setting 설정을 고려하여 서비스를 함께 종료할지를 판단하고 있지만,
         //    App 완전 종료 or App 다시 시작 자체가 서비스까지 종료하는 것을 전제로 하니까 필요 없다.
         //    세팅에서 App 완전 종료 or App 다시 시작을 선택하면 mServiceShutdown Flag를 이용한다.
