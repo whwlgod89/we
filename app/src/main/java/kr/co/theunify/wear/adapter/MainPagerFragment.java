@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import kr.co.theunify.wear.R;
+import kr.co.theunify.wear.WearApp;
 import kr.co.theunify.wear.sensor.Sensor;
 
 /**
@@ -46,6 +47,7 @@ public class MainPagerFragment extends Fragment {
         if ((savedInstanceState != null) && savedInstanceState.containsKey(KEY_CONTENT)) {
             mPosition = savedInstanceState.getInt(KEY_CONTENT);
         }
+
     }
 
     @Override
@@ -75,6 +77,7 @@ public class MainPagerFragment extends Fragment {
                         break;
                 }
                 iv_wallet.setBackgroundResource(resource);
+
             } else {
                 int resource = R.drawable.purse_01_dis;
 
@@ -92,7 +95,7 @@ public class MainPagerFragment extends Fragment {
                 iv_wallet.setBackgroundResource(resource);
             }
         }
-
+//
         return v;
     }
 

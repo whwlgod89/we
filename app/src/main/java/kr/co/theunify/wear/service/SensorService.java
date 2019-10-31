@@ -229,7 +229,8 @@ public class SensorService extends Service {
                 mainIntent,
         }, PendingIntent.FLAG_UPDATE_CURRENT);  // 무조건 콜 리스트로 간다.
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Build.VERSION_CODES.O <- Android 8.0, Oreo, API 26
+
             NotificationChannel serviceChannel = new NotificationChannel(
                     NOTI_CHANNEL_ID,
                     getResources().getString(R.string.app_name),
@@ -241,7 +242,7 @@ public class SensorService extends Service {
         }
 
         int smallicon = R.mipmap.ic_launcher;
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) { // Build.VERSION_CODES.O_MR1 <- Android 8.1, Oreo, API 27
             smallicon = R.drawable.icon_small;
         }
 
@@ -615,7 +616,7 @@ public class SensorService extends Service {
             if(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI == null) {
                 bSoundEn = false;
                 ULog.i(TAG,"RING TONE IS NULL....");
-            }else {
+            } else {
                 //if(ringToneUri != null && mRingtoneMgr != null) {
                 //    mediaPlayer = MediaPlayer.create(this,ringToneUri);
                 if(defaultRingtoneUri != null && mRingtoneMgr != null) {
@@ -666,7 +667,7 @@ public class SensorService extends Service {
     private void AlarmVibration(boolean enable) {
         if(enable) {
             hVibe.postDelayed(iVibe, 100);
-        }else {
+        } else {
             hVibe.removeCallbacks(iVibe);
             mVibeTimer.cancel();
             mVibe.cancel();

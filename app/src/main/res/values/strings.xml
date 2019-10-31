@@ -20,6 +20,8 @@
     <string name="btn_location_sensor">Wear location</string>
     <string name="btn_modify_sensor">Modify wear</string>
     <string name="btn_info_sensor">Instructions</string>
+    <string name="btn_muteon_sensor">Mute on</string>
+    <string name="btn_muteoff_sensor">Mute off</string>
     <string name="btn_add_sensor">Add my wear</string>
 
     <string name="no_add_sensor">No Added Sensor\nPlease, add Sensor</string>

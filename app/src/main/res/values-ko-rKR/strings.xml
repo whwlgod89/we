@@ -21,6 +21,8 @@
     <string name="btn_location_sensor">웨어 위치</string>
     <string name="btn_modify_sensor">웨어 수정</string>
     <string name="btn_info_sensor">사용법</string>
+    <string name="btn_muteon_sensor">뮤트 ON</string>
+    <string name="btn_muteoff_sensor">뮤트 OFF</string>
     <string name="btn_add_sensor">내 웨어 추가</string>
 
     <string name="no_add_sensor">추가된 웨어가 없습니다.\n웨어를 추가해 주세요.</string>

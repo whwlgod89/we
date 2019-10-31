@@ -62,21 +62,35 @@ public class MainActivity extends BaseActivity {
     //  Layout Member Variable
     //********************************************************************************
 
-    @BindView(R.id.v_titlebar)      TitlebarView v_titlebar;        // 타이틀 바
+    @BindView(R.id.v_titlebar)
+    TitlebarView v_titlebar;        // 타이틀 바
 
-    @BindView(R.id.layout_wallet)   LinearLayout layout_wallet;     // 지갑 레이아웃
-    @BindView(R.id.txt_name)        TextView txt_name;              // 지갑 이름
+    @BindView(R.id.layout_wallet)
+    LinearLayout layout_wallet;     // 지갑 레이아웃
+    @BindView(R.id.txt_name)
+    TextView txt_name;              // 지갑 이름
 
-    @BindView(R.id.pager_main)      ViewPager pager_main;           // 지갑 View pager
-    @BindView(R.id.img_battery)     ImageView img_battery;          // 배터리
-    @BindView(R.id.txt_page)        TextView txt_page;              // 페이지 번호
-    @BindView(R.id.layout_page)     LinearLayout layout_page;       // 페이지 Dot
+    @BindView(R.id.pager_main)
+    ViewPager pager_main;           // 지갑 View pager
+    @BindView(R.id.img_battery)
+    ImageView img_battery;          // 배터리
+    @BindView(R.id.txt_page)
+    TextView txt_page;              // 페이지 번호
+    @BindView(R.id.layout_page)
+    LinearLayout layout_page;       // 페이지 Dot
 
-    @BindView(R.id.move_left)     ImageView move_left;              // 왼쪽으로 이동
-    @BindView(R.id.move_right)     ImageView move_right;            // 오른쪽으로 이동
+    @BindView(R.id.move_left)
+    ImageView move_left;              // 왼쪽으로 이동
+    @BindView(R.id.move_right)
+    ImageView move_right;            // 오른쪽으로 이동
 
-    @BindView(R.id.layout_empty)   LinearLayout layout_empty;       // 하나도 없을 시 레이아웃
-    @BindView(R.id.btn_add)         TextView btn_add;               // 추가 버튼
+    @BindView(R.id.layout_empty)
+    LinearLayout layout_empty;       // 하나도 없을 시 레이아웃
+    @BindView(R.id.btn_add)
+    TextView btn_add;               // 추가 버튼
+
+//    @BindView(R.id.txt_mute)
+//    TextView txt_mute;               // 뮤트 on/off
 
     //********************************************************************************
     //  Member Variable
@@ -135,7 +149,7 @@ public class MainActivity extends BaseActivity {
         service_init();
         Intent intent = getIntent();
         CheckIntent(intent);
-        if(mActionType != null) {
+        if (mActionType != null) {
             Bundle extras = intent.getExtras();
             String sensorName = extras.getString(Const.EXTRA_ACTION_SENSOR_ID);
             onCreateByIntent(sensorName);
@@ -144,13 +158,13 @@ public class MainActivity extends BaseActivity {
 
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // 요청하지 않고, 켜져 있지 않으면 켜도록 유도
-        if (!isRequestGPS && !mLocManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+        if (!isRequestGPS && !mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             showAlertPopup(getString(R.string.app_name), "GPS가 켜져 있지 않습니다.\n설정에서 GPS를 켜 주세요.",
                     getString(R.string.confirm), new View.OnClickListener() {
                         @Override
@@ -164,7 +178,7 @@ public class MainActivity extends BaseActivity {
 
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
     }
 
@@ -173,7 +187,6 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
 
         unbindService(mServiceConnection);
-
 
 
         //BO: 아래 코드는 Setting 설정을 고려하여 서비스를 함께 종료할지를 판단하고 있지만,
@@ -208,7 +221,7 @@ public class MainActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         CheckIntent(intent);
-        if(mActionType != null)  {
+        if (mActionType != null) {
             Bundle extras = intent.getExtras();
             String sensorName = extras.getString(Const.EXTRA_ACTION_SENSOR_ID);
             onCreateByIntent(sensorName);
@@ -217,15 +230,16 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 입력 intent 타입 확인
+     *
      * @param intent
      */
     private void CheckIntent(Intent intent) {
         if (null != intent) {
             Bundle extras = intent.getExtras();
-            if(extras != null) {
+            if (extras != null) {
                 mActionType = extras.getString(Const.EXTRA_ACTION_TYPE);
-                Log.e(TAG, "Created by intent() .........." +  mActionType);
-            }else{
+                Log.e(TAG, "Created by intent() .........." + mActionType);
+            } else {
                 mActionType = null;
                 Log.e(TAG, "Created by user..........");
             }
@@ -234,9 +248,10 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 입력 정보로 데이터 확인하기
+     *
      * @param sensorName
      */
-    private void onCreateByIntent(final String sensorName)  {
+    private void onCreateByIntent(final String sensorName) {
 
         ULog.i(TAG, "onCreateByIntent(): Sensor=" + sensorName + ", ActionType=" + mActionType);
         String wearName = sensorName;
@@ -245,10 +260,9 @@ public class MainActivity extends BaseActivity {
             wearName = eventSensor.getWearname();
         }
 
-        if(mActionType.equals(Const.ACTION_GATT_CONNECTED)) {
+        if (mActionType.equals(Const.ACTION_GATT_CONNECTED)) {
             ULog.i(TAG, "onCreateByIntent() - ACTION_GATT_CONNECTED");
-        }
-        else if(mActionType.equals(Const.ACTION_GATT_DISCONNECTED)) {
+        } else if (mActionType.equals(Const.ACTION_GATT_DISCONNECTED)) {
             ULog.i(TAG, "onCreateByIntent() - ACTION_GATT_DISCONNECTED");
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -282,7 +296,7 @@ public class MainActivity extends BaseActivity {
                 Date locTime = Calendar.getInstance().getTime();
                 Date curTime = Calendar.getInstance().getTime();
 
-                if(isGpsEnabled || isNetEnabled) {
+                if (isGpsEnabled || isNetEnabled) {
 //                    if (isGpsEnabled) {
 //                        Location lastLoc = mLocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 //                        if(lastLoc != null) {
@@ -308,8 +322,7 @@ public class MainActivity extends BaseActivity {
 //                        else
 //                            ULog.i(TAG, "onCreateByIntent() - LAST Location Location from NET = NULL");
 //                    }
-                }
-                else {
+                } else {
                     ULog.i(TAG, "onCreateByIntent() - Location Providers are NOT Enabled");
                     showAlertPopup("", "위치 제공자 비활성화", getResources().getString(R.string.ok), null, "");
                     return;
@@ -350,8 +363,7 @@ public class MainActivity extends BaseActivity {
                 if (isNetEnabled) {
                     mLocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 1, mLocListener);
                 }
-            }
-            else {
+            } else {
                 // 위치 정보에 대한 권한이 없으므로, 위치를 초기화하고 그냥 나간다.
                 Sensor sensor = mApp.getSensor(sensorName);
                 sensor.getInfo().setLocation(0, 0);
@@ -361,11 +373,9 @@ public class MainActivity extends BaseActivity {
             }
             // 연결이 끊어졌을 때의 위치를 확인한다.
             //============================================================
-        }
-        else if(mActionType.equals(Const.ACTION_DATA_AVAILABLE)) {
+        } else if (mActionType.equals(Const.ACTION_DATA_AVAILABLE)) {
             ULog.i(TAG, "onCreateByIntent() - ACTION_DATA_AVAILABLE");
-        }
-        else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
+        } else if (mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_START)) {
             ULog.i(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_START");
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -384,16 +394,14 @@ public class MainActivity extends BaseActivity {
             });
             mDlgFindPhoneOn = true;
             mApp.startAlarm2(false);
-        }
-        else if(mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_STOP)) {
+        } else if (mActionType.equals(Const.ACTION_SENSOR_FIND_PHONE_STOP)) {
             ULog.i(TAG, "onCreateByIntent() - ACTION_SENSOR_FIND_PHONE_STOP");
-            if(mDlgFindPhoneOn) {
+            if (mDlgFindPhoneOn) {
                 mDlgFindPhone.dismiss();
                 mDlgFindPhoneOn = false;
                 mApp.stopAlarm2();
             }
-        }
-        else if(mActionType.equals(Const.ACTION_SENSOR_WARN_THEFT)) {
+        } else if (mActionType.equals(Const.ACTION_SENSOR_WARN_THEFT)) {
             ULog.i(TAG, "onCreateByIntent() - ACTION_SENSOR_WARN_THEFT");
 
             if (mDlgDisconnected != null && mDlgDisconnected.isShowing()) {
@@ -418,10 +426,9 @@ public class MainActivity extends BaseActivity {
             mDlgDisconnectedOn = true;
             mApp.startAlarm2(true);
             mainPagerAdapter.notifyDataSetChanged();
-        }
-        else if(mActionType.equals(Const.ACTION_GATT_STATUS)) {
+        } else if (mActionType.equals(Const.ACTION_GATT_STATUS)) {
             Handler h;//핸들러 선언
-            h= new Handler(); //딜래이를 주기 위해 핸들러 생성
+            h = new Handler(); //딜래이를 주기 위해 핸들러 생성
             h.postDelayed(needRestart, 100); // 딜레이 ( 런어블 객체는 mrun, 시간 2초)
             return;
         }
@@ -430,12 +437,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         ULog.i(TAG, "onRequestPermissionsResult(): requestCode=" + requestCode + ", grantResult[0]=" + grantResults[0]);
-        if(requestCode == Const.REQUEST_CODE_OF_READ_EXTERNAL_STORAGE) {
+        if (requestCode == Const.REQUEST_CODE_OF_READ_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 ULog.i(TAG, "onRequestPermissionsResult(): GRANTED");
                 onCreateByIntent(mSenserNameForPermission);
-            }
-            else {
+            } else {
                 ULog.i(TAG, "onRequestPermissionsResult(): DENIED");
                 return;
             }
@@ -446,7 +452,7 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         ULog.i(TAG, "onActivityResult - Request=" + requestCode + ", Result=" + resultCode + ".............");
 
-        if(requestCode == Const.REQUEST_CODE_OF_ADD_SENSOR) {
+        if (requestCode == Const.REQUEST_CODE_OF_ADD_SENSOR) {
             if (resultCode == Const.RESULT_CODE_OF_SENSOR_ADDED) {
                 //WearApp mApp
 
@@ -458,15 +464,15 @@ public class MainActivity extends BaseActivity {
                 int actionMode = data.getIntExtra(Const.ACTION_MODE, Const.ACTION_MODE_LOSS);
                 int rssi = data.getIntExtra(Const.RSSI, 100);
 
-                mApp.addSensor(sensorId, sensorName, walletName, cover, phoneNumber,actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
+                mApp.addSensor(sensorId, sensorName, walletName, cover, phoneNumber, actionMode, rssi);  // 센서 추가 (App에서 DB & 목록에 추가, 서비스 연결)
 
                 // 센서의 위치를 추가한 것을 확인한다.
-                mApp.setCurSensor(mApp.getSensorCount()-1);
+                mApp.setCurSensor(mApp.getSensorCount() - 1);
 
                 initView();
 
-                if(Const.DEBUG) {
-                    int index = mApp.getAllSensors().size()-1;
+                if (Const.DEBUG) {
+                    int index = mApp.getAllSensors().size() - 1;
                     //Sensor sensor = mApp.getSensorItem(index);
                     Sensor sensor = mApp.getSensor(index);
                     String strRegister = "ID=[" + sensor.getSensorId() + "], Name=[" + sensor.getSensorName() + "], Phone=[" + sensor.getPhoneNumber() + "], Mode=[" + sensor.getActionMode() + "]";
@@ -474,19 +480,18 @@ public class MainActivity extends BaseActivity {
                     mApp.updateSensor(mSensor);
                 }
             }
-        }
-        else if(requestCode == Const.REQUEST_CODE_OF_MODIFY_SENSOR) {
+        } else if (requestCode == Const.REQUEST_CODE_OF_MODIFY_SENSOR) {
             // 센서 설정 변경 (이름, 폰번, 모드) - ModifySensor 모듈로부터 전달
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 Toast.makeText(MainActivity.this, getString(R.string.msg_sensor_modified), Toast.LENGTH_SHORT).show();
                 initView();
             }
-        } else if(requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
+        } else if (requestCode == Const.REQUEST_CODE_OF_APP_SETTINGS) {
             // 재시작
-            if(resultCode == Const.RESULT_CODE_OF_RESTART_APP) {
+            if (resultCode == Const.RESULT_CODE_OF_RESTART_APP) {
                 Toast.makeText(MainActivity.this, getString(R.string.pref_app_control_restart), Toast.LENGTH_SHORT).show();
                 restartApp(2000);
-            } else if(resultCode == Const.RESULT_CODE_OF_FINISH_APP) {
+            } else if (resultCode == Const.RESULT_CODE_OF_FINISH_APP) {
                 // 종료
                 Toast.makeText(MainActivity.this, getString(R.string.pref_app_control_finish), Toast.LENGTH_SHORT).show();
                 finishApp();
@@ -498,7 +503,7 @@ public class MainActivity extends BaseActivity {
             }
         } else if (requestCode == Const.REQUEST_GPS_SETTING) {
             // GPS가 켜저 있지 않으면 종료
-            if ( !mLocManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            if (!mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 showAlertPopup(getString(R.string.app_name), "GPS를 켜고 다시 시작해 주세요.",
                         "종료", new View.OnClickListener() {
                             @Override
@@ -515,10 +520,9 @@ public class MainActivity extends BaseActivity {
     //  Override Event Functions
     //********************************************************************************
 
-
     @OnClick(R.id.btn_add)
     public void onClickBtnAdd() {
-        if(mApp.getSensorCount() >= Const.MAX_SENSORS) {
+        if (mApp.getSensorCount() >= Const.MAX_SENSORS) {
 //            showAddSensor(false);       // Show/Hide Widgets for Add Sensor
         } else {
             Intent i = new Intent();
@@ -535,11 +539,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.btn_find, R.id.btn_location, R.id.btn_setting,R.id.btn_instruction} )
+    @OnClick({R.id.btn_find, R.id.btn_location, R.id.btn_setting, R.id.btn_instruction})
+    // R.id.btn_mute
     public void onClickOption(View v) {
 
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.btn_find: {
                 mApp.getCurSensor().findSensor();
                 break;
@@ -549,9 +553,19 @@ public class MainActivity extends BaseActivity {
                 Intent i = new Intent();
                 i.setClass(this, MapActivity.class);
                 startActivity(i);
+
+                /**
+                 * ADD MUTE FUNCTION TEST BY PKY - 20190909
+                 * ADD VersionInfo FUNCTION TEST BY PKY - 20190909
+                 */
+                //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+//                mApp.getCurSensor().setMute(); // 뮤트 설정
+//                mApp.getCurSensor().versionInfo();
+                //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
                 break;
             }
-            case  R.id.btn_setting: {
+            case R.id.btn_setting: {
                 Intent i = new Intent();
                 i.setClass(this, ModifyActivity.class);
                 startActivityForResult(i, Const.REQUEST_CODE_OF_MODIFY_SENSOR);
@@ -563,23 +577,33 @@ public class MainActivity extends BaseActivity {
                 startActivity(i);
                 break;
             }
+            /**
+             * ADD MUTE FUNCTION BY PKY - 20190906
+             */
+            //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+//            case R.id.btn_mute: {
+//                mApp.getCurSensor().setMute(); // 뮤트 설정
+////                txt_mute.setText();
+//
+//                break;
+//            }
+            //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
             // remove 를 지우고 사용방법을 추가
         }
 
-
     }
 
-    @OnClick({R.id.move_left, R.id.move_right} )
+    @OnClick({R.id.move_left, R.id.move_right})
     public void onClickMove(View v) {
         if (v.getId() == R.id.move_left) {
             if (mApp.getCurPosition() != 0) {
-                pager_main.setCurrentItem(mApp.getCurPosition()-1);
+                pager_main.setCurrentItem(mApp.getCurPosition() - 1);
 //                mApp.setCurSensor(mApp.getCurPosition()-1);
 //                updatePage(mApp.getCurPosition());
             }
         } else if (v.getId() == R.id.move_right) {
-            if (mApp.getCurPosition() < mApp.getSensorCount()-1) {
-                pager_main.setCurrentItem(mApp.getCurPosition()+1);
+            if (mApp.getCurPosition() < mApp.getSensorCount() - 1) {
+                pager_main.setCurrentItem(mApp.getCurPosition() + 1);
 //                mApp.setCurSensor(mApp.getCurPosition()+1);
 //                updatePage(mApp.getCurPosition());
             }
@@ -598,7 +622,7 @@ public class MainActivity extends BaseActivity {
 
         initViewPager();
 
-        if (mApp.getSensorCount()>0) {
+        if (mApp.getSensorCount() > 0) {
             layout_empty.setVisibility(View.GONE);
             layout_wallet.setVisibility(View.VISIBLE);
             updatePage(mApp.getCurPosition());
@@ -653,9 +677,10 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 페이지 번호와 Dot 업데이트
+     *
      * @param position
      */
-    private void updatePage(int position) {
+    private void updatePage(int position) { // todo 화면 업데이트 확인.
         // 이름 업데이트
         txt_name.setText(mApp.getCurSensor().getWearname());
         // 배터리 업데이트
@@ -663,7 +688,7 @@ public class MainActivity extends BaseActivity {
         updateBattery();
 
         // 페이지 텍스트 업데이트
-        txt_page.setText((position+1) + " / " + mApp.getSensorCount());
+        txt_page.setText((position + 1) + " / " + mApp.getSensorCount());
 
         // 페이지 Dot 업데이트
         layout_page.removeAllViews();
@@ -689,7 +714,7 @@ public class MainActivity extends BaseActivity {
      * 센서 추가하기 버튼 보이기 숨기기
      */
     private void updateAddSensor() {
-        if(mApp.getSensorCount() >= Const.MAX_SENSORS) {
+        if (mApp.getSensorCount() >= Const.MAX_SENSORS) {
             btn_add.setVisibility(View.INVISIBLE);
         } else {
             btn_add.setVisibility(View.VISIBLE);
@@ -716,7 +741,7 @@ public class MainActivity extends BaseActivity {
                     img_battery.clearAnimation();
                     img_battery.setAlpha(1.0f);
                 }
-            } else if (level >=50) {
+            } else if (level >= 50) {
                 img_battery.setBackgroundResource(R.drawable.ic_b3);
                 if (batteryAnimation.hasStarted()) {
                     img_battery.clearAnimation();
@@ -724,12 +749,12 @@ public class MainActivity extends BaseActivity {
                 }
             } else if (level >= 25) {
                 img_battery.setBackgroundResource(R.drawable.ic_b2);
-                if ( !batteryAnimation.hasStarted() ) {
+                if (!batteryAnimation.hasStarted()) {
                     img_battery.startAnimation(batteryAnimation);
                 }
             } else {
                 img_battery.setBackgroundResource(R.drawable.ic_b1);
-                if ( !batteryAnimation.hasStarted() ) {
+                if (!batteryAnimation.hasStarted()) {
                     img_battery.startAnimation(batteryAnimation);
                 }
             }
@@ -738,6 +763,7 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 앱 재시작 하기
+     *
      * @param delay
      */
     private void restartApp(int delay) {
@@ -755,7 +781,7 @@ public class MainActivity extends BaseActivity {
      */
     private void finishApp() {
         mServiceShutdown = true;
-        if(mServiceShutdown) {
+        if (mServiceShutdown) {
             Intent bindIntent = new Intent(this, SensorService.class);
             stopService(bindIntent);
         }
@@ -801,8 +827,8 @@ public class MainActivity extends BaseActivity {
                 finish();
             }
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-            boolean enable = settings.getBoolean("KEY_SERVICE_ON",false);
-            if(enable == true) {
+            boolean enable = settings.getBoolean("KEY_SERVICE_ON", false);
+            if (enable == true) {
                 //mService.startNotification();
             }
 
@@ -863,7 +889,7 @@ public class MainActivity extends BaseActivity {
                         //ULog.i(TAG, "Broadcast Receiver. Action=" + action);
                         mainPagerAdapter.notifyDataSetChanged();
                         // 연결 끊김 다이얼로그가 떠 있으면 닫기
-                        if(mDlgDisconnectedOn) {
+                        if (mDlgDisconnectedOn) {
                             mDlgDisconnected.dismiss();
                             mDlgDisconnectedOn = false;
                             mApp.stopAlarm2();
@@ -882,22 +908,20 @@ public class MainActivity extends BaseActivity {
 
                     }
                 });
-            }
-            else if (action.equals(Const.ACTION_SENSOR_DETECTING)) {
+            } else if (action.equals(Const.ACTION_SENSOR_DETECTING)) {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         //ULog.i(TAG, "Broadcast Receiver. Action=" + action);
                         mainPagerAdapter.notifyDataSetChanged();
                         // 연결 끊김 다이얼로그가 떠 있으면 닫기
-                        if(mDlgDisconnectedOn) {
+                        if (mDlgDisconnectedOn) {
                             mDlgDisconnected.dismiss();
                             mDlgDisconnectedOn = false;
                             mApp.stopAlarm2();
                         }
                     }
                 });
-            }
-            else {
+            } else {
                 ULog.i(TAG, "Broadcast Receiver. Action NOT handled=" + action);
             }
         }
@@ -917,9 +941,9 @@ public class MainActivity extends BaseActivity {
         return intentFilter;
     }
 
-    Runnable needRestart = new Runnable(){
+    Runnable needRestart = new Runnable() {
         @Override
-        public void run(){
+        public void run() {
             Utils.showPopupDlg(MainActivity.this, "블루투스 상태변화", "앱을 다시 실행하셔야 합니다.",
                     "앱 재시작", new View.OnClickListener() {
                         @Override

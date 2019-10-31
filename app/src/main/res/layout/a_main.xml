@@ -273,6 +273,62 @@
                     </LinearLayout>
                 </LinearLayout>
 
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/btn_mute"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_margin="@dimen/px30"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:background="@drawable/selector_main_btn"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/px98"-->
+<!--                            android:layout_height="@dimen/px98"-->
+<!--                            android:background="@drawable/wear_mute" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/txt_mute"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/px1"-->
+<!--                            android:text="@string/btn_muteon_sensor"-->
+<!--                            android:textColor="#888888"-->
+<!--                            android:textSize="@dimen/px50" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_margin="@dimen/px30"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:background="@drawable/selector_main_btn"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="@dimen/px98"-->
+<!--                            android:layout_height="@dimen/px98"-->
+<!--                            android:background="@color/cardview_light_background" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/px20"-->
+<!--                            android:textColor="#888888"-->
+<!--                            android:textSize="@dimen/px50" />-->
+
+<!--                    </LinearLayout>-->
+<!--                </LinearLayout>-->
+
             </LinearLayout>
 
         </LinearLayout>
